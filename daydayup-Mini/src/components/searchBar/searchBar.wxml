@@ -1,0 +1,21 @@
+<view class="searchbar">
+  <view class="content">
+    <image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/search_black.png" class="search-icon"></image>
+    <input 
+      bindinput="handleInput"
+      bindconfirm="handleConfirm"
+      type="text"
+      value="{{inputValue}}" 
+      placeholder="{{placeholder}}" 
+      class="input"
+      confirm-type="search"
+    ></input>
+    <image
+     wx:if="{{inputValue}}" 
+     bindtap="handleDeleteClick"
+     src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/quxiao.png" 
+     class="delete-icon"
+    ></image>
+  </view>
+  <view wx:if="{{inputValue}}" bindtap="handleTextbtnClick" class="text-btn">取消</view>
+</view>

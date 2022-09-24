@@ -1,0 +1,30 @@
+/* pages/introMulti/intromulti.wxss */
+.init {
+    margin-right: 20rpx;
+    background-color: #eaf3fa;
+    border-radius: 90rpx;
+    border-color: #eaf3fa;
+    border-style: solid;
+    box-shadow: 11rpx 12rpx 19rpx -3rpx #a8d4f5;
+    margin-top: 20rpx;
+}
+
+.initweb {
+    margin-right: 20rpx;
+    background : linear-gradient(to bottom right,#8f9453,#ffffff,#ffffff);
+    border-radius: 90rpx;
+    border-color: transparent;
+    border-style: solid;
+    box-shadow: 11rpx 12rpx 19rpx -3rpx #bfc76c;
+    margin-top: 20rpx;
+}
+
+.initwatch {
+    margin-right: 20rpx;
+    background : linear-gradient(to right,#ffffff,#ffffff,#8eb3fa);
+    border-radius: 90rpx;
+    border-color: transparent;
+    border-style: solid;
+    box-shadow: 11rpx 12rpx 19rpx -3rpx #4f4cfc;
+    margin-top: 20rpx;
+}

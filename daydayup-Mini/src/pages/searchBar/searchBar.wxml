@@ -1,0 +1,4 @@
+<searchbar
+  placeholder="查询日程"
+  bind:handleSearch="handleSearch"
+></searchbar>

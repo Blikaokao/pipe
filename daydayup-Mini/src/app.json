@@ -1,0 +1,53 @@
+{
+    "pages": [
+        "pages/index/index",
+        "pages/calendar/index",
+        "pages/calendarTemplate/index",
+        "pages/datepickerTemplate/index",
+        "pages/daydayup/index",
+        "pages/addUser/index",
+        "pages/Test/test",
+        "pages/allCalendar/index",
+        "pages/photo/index",
+        "pages/text/index",
+        "pages/voice/index",
+        "pages/detail/detail",
+        "components/timePicker/index",
+        "pages/searchBar/searchBar",
+        "components/searchBar/searchBar",
+        "pages/taskCard/taskCard",
+        "pages/introInput/introinput",
+        "pages/introMulti/intromulti",
+        "pages/introData/introdata",
+        "ec-canvas/ec-canvas",
+        "pages/wsTest/wsTest"
+    ],
+    "window": {
+        "backgroundTextStyle": "light",
+        "navigationBarBackgroundColor": "#fff",
+        "navigationBarTitleText": "小程序日历",
+        "navigationBarTextStyle": "black"
+    },
+    "tabBar": {
+        "custom": true,
+        "color": "#8c8c8c",
+        "selectedColor": "#f4645f",
+        "backgroundColor": "white",
+        "list": [
+            {
+                "pagePath": "pages/daydayup/index",
+                "text": "首页",
+                "iconPath": "images/home.png",
+                "selectedIconPath": "images/home.png"
+            },
+            {
+                "pagePath": "pages/calendarTemplate/index",
+                "text": "日历",
+                "iconPath": "images/calendar.png",
+                "selectedIconPath": "images/calendar.png"
+            }
+        ],
+        "position": "bottom"
+    },
+    "sitemapLocation": "sitemap.json"
+}

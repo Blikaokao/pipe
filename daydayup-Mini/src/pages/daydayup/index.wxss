@@ -1,0 +1,71 @@
+.swiper {
+  height: 430rpx;
+  width: 100%;
+}
+
+.swiper-image {
+  height: 100%;
+  width: 90%;
+}
+
+.slide-image {
+  height: 100%;
+  width: 90%;
+  background: linear-gradient(to bottom right, lightblue, rgba(117, 77, 228, 0.445), rgb(44, 149, 235));
+  margin-left: 15px;
+}
+
+.total-introduce {
+  /*background : linear-gradient(to bottom right,lightblue,rgba(117, 77, 228, 0.445),rgb(44, 149, 235));
+  */
+  background-color: transparent;
+  width: 20%;
+  height: 50px;
+  margin: 0px 15px 0 30px;
+}
+
+.total-introduce-image {
+  height: 100%;
+  width: 70px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.total-introduce-text {
+  width: 120px;
+}
+
+.introduce-show_content {
+  margin-top: 45px;
+  background: linear-gradient(to bottom right, lightblue, rgba(117, 77, 228, 0.445), rgb(44, 149, 235));
+  border-radius: 34px;
+  width: 40%;
+  height: 150px;
+  margin-left: 25px;
+}
+
+.introduce-title {
+  
+  height: 15px;
+  width: 80px;
+  background: linear-gradient(90deg, rgb(44, 149, 235), blue);
+
+  
+}
+
+.introduce-intro {
+  height: 15px;
+  line-height: 15px;
+  font-size: 21px;
+  margin-left: 5px;
+  margin-right: 5px;
+  font-style: italic;
+}
+.introduce-triangle {
+  width: 0;
+  height: 0;
+  margin-left: 5px;
+  border-top: 8px solid transparent;
+  border-left: 20px solid blue;
+  border-bottom: 8px solid transparent;
+}

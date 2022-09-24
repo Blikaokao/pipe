@@ -1,0 +1,135 @@
+<template name="calendar">
+	<view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus}}">
+	</view>
+	<view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
+
+		<form bindsubmit="formSubmit" bindreset="formReset" style="z-index: 9999;">
+			<!--drawer content-->
+			<view style="display:flex;width: 250px;margin-left: 72px;margin-top: 10px;margin-bottom: 10px;"
+				class="title-style">
+				<view class="drawer_title drawer_title_1" bindtap="changeLocationToOne"
+					style="background-color:{{backgroundcolorOne}}">添加好友</view>
+				<view class="drawer_title drawer_title_2" bindtap="changeLocationToTwo"
+					style="background-color:{{backgroundcolorTwo}}">创建角色</view>
+			</view>
+			<view wx:if="{{location == 1}}" class="drawer_content">
+				<view class="top grid">
+					<label class="title col-0">手机号</label>
+					<input class="input_base input_h30" name="phone" placeholder="手机号"
+						placeholder-class="placeholder"></input>
+				</view>
+				<view class="top grid">
+					<label class="title col-0">备注</label>
+					<input class="input_base input_h30" name="name" placeholder="备注"
+						placeholder-class="placeholder"></input>
+				</view>
+			</view>
+
+			<view class="drawer_content" wx:if="{{location == 2}}" style="height:55px">
+				<view class="top grid">
+					<label class="title col-0">备注</label>
+					<input class="input_base input_h30" name="nameusr" placeholder="备注"
+						placeholder-class="placeholder"></input>
+				</view>
+			</view>
+
+			<button class="btn_ok" bindtap="powerDrawer" data-statu="close" formType="submit">确定</button>
+		</form>
+	</view>
+
+	<view class="flex box box-tb box-align-center">
+		<view class="calendar pink-color box box-tb">
+			<view class="top-handle fs28 box box-lr box-align-center box-pack-center">
+
+				<image bindtap="searchTask"
+					src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/search_black.png"
+					class="search-icon"></image>
+
+				<view bindtap="jump"
+					style="width: 20px;height: 20px;border-radius: 20px; background-color: rgb(0, 110, 255);color:white; text-align: center;text-decoration: white;">
+					今</view>
+				<!--选择前面的月份-->
+				<view class="prev box box-rl" bindtap="choosePrevMonth" data-handle="prev">
+					<view class="prev-handle box box-lr box-align-center box-pack-center">《</view>
+				</view>
+				<!--显示年月-->
+				<view class="date-area box box-lr box-align-center box-pack-center">{{curYear || "--"}} 年 {{curMonth ||
+					"--"}} 月</view>
+				<!--选择后面的月份-->
+				<view class="next box box-lr" bindtap="chooseNextMonth" data-handle="next">
+					<view class="next-handle box box-lr box-align-center box-pack-center">》</view>
+				</view>
+				<!--选择用户角色-->
+				<view style="display: flex; margin-right: -77px; width: 82px;height: 55rpx;" bindtap="click_nav">
+					<view
+						style="flex-grow: 4;text-align: left;line-height: 55rpx;overflow: hidden;text-overflow: ellipsis;color: black;">
+						{{nickName}}</view>
+					<image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/下-三角.png"
+						wx:if="{{showMenu}}" class="btn"
+						style=" flex-grow: 1;width: 15px;height: 15px;margin-top: 5px;margin: auto 4%;">
+					</image>
+					<image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/右-三角.png"
+						wx:if="{{!showMenu}}" class="btn"
+						style=" flex-grow: 1;width: 15px;height: 15px;margin-top: 5px;margin: auto 3%;">
+					</image>
+					<view wx:if="{{showMenu}}" class="nav_centent add_user" bindtap="powerDrawer" data-statu="open">
+						添加用户
+					</view>
+					<view class='nav_centent_arr'>
+						
+							<view class="list-item {{item.isTouchMove?'list-item-touch-active':''}}"
+								wx:for="{{nav_centent}}" wx:if="{{showMenu}}"  
+								wx:key="index" bindtouchstart="touchstart" bindtouchmove="touchmove"
+								wx:for-item="item" wx:for-index="index" wx:key="item.userId" data-id="{{item.userId}}">
+
+								<view class='item-content' bindtap="click_item" data-choseitem="{{item}}">
+									{{item.names}}</view>
+								
+								<view class="item-delete" bindtap="touchdelete" data-chosedelete="{{item.userId}}" wx:if="{{item.type!=0}}">×</view>
+							</view>
+					</view>
+
+
+
+				</view>
+			</view>
+			<!--星期日 的到  星期六-->
+			<view class="weeks box box-lr box-pack-center box-align-center">
+				<view class="flex week fs28" wx:for="{{weeksCh}}" wx:key="{{index}}" data-idx="{{index}}">{{item}}
+				</view>
+			</view>
+			<view class="days box box-lr box-wrap" bindtouchstart="calendarTouchstart"
+				bindtouchmove="calendarTouchmove">
+				<view wx:if="{{empytGrids}}" class="grid disable-day-color box box-align-center box-pack-center"
+					wx:for="{{empytGrids}}" wx:key="{{index}}" data-idx="{{index}}">
+					<view class="day box box-align-center box-pack-center disable-day-text">{{item}}</view>
+				</view>
+				<view class="grid normal-day-color box box-align-center box-pack-center" wx:for="{{days}}"
+					wx:key="{{index}}" data-disable="{{item.disable}}" data-idx="{{index}}" bindtap="tapDayItem">
+					<view class="day-with-dot box box-tb box-align-center box-pack-center ">
+
+						<view wx:if="{{item.showTodoLabel && todoLabelPos === 'top'}}" class="todo-dot"
+							style="background-color: {{item.dotColor}};"></view>
+						<view
+							class="day border-radius day-text {{item.choosed ? 'day-choosed-color pink-bg' : ''}} {{ item.disable ? 'disable-day-color disable-day-circle' : '' }} box box-align-center box-pack-center">
+							{{item.day}}</view>
+
+
+						<!--根据事件的个数  决定点的个数
+						  要不就是只有一个点  表名事件的存在
+					  		-->
+						<view style="display: flex;">
+							<view wx:if="{{item.showTodoLabel && todoLabelPos === 'bottom'}}" class="todo-dot"
+								style="background-color: {{item.dotColor}}"></view>
+						</view>
+					</view>
+				</view>
+				<view class="grid disable-day-color box box-align-center box-pack-center" wx:for="{{lastEmptyGrids}}"
+					wx:key="{{index}}" data-idx="{{index}}">
+					<view class="day box box-align-center box-pack-center disable-day-text">{{item}}</view>
+				</view>
+			</view>
+		</view>
+	</view>
+
+</template>

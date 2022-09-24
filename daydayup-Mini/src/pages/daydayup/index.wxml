@@ -1,0 +1,52 @@
+<swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}">
+  <block wx:for="{{imgUrls}}">
+    <swiper-item>
+
+      <image src="{{item}}" class="slide-image" style="margin-top: 15px; " />
+
+    </swiper-item>
+
+  </block>
+</swiper>
+<view style="display: flex;margin: 15px 0 20px 0;">
+  <view class="introduce-title"></view>
+  <view class="introduce-intro">功能介绍</view>
+  <view class="introduce-triangle"></view>
+</view>
+<view style="display: flex;">
+  <view class="total-introduce" bindtap="introinput">
+    <image class="total-introduce-image"
+      src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/busy_worker.png">
+    </image>
+    <view class="total-introduce-text">多元输入</view>
+  </view>
+  <view class="total-introduce" bindtap="intromulti">
+    <image class="total-introduce-image"
+      src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/busy_alert.png">
+    </image>
+    <view class="total-introduce-text">多设备融合</view>
+  </view>
+  <view class="total-introduce" bindtap="introdata">
+    <image class="total-introduce-image"
+      src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/busy_up.png">
+
+    </image>
+    <view class="total-introduce-text" >数据分析</view>
+  </view>
+</view>
+
+<view style="display: flex;flex-wrap: wrap;">
+  <image class="introduce-show_content" bindtap="redirectToPhoto"
+    src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/post1.jpg"></image>
+  <image class="introduce-show_content" bindtap="redirectToVoice"
+    src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/post2.jpg"></image>
+  <image class="introduce-show_content" bindtap="redirectToIndex"
+    src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/post3.png"></image>
+  <image class="introduce-show_content" bindtap="redirectToIndex"
+    src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/post4.jpg"></image>
+</view>
+
+
+
+<!--底部导航栏-->
+<tab-bar id="tab-bar "></tab-bar>

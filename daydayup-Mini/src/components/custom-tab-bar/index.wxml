@@ -1,0 +1,24 @@
+<cover-view wx:if="{{half_show}}" class="half-circle"></cover-view>
+<cover-image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/voice.png"
+  class="img-style" animation="{{animCollect}}" bindtap="collect"></cover-image>
+<cover-image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/picture.png"
+  class="img-style" animation="{{animTranspond}}" bindtap="transpond"></cover-image>
+<cover-image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/text.png"
+  class="img-style" animation="{{animInput}}" bindtap="input"></cover-image>
+
+<cover-view class="big-circle">
+  <cover-view class="small-circle">
+    <cover-image class="img-plus-style" animation="{{animPlus}}" bindtap="plus" src="../../images/add.png">
+    </cover-image>
+  </cover-view>
+</cover-view>
+
+<!--custom-tab-bar/index.wxml-->
+<cover-view class="tab-bar">
+  <cover-view class="tab-bar-border"></cover-view>
+  <cover-view wx:for="{{listTab}}" wx:key="index" class="tab-bar-item" data-path="{{item.pagePath}}"
+    data-index="{{index}}" bindtap="switchTab">
+    <cover-image src="{{selected === index ? item.selectedIconPath : item.iconPath}}"></cover-image>
+    <cover-view style="color: {{selected === index ? selectedColor : color}}">{{item.text}}</cover-view>
+  </cover-view>
+</cover-view>

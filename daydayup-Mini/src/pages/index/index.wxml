@@ -1,0 +1,18 @@
+
+<view class="wrap">
+    <navigator class="navigator" url="/pages/voice/index">语音添加</navigator>
+	  <navigator class="navigator" url="/pages/text/index">文本添加</navigator>
+    <navigator class="navigator" url="/pages/introMulti/intromulti">多设备融合</navigator>
+    <navigator class="navigator" url="/pages/introInput/introinput">多元输入</navigator>
+    <navigator class="navigator" url="/pages/wsTest/wsTest">websocket</navigator>
+
+    <block wx:if="{{canIUseGetUserProfile}}">
+    <button class="loginBtn" type="primary" size="default" bindtap="getUserProfile">微信一键登录</button>
+  </block>
+  
+<view bindtap="clickme">点击我可以看到底部弹框的出现</view>  
+ 	 
+</view>
+
+<tab-bar id="tab-bar"></tab-bar>
+

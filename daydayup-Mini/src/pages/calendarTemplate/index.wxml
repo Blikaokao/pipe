@@ -1,0 +1,58 @@
+<import src="../../template/calendar/index.wxml" />
+
+
+
+<view class="calendar-wrap background" style="width:100%;height:352px;position:fixed;">
+
+	<template is="calendar"
+		data="{{...calendar,location,showModalStatus,isSubmit,phone,warn,name,backgroundcolorOne,backgroundcolorTwo,nickName,showMenu,nav_centent,nameusr}}" />
+	<view class="content">
+	</view>
+	<scroll-view scroll-y="true" style="height: {{clientHeight}}px;position: absolute;top: 352px;" enable-flex="true"
+		scroll-with-animation="true" bindscroll="onScroll" bindscrolltoupper="onTopRefresh"
+		bindscrolltolower="onBottomRefresh">
+
+		<view>
+			<image wx:if="{{onedaytasks.length === 0}}"
+				src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/noTasks.png"
+				mode="widthFix" class="empty-fill"></image>
+
+			<view class="list-itemTask {{task.isTouchMove?'list-item-touch-activeTask':''}}" wx:for="{{onedaytasks}}"
+				bindtouchstart="touchstartTask" bindtouchmove="touchmoveTask" wx:for-item="task" wx:for-index="index"
+				wx:key="task.id" data-id="{{task.id}}">
+				<view class='item-contentTask'>
+					<!-- pageA传递参数 -->
+					<!--<view > 12333 {{task.isTouchMove}}</view>-->
+					<navigator url="../../pages/detail/detail?taskId={{task.id}}" class="nav" data-id="{{task.id}}">
+
+						<!-- 左侧图片 -->
+						<view class="card card-url">
+							<image wx:if="{{onedaytasks.length > 0 && task.ifNew == 1}}"
+								src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/right.png"
+								mode="widthFix"></image>
+							<image wx:if="{{onedaytasks.length > 0 && task.ifNew == 0}}"
+								src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/alert.png"
+								mode="widthFix"></image>
+						</view>
+						<!-- 右侧文本区域 -->
+						<view class=" card card-text">
+							<view class="card-title" style="background-color: transparent;">{{task.taskName}}</view>
+							<view class="card-desc" style="background-color: transparent">
+								{{task.startTime}}-{{task.endTime}}</view>
+						</view>
+					</navigator>
+				</view>
+				<view class="item-deleteTask" bindtap="touchdelete" data-chosedelete="{{task.id}}">删除</view>
+
+			</view>
+		</view>
+
+	</scroll-view>
+</view>
+
+<!--将日程渲染过来-->
+<!-- html -->
+
+
+
+<tab-bar id="tab-bar"></tab-bar>

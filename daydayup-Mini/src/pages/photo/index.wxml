@@ -1,0 +1,100 @@
+<View class="tasks_photo">
+    <view class="photo">
+        <view class="photo_border">
+            <image wx:if="{{tempFilePaths == ''}}"
+                src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/addPhoto.png"
+                class="photo_area" bindtap="chooseimage" />
+            <image wx:if="{{tempFilePaths!=''}}" src="{{tempFilePaths}} " class="photo_area" bindtap="chooseimage" />
+        </view>
+        <view style="display: flex;width: 60%;margin-right: auto;margin-left: auto;">
+            <button class="button_upload" bindtap="submitphoto" style="flex-grow: 2;" bindtap="byPhoto"
+                hover-class="btn-hover">确定</button>
+        </view>
+    </view>
+    <form bindsubmit="formSubmit" bindreset="formReset">
+        <!--drawer content-->
+        <view class="drawer_content">
+            <view class="menu">
+                <scroll-view scroll-x="true" enable-flex="true" class="scroll">
+                    <view wx:for="{{taskLists}}" bindtap="change"
+                        class="{{page==index?'font-white':'font-black'}},borderstyle" data-pageid="{{index}}"
+                        style=" height: {{card_heigh}}px;line-height: {{card_heigh}}px;">
+                        <view>任务{{index+1}}
+                            <view class="{{page==index?'close-chose':'close'}}" bindtap="cancel"
+                                data-pageid="{{index}}">×
+                            </view>
+                        </view>
+                    </view>
+                </scroll-view>
+            </view>
+            <swiper current='{{page}}' bindchange="changepage"
+                style="height: 494rpx; background-image: linear-gradient(white, rgba(0, 154, 255, 0.42),white);">
+                <swiper-item wx:for="{{taskLists}}" class="everycard">
+                    <view class="top grid">
+                        <label class="title col-0">角色</label>
+
+                        <view class="input_base input_h30 col-1"
+                            style="padding-top: 10rpx; width: 100%; line-height: 55rpx;overflow: hidden;text-overflow: ellipsis;">
+                            {{nickName}}
+                            <!--<view
+                        style="flex-grow: 4;text-align: left;line-height: 55rpx;overflow: hidden;text-overflow: ellipsis;color: black;">
+                        {{nickName}}</view>
+
+                                <image
+                                    src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/下-三角.png"
+                                    wx:if="{{showMenu}}"
+                                    style=" width: 15px;height: 15px;margin-top: 8px;margin: auto 4%;">
+                                </image>
+                                <image
+                                    src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/右-三角.png"
+                                    wx:if="{{!showMenu}}"
+                                    style="width: 15px;height: 15px;margin-top: 8px;margin: auto 3%;">
+                                </image>-->
+
+                        </view>
+                    </view>
+                    <view class="top grid">
+                        <label class="title col-0">任务名</label>
+                        <input class="input_base input_h30 col-1" name="taskName" placeholder="{{item.taskName}}"
+                            value="{{item.taskName}}" placeholder-class="placeholder" bindinput="inputTaskName"
+                            bindfocus="taskNameFocus" data-pageid="{{page}}"></input>
+                    </view>
+                    <view class="top grid">
+                        <label class="title col-0">开始时间</label>
+                        <!--<input class="input_base input_h30 col-1" name="startTime" placeholder="开始时间"
+                    placeholder-class="placeholder"></input>-->
+                        <picker mode="multiSelector" value="{{dateTime1}}" bindchange="changeStartDateTime"
+                            bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray1}}"
+                            class="picker input_base input_h30 col-1 " data-pageid="{{page}}">
+                            <view class="picker" name="startTime" class="picker_time">
+                                {{item.startDate}}
+                            </view>
+                        </picker>
+                    </view>
+                    <view class="top grid">
+                        <label class="title col-0">结束时间</label>
+                        <!--<input class="input_base input_h30 col-1" name="endTime" placeholder="结束时间"
+                    placeholder-class="placeholder"></input>-->
+                        <picker mode="multiSelector" value="{{dateTime1}}" bindchange="changeEndDateTime"
+                            bindcolumnchange="changeEndDateTimeColumn1" range="{{dateTimeArray1}}"
+                            class="picker input_base input_h30 col-1 " data-pageid="{{page}}">
+                            <view class="picker" class="picker_time" name="endTime">
+                                {{item.deadLine}}
+                            </view>
+                        </picker>
+                    </view>
+                    <view class="top grid">
+                        <label class="title col-0">提醒时间</label>
+                        <picker bindchange="bindPickerChange" style="flex-grow: 1;" value="{{setIndex}}"
+                            range="{{activityArr}}" range-key="label" class="input_base input_h30 col-1 picker" data-pageid="{{page}}">
+                            <view class='picker picker_time' wx:if="{{item.alert}}">提前{{item.alert}}分钟</view>
+
+                            <view class='picker picker_time' wx:if="{{!item.alert}}">点击进行设置</view>
+                        </picker>
+                    </view>
+                </swiper-item>
+            </swiper>
+        </view>
+        <button class="btn_ok" bindtap="createTask" wx:if="{{taskLists.length}}">完成添加</button>
+    </form>
+</View>

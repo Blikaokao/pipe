@@ -1,0 +1,5 @@
+spring:
+  profiles:
+    active: dev
+netty:
+  port: 8084

@@ -1,0 +1,123 @@
+/* pages/detail/detail.wxss */
+page {
+    background: linear-gradient(to bottom right,lightblue,rgb(44, 149, 235),rgb(9, 95, 255));
+}
+.listItem-div {
+    height:130rpx;
+   
+    margin-left: 39rpx;
+    margin-right: 39rpx;
+    margin-top: 50rpx;
+    border-radius: 15rpx;
+    margin-bottom: 50rpx;
+    
+    border-style: solid;
+    box-shadow: 10rpx 10rpx 5rpx #88888888;
+    border-color: rgba(189, 223, 248, 0.28);
+    background: white;
+}
+.grade {
+    background: white;
+    
+   
+    margin-left: 61rpx;
+    margin-right: 61rpx;
+    margin-top: 15rpx;
+    border-style: solid;
+    box-shadow: 10rpx 10rpx 5rpx #88888888;
+    border-color: rgba(189, 223, 248, 0.28);
+    border-radius: 10px;
+    text-align: center;
+    
+    font-weight: 700;
+}
+.textinput {
+    padding-top: 22px;
+    -webkit-line-clamp: 2;
+}
+.item-title {
+  font-weight: 700;
+  text-align: center;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-top: 50rpx;
+  margin-left: 10px;
+  word-break: break-all;
+  -webkit-box-orient: vertical;
+  color: black;
+}
+.item-title-time {
+    background: white;
+    border-style: solid;
+    border-radius: 10px;
+    box-shadow: 10rpx 10rpx 5rpx #88888888;
+    border-color: rgba(189, 223, 248, 0.28);
+
+    font-weight: 700;
+    
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    
+    word-break: break-all;
+    -webkit-box-orient: vertical;
+  }
+.more {
+    width: 75rpx;
+    color: rgb(0, 0, 0);
+    margin-left: 342.5rpx;
+    text-align: center;
+    margin-bottom: 10rpx;
+    line-height: 65rpx;
+    height: 65rpx;
+    border-radius: 80rpx;
+}
+.bgTime {
+    margin-top: 50rpx;
+    height:75px;
+    text-align: center;
+    line-height: 75px;
+    margin-left: 39rpx;
+    margin-right: 39rpx;
+    background-color: transparent;
+    border-radius: 10px;
+}
+.startTime {
+    height:75px;
+    width: 200rpx;
+   
+   
+    
+    border-radius: 10px;
+}
+
+.endTime {
+    height:75px;
+    width: 200rpx;
+    
+    
+    border-radius: 10px;
+}
+
+.timepicker {
+    background: white;
+    width: 310rpx;
+    text-align: center;
+    line-height: 75px;
+    margin-left: 20rpx;
+    border-radius: 10px;
+    box-shadow: 0px 4px 3px 0px #2564c1d1;
+}
+
+.account-picker {
+    background: white;
+    margin-right: auto;
+    margin-left: auto;
+    text-align: center;
+    line-height: 75px;
+   
+    border-radius: 10px;
+}

@@ -1,0 +1,44 @@
+<!--button-->
+<view class="btn" bindtap="powerDrawer" data-statu="open">button</view>
+
+<!--mask-->
+<view class="drawer_screen" bindtap="powerDrawer" data-statu="close" wx:if="{{showModalStatus}}"></view>
+<!--content-->
+<!--使用animation属性指定需要执行的动画-->
+<view animation="{{animationData}}" class="drawer_box" wx:if="{{showModalStatus}}">
+
+
+    <form  bindsubmit="formSubmit" bindreset="formReset">
+        <!--drawer content-->
+        <view style="display:flex;width: 250px;margin-left: 72px;margin-top: 10px;margin-bottom: 10px;" class="title-style">
+            <view class="drawer_title drawer_title_1" bindtap="changeLocationToOne"  style="background-color:{{backgroundcolorOne}}">添加好友</view>
+            <view class="drawer_title drawer_title_2" bindtap="changeLocationToTwo"  style="background-color:{{backgroundcolorTwo}}">创建角色</view>
+        </view>
+        <view wx:if="{{location == 1}}" class="drawer_content" >
+            <view class="top grid">
+                <label class="title col-0">手机号</label>
+                <input class="input_base input_h30 col-1" name="phone" placeholder="手机号"
+                    placeholder-class="placeholder"></input>
+            </view>
+            <view class="top grid">
+                <label class="title col-0">备注</label>
+                <input class="input_base input_h30 col-1" name="name" placeholder="备注"
+                    placeholder-class="placeholder"></input>
+            </view>
+        </view>
+
+        <view class="drawer_content" wx:if="{{location == 2}}" style="height:55px">
+            <view class="top grid">
+                <label class="title col-0">备注</label>
+                <input class="input_base input_h30 col-1" name="name" placeholder="备注"
+                    placeholder-class="placeholder"></input>
+            </view>
+        </view>
+
+        <button class="btn_ok" bindtap="powerDrawer" data-statu="close" formType="submit">确定</button>
+    </form>
+</view>
+
+<view wx:if="{{isSubmit}}">
+    {{warn ? warn :"，手机号："+phone+"，备注"+name}}
+</view>
