@@ -8,7 +8,7 @@
     <view style="display: flex;width: 750rpx;height: {{photo_height}}rpx;" class="init"
         animation="{{slide_up1}}">
         <view style="flex: 1.5; background-color: transparent;height: 300rpx;text-align: center;margin-top: 29rpx;">
-            <image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/phone2.png"
+            <image src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyo-ABrMdAAN0dqrGkfI111.png"
                 style="height: 250rpx;width: 250rpx;display: inline-block; vertical-align: middle;"></image>
         </view>
         <view style="flex: 2; background-color: transparent;height: {{photo_height}}rpx;">
@@ -28,7 +28,7 @@
             <view space="ensp" style="text-align: center;"> 为您办公添加日程节省时间</view>
         </view>
         <view style="flex: 1; background-color: transparent;height: 144rpx;margin-top: 80rpx;">
-            <image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/computer2.png"
+            <image src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyqeABwo9AAMBrzpBsiQ721.png"
                 style="height: 200rpx;width: 300rpx;"></image>
         </view>
     </view>
@@ -36,7 +36,7 @@
     <view style="display: flex;width: 750rpx;height: {{photo_height}}rpx;margin-right: 20rpx;" class="initwatch"
         animation="{{slide_up1}}">
         <view style="flex: 1; background-color: transparent;height: 300rpx;">
-            <image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/smartWatches1.png"
+            <image src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyr-AW-mrAAJKkqSvNOI343.png"
                 style="height: 300rpx;width: 300rpx;"></image>
         </view>
         <view style="flex: 2; background-color: transparent;height:  {{photo_height}}rpx;">

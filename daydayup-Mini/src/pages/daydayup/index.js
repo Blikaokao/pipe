@@ -1,9 +1,9 @@
 Page({
     data: {
         imgUrls: [
-          'cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/hero-bg2.jpg',
-          'cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/hero-bg_2.jpg',
-          'cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/hero-bg.jpg'
+          'http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvx7uARQBaAAPMwKn59Rc978.jpg',
+          'http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvx5CAYVPOABuYFOU9SLA089.jpg',
+          'http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvx1yARokuABl0pXz4DwI462.jpg'
         ],
         indicatorDots: true,  //是否显示面板指示点
         autoplay: true,      //是否自动切换

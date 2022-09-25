@@ -1,9 +1,9 @@
 <cover-view wx:if="{{half_show}}" class="half-circle"></cover-view>
-<cover-image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/voice.png"
+<cover-image src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxReAHqo6AAALqoqsguw544.png"
   class="img-style" animation="{{animCollect}}" bindtap="collect"></cover-image>
-<cover-image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/picture.png"
+<cover-image src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxWWASou6AAAIN3sV0Sw306.png"
   class="img-style" animation="{{animTranspond}}" bindtap="transpond"></cover-image>
-<cover-image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/text.png"
+<cover-image src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxT6AZsXZAAAKQSMfKgk685.png"
   class="img-style" animation="{{animInput}}" bindtap="input"></cover-image>
 
 <cover-view class="big-circle">

@@ -3,10 +3,10 @@
 <!--<view class='voice-enter-note' wx:if="{{showVoiceMask && !startRecording}}"></view>-->
 
 <image class='voice-enter-note-image'
-    src='cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/microphone.png'
+    src='http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyxqAYQfgAAAfC4Vag08840.png'
     wx:if="{{showVoiceMask && !startRecording}}"></image>
 
-<image src='cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/microphone.png'
+<image src='http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyxqAYQfgAAAfC4Vag08840.png'
     style="margin-left: {{tel_width}}rpx;margin-top: {{tel_height}}rpx;" class='voice-button'
     bindtouchstart="startRecording" bindtouchend="stopRecording" bindtouchmove="moveToCancle">
 </image>
@@ -15,19 +15,19 @@
 
 <view class='record-voice-animations' wx:if="{{showVoiceMask && startRecording && !cancleRecording}}">
 
-        <image src='cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/left-blue.png'
+        <image src='http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyzuAQteFAAAK01f5bP8919.png'
         wx:if="{{recordAnimationNum===1}}"></image>
 
-      <image src='cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/left-blue.png'
+      <image src='http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyzuAQteFAAAK01f5bP8919.png'
         wx:if="{{recordAnimationNum===2}}"></image>
 
-      <image src='cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/mid-blue.png'
+      <image src='http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvy2aAJUz_AAAMF17FXMc575.png'
         wx:if="{{recordAnimationNum===3}}"></image>
 
-      <image src='cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/right-blue.png'
+      <image src='http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvy2aAJUz_AAAMF17FXMc575.png'
         wx:if="{{recordAnimationNum===4}}"></image>
 
-      <image src='cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/right-blue.png'
+      <image src='http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyzuAQteFAAAK01f5bP8919.png'
         wx:if="{{recordAnimationNum===0}}"></image>
 </view>
 <form bindsubmit="formSubmit" bindreset="formReset">

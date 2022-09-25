@@ -13,8 +13,8 @@
 		bindscrolltolower="onBottomRefresh">
 
 		<view>
-			<image wx:if="{{onedaytasks.length === 0}}"
-				src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/noTasks.png"
+			<image wx:if="{{onedaytasks.length === 0}} || {{onedaytasks.length == null}}"
+				src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxcaAT0CkAAAeaU46Jpg040.png"
 				mode="widthFix" class="empty-fill"></image>
 
 			<view class="list-itemTask {{task.isTouchMove?'list-item-touch-activeTask':''}}" wx:for="{{onedaytasks}}"
@@ -28,10 +28,10 @@
 						<!-- 左侧图片 -->
 						<view class="card card-url">
 							<image wx:if="{{onedaytasks.length > 0 && task.ifNew == 1}}"
-								src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/right.png"
+								src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxh6AdMstAAAhAHpTjl8724.png"
 								mode="widthFix"></image>
 							<image wx:if="{{onedaytasks.length > 0 && task.ifNew == 0}}"
-								src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/alert.png"
+								src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxgKAAjrtAAAhCnjxy0M369.png"
 								mode="widthFix"></image>
 						</view>
 						<!-- 右侧文本区域 -->

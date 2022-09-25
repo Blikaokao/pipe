@@ -1,6 +1,6 @@
 <view class="searchbar">
   <view class="content">
-    <image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/search_black.png" class="search-icon"></image>
+    <image src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvy5SAXEL8AAASYJ_rFOI823.png" class="search-icon"></image>
     <input 
       bindinput="handleInput"
       bindconfirm="handleConfirm"
@@ -13,7 +13,7 @@
     <image
      wx:if="{{inputValue}}" 
      bindtap="handleDeleteClick"
-     src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/quxiao.png" 
+     src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvzCCAHFJMAAAazOc24k8990.png" 
      class="delete-icon"
     ></image>
   </view>

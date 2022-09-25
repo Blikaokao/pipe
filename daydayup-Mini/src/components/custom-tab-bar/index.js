@@ -28,14 +28,14 @@ Component({
         {
           pagePath: "/pages/daydayup/index",
           text: "首页",
-          iconPath: "cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/home.png",
-          selectedIconPath: "cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/home.png"
+          iconPath: "http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvw-6AG3pvAAAV8CQa5tI741.png",
+          selectedIconPath: "http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvw-6AG3pvAAAV8CQa5tI741.png"
         },
         {
           pagePath: "/pages/calendarTemplate/index",
           text: "日历",
-          iconPath: "cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/calendar.png",
-          selectedIconPath: "cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/calendar.png"
+          iconPath: "http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxIGAfdVxAAAWc9E-UeU037.png",
+          selectedIconPath: "http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxIGAfdVxAAAWc9E-UeU037.png"
         },
       ]
     },

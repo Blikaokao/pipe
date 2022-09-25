@@ -8,7 +8,7 @@
     <view style="display: flex;width: 750rpx;height: {{photo_height}}rpx;margin-right: 20rpx;" class="photoinput"
         animation="{{slide_up1}}">
         <view style="flex: 1; background-color: transparent;height: 300rpx;margin-top: 48rpx;text-align: center;">
-            <image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/schedule7.jpg"
+            <image src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyiCAA0ZmAABwIWUPapw846.jpg"
                 style="height: 205rpx;width: 217rpx;"></image>
         </view>
         <view style="flex: 2; background-color: transparent;height: {{photo_height}}rpx;">
@@ -22,7 +22,7 @@
     <view style="display: flex;width: 750rpx;height: {{photo_height}}rpx;margin-right: 20rpx;" class="textinput"
         animation="{{slide_up1}}">
         <view style="flex: 1; background-color: transparent;height: 300rpx;margin-left: 24rpx;margin-top: 30rpx;">
-            <image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/write.png"
+            <image src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvykiANwYgAAL8NAaZUP4108.png"
                 style="height: 257rpx;width: 300rpx;"></image>
         </view>
         <view style="flex: 2; background-color: transparent;height:  {{photo_height}}rpx;">
@@ -36,7 +36,7 @@
     <view style="display: flex;width: 750rpx;height:  {{photo_height}}rpx;margin-right: 20rpx;" class="voiceinput"
         animation="{{slide_up1}}">
         <view style="flex: 1; background-color: transparent;height: 300rpx;text-align: center;margin-top: 38rpx;margin-left: 20rpx;">
-            <image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/voiceTech.jpg"
+            <image src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvymGALx7tAAA90R0jY38297.jpg"
                 style="height: 200rpx;width: 200rpx;"></image>
         </view>
         <view style="flex: 2; background-color: transparent;height: 300rpx;">

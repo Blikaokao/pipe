@@ -16,19 +16,19 @@
 <view style="display: flex;">
   <view class="total-introduce" bindtap="introinput">
     <image class="total-introduce-image"
-      src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/busy_worker.png">
+      src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvx_eAIOarAFMrxuim8LM956.png">
     </image>
     <view class="total-introduce-text">多元输入</view>
   </view>
   <view class="total-introduce" bindtap="intromulti">
     <image class="total-introduce-image"
-      src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/busy_alert.png">
+      src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyB-ASqY4AAJsvmqneK4568.png">
     </image>
     <view class="total-introduce-text">多设备融合</view>
   </view>
   <view class="total-introduce" bindtap="introdata">
     <image class="total-introduce-image"
-      src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/busy_up.png">
+      src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyKmAL_zoAAJ-aliRWUU684.png">
 
     </image>
     <view class="total-introduce-text" >数据分析</view>
@@ -37,13 +37,13 @@
 
 <view style="display: flex;flex-wrap: wrap;">
   <image class="introduce-show_content" bindtap="redirectToPhoto"
-    src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/post1.jpg"></image>
+    src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyQyAc5ipAABZcaYQ62M603.jpg"></image>
   <image class="introduce-show_content" bindtap="redirectToVoice"
-    src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/post2.jpg"></image>
+    src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvySeAck-jAARTtgBt_TU228.jpg"></image>
   <image class="introduce-show_content" bindtap="redirectToIndex"
-    src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/post3.png"></image>
+    src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyTyABp3VAAfggyyt368128.png"></image>
   <image class="introduce-show_content" bindtap="redirectToIndex"
-    src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/post4.jpg"></image>
+    src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyVWAZanvAAfFOY2jOtY621.jpg"></image>
 </view>
 
 

@@ -2,7 +2,7 @@
     <view class="photo">
         <view class="photo_border">
             <image wx:if="{{tempFilePaths == ''}}"
-                src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/addPhoto.png"
+                src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyuOAbKalAAAXyxk6JEc808.png"
                 class="photo_area" bindtap="chooseimage" />
             <image wx:if="{{tempFilePaths!=''}}" src="{{tempFilePaths}} " class="photo_area" bindtap="chooseimage" />
         </view>

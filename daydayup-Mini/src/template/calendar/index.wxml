@@ -42,7 +42,7 @@
 			<view class="top-handle fs28 box box-lr box-align-center box-pack-center">
 
 				<image bindtap="searchTask"
-					src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/search_black.png"
+					src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvy5SAXEL8AAASYJ_rFOI823.png"
 					class="search-icon"></image>
 
 				<view bindtap="jump"
@@ -64,11 +64,11 @@
 					<view
 						style="flex-grow: 4;text-align: left;line-height: 55rpx;overflow: hidden;text-overflow: ellipsis;color: black;">
 						{{nickName}}</view>
-					<image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/下-三角.png"
+					<image src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvy7CAL598AAAIeLFOZyA883.png"
 						wx:if="{{showMenu}}" class="btn"
 						style=" flex-grow: 1;width: 15px;height: 15px;margin-top: 5px;margin: auto 4%;">
 					</image>
-					<image src="cloud://cloud1-1g8sc3r1b2f88adf.636c-cloud1-1g8sc3r1b2f88adf-1309460885/images/右-三角.png"
+					<image src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvy8aAZVY-AAAJLq2QxJg672.png"
 						wx:if="{{!showMenu}}" class="btn"
 						style=" flex-grow: 1;width: 15px;height: 15px;margin-top: 5px;margin: auto 3%;">
 					</image>
