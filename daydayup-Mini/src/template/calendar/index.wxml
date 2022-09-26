@@ -12,17 +12,13 @@
 				<view class="drawer_title drawer_title_2" bindtap="changeLocationToTwo"
 					style="background-color:{{backgroundcolorTwo}}">创建角色</view>
 			</view>
-			<view wx:if="{{location == 1}}" class="drawer_content">
+			<view wx:if="{{location == 1}}" class="drawer_content" style="height: 55px;">
 				<view class="top grid">
-					<label class="title col-0">手机号</label>
+					<label class="title col-0">微信昵称</label>
 					<input class="input_base input_h30" name="phone" placeholder="手机号"
 						placeholder-class="placeholder"></input>
 				</view>
-				<view class="top grid">
-					<label class="title col-0">备注</label>
-					<input class="input_base input_h30" name="name" placeholder="备注"
-						placeholder-class="placeholder"></input>
-				</view>
+				
 			</view>
 
 			<view class="drawer_content" wx:if="{{location == 2}}" style="height:55px">
@@ -105,7 +101,7 @@
 					<view class="day box box-align-center box-pack-center disable-day-text">{{item}}</view>
 				</view>
 				<view class="grid normal-day-color box box-align-center box-pack-center" wx:for="{{days}}"
-					wx:key="{{index}}" data-disable="{{item.disable}}" data-idx="{{index}}" bindtap="tapDayItem">
+					wx:key="id" data-disable="{{item.disable}}" data-idx="{{index}}" bindtap="tapDayItem">
 					<view class="day-with-dot box box-tb box-align-center box-pack-center ">
 
 						<view wx:if="{{item.showTodoLabel && todoLabelPos === 'top'}}" class="todo-dot"

@@ -62,34 +62,34 @@ Page({
       },
 
       redirectToPhoto: function(){
-        wx.redirectTo({
+        wx.navigateTo({
           url: '/pages/photo/index',
         })
         
       },
       redirectToVoice: function(){
-        wx.redirectTo({
+        wx.navigateTo({
           url: '/pages/voice/index',
         })
       },
       redirectToIndex: function(){
-        wx.redirectTo({
+        wx.switchTab({
           url: '/pages/calendarTemplate/index',
         })
       },
 
       introdata: function(){
-        wx.redirectTo({
+        wx.navigateTo({
           url: '/pages/introData/introdata',
         })
       },
       intromulti: function(){
-        wx.redirectTo({
+        wx.navigateTo({
           url: '/pages/introMulti/intromulti',
         })
       },
       introinput: function(){
-        wx.redirectTo({
+        wx.navigateTo({
           url: '/pages/introInput/introinput',
         })
       },

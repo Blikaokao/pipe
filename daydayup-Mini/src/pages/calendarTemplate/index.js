@@ -1,7 +1,8 @@
 import initCalendar, {
   getSelectedDay,
   jumpToToday,
-  setTodoLabels
+  setTodoLabels,
+  clearTodoLabels
 } from '../../template/calendar/index';
 
 // pages/list/list.js
@@ -10,7 +11,7 @@ const App = getApp();
 var days = [];
 var testallTasks = [];
 var tasks = [];
-var nav_centent_list = ['lina', 'sister', 'brother', 'mom'];
+//var nav_centent_list = ['lina', 'sister', 'brother', 'mom'];
 
 const promisic = function (func) {
   return function (params = {}) {
@@ -68,7 +69,8 @@ const conf = {
     backgroundcolorOne: "white",
     backgroundcolorTwo: "#0899f99e",
     'showMenu': false,
-    nav_centent: null
+    nav_centent: null,
+    changeName: false
 
   },
 
@@ -98,17 +100,19 @@ const conf = {
         // 获取code值
         let nickName = res.userInfo.nickName
         console.log("========nickName========", nickName)
+        var localNickName = that.data.nickName;
         if (that.data.nickName == null) {
           console.log("========nickName========", nickName)
           that.setData({
             'nickName': nickName
           })
-
-          wx.setStorage({
-            key:'nickName',
-            data: nickName
-          })
+          localNickName = nickName;
         }
+        //不管空不空都是重新存储到本地
+        wx.setStorage({
+          key: 'nickName',
+          data: localNickName
+        })
         wx.login({
           //成功放回
           success: (res) => {
@@ -120,26 +124,55 @@ const conf = {
               'https://api.weixin.qq.com/sns/jscode2session?appid=wxc9c73915eeb63d6c&secret=83ac589ce417001b23c7191d3cb2fc4e&js_code=' + res.code + '&grant_type=authorization_code',
               'POST', {},
               res => {
+                
                 console.log(res);
                 userInfo.openid = res.data.openid;
-
-                //请求成功之后，把openid放到储存里面
-                wx.setStorage({
-                  key: 'openid',
-                  data: userInfo.openid
-                })
-
                 that.setData({
                   'openid': userInfo.openid
+                })
+                wx.setStorage({
+                  key: 'openid_usr',
+                  data: userInfo.openid
                 })
                 Http.asyncRequest(
                     'http://127.0.0.1:8808/oneDayTask/getTasks/' + that.data.openid + '?' + 'nickName=' + that.data.nickName,
                     'POST', {},
                     res => {
+                      //先清空标记
+
+                      //请求成功之后，把openid放到储存里面
+                      
+                      wx.setStorage({
+                        key: 'openid',
+                        data: res.data.data.role
+                      })
+
+                      var oldDays = that.data.days;
+                      if(oldDays != null){
+                        
+                        for(var i =0;i<oldDays.length;i++){
+                          oldDays[i].hasTodo = false;
+                          oldDays[i].dotColor = "";
+                        }
+                        that.setData({
+                          'days':oldDays
+                        })
+                        console.log(oldDays)
+                        for(var i =0;i<days.length;i++){
+                          days[i].hasTodo = false;
+                          days[i].dotColor = "";
+                        }
+                      }
+                      that.setData({
+                        'days':[]
+                      })
+                      days = [];
                       testallTasks = [];
                       //1:在控制台打印一下返回的res.data数据
 
                       console.log("===============res.data=====================", res.data)
+                      console.log("===============data.days=====================", that.data.days)
+                      
                       //2:在请求接口成功之后，用setData接收数据
                       /*that.setData({
                         //第一个data为固定用法
@@ -154,7 +187,7 @@ const conf = {
                           "startDate": "2022-03-18 12:12:12",//任务开始时间
                           "deadLine": "2022-03-18 13:13:13",//任务截止时间
                        */
-                      var taskList = res.data.data;
+                      var taskList = res.data.data.task;
                       var k = 0;
                       //console.log("===============taskList.length=====================",taskList.length)
 
@@ -282,19 +315,21 @@ const conf = {
                         var timestamp = Date.parse(new Date());
                         var date = new Date(timestamp);
                         //获取年份  
-                        var Y =date.getFullYear();
+                        var Y = date.getFullYear();
                         //获取月份  
                         var M = date.getMonth() + 1;
                         //获取当日日期 
-                        var D = date.getDate(); 
-                        console.log("当前时间：" + Y + '年'  + M+ '月' + D+ '日' ); 
+                        var D = date.getDate();
+                        console.log("当前时间：" + Y + '年' + M + '月' + D + '日');
                         tmpday.year = Y;
                         tmpday.month = M;
                         tmpday.day = D;
                         days.push(tmpday);
                         that.setData({
-                          'days': days
+                          'days': days,
+                          'calendar.todoLabels':days
                         });
+
                         /*var tmpday = {
                           year: 2022,
                           month: 9,
@@ -332,8 +367,8 @@ const conf = {
                                 'tasks': tasks
                               }),
                               //console.log('==============allTasks=================', that.data);
-  
-  
+
+
                               allSelectedDays && console.log('选择的所有日期', allSelectedDays);
                             //console.log('getSelectedDay方法', getSelectedDay());
                           },
@@ -350,16 +385,17 @@ const conf = {
                            * 日历初次渲染完成后触发事件，如设置事件标记
                            */
                           afterCalendarRender() {
+                            
                             //console.log("========dayslength======",that.data.days);
-  
+
                             setTodoLabels({
                               pos: 'bottom',
                               dotColor: '#40',
                               days: that.data.days,
                             });
                           }
-  
-  
+
+
                         });
                         that.setData({
                           location: 1,
@@ -368,9 +404,9 @@ const conf = {
                         });
                         setGetAllTasks(that.data.calendar.selectedDay[0]);
                         console.log("that.data.calendar.selectedDay", that.data.calendar.selectedDay[0]);
-  
+
                         console.log('==============allTasks=================', that.data.taskList);
-  
+
                       };
                       var tmptask = {
                         id: "111",
@@ -407,8 +443,12 @@ const conf = {
                       }
                       days.push(tmpday);
                       that.setData({
-                        'days': days
+                        'days': days,
+                        'chdays':days
                       });
+                      console.log("===========days========", that.data.chdays);
+
+
                       // console.log("days",days);
                       //console.log("tasks",testallTasks);
                       initCalendar({
@@ -455,7 +495,8 @@ const conf = {
                          * 日历初次渲染完成后触发事件，如设置事件标记
                          */
                         afterCalendarRender() {
-                          //console.log("========dayslength======",that.data.days);
+                          
+                          console.log("========dayslength======", that.data.days);
 
                           setTodoLabels({
                             pos: 'bottom',
@@ -476,7 +517,7 @@ const conf = {
 
                       console.log('==============allTasks=================', that.data.taskList);
 
-                     
+
 
                     }
                   ),
@@ -529,6 +570,7 @@ const conf = {
 
   onLoad: async function () {
     var that = this;
+    //不是改变的话就去获取用户名字
     await that.info();
 
     //console.log("字符串转日期", new Date("2022-03-18 12:12:12".replace(/-/g,"/")).getDate());
@@ -582,7 +624,7 @@ const conf = {
         selected: 1 //0,1，2 0-导航一  1-导航二  2-个人中心
       })
     }
-    that.onLoad ();
+    that.onLoad();
   },
 
   /**
@@ -593,9 +635,10 @@ const conf = {
   },
 
   searchTask: function () {
+    var taskList = this.data.taskList;
     wx.navigateTo({
       url: '../../pages/searchBar/searchBar',
-      title: "文本添加"
+      title: "文本输入"
     })
     console.log("searchTask")
   },
@@ -692,8 +735,11 @@ const conf = {
   click_item: function (e) {
     console.log("=====choseitem====", e.currentTarget.dataset.choseitem);
     this.setData({
-      nickName: e.currentTarget.dataset.choseitem.names
+      nickName: e.currentTarget.dataset.choseitem.names,
+      changeName: true,
+      onedaytasks:[]
     })
+    clearTodoLabels();
     this.onLoad();
   },
   powerDrawer: function (e) {
@@ -769,9 +815,9 @@ const conf = {
     console.log('touchstart');
     //开始触摸时 重置所有删除
     let data = App.touch._touchstart(e, this.data.onedaytasks) //将修改过的list setData
-     this.setData({
+    this.setData({
       onedaytasks: data
-     })
+    })
   },
   //滑动事件处理
   touchmoveTask: function (e) {

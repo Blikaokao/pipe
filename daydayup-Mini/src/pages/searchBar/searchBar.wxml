@@ -1,4 +1,27 @@
-<searchbar
-  placeholder="查询日程"
-  bind:handleSearch="handleSearch"
-></searchbar>
+<view class="calendar-wrap">
+  <searchbar placeholder="查询日程" bind:handleSearch="handleSearch"></searchbar>
+
+  <view class="content">
+    <view class="list-itemTask " wx:for="{{taskSearch}}" wx:for-item="task" wx:for-index="index" wx:key="task.id"
+      data-id="{{task.id}}">
+      <navigator url="../../pages/detail/detail?taskId={{task.id}}" class="nav" data-id="{{task.id}}">
+
+        <view class='item-contentTask' style="display: flex;" bindtap="detailTask">
+          <!-- 左侧图片 -->
+          <view class="card card-url" style="flex-grow: 1;">
+            <image src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxh6AdMstAAAhAHpTjl8724.png" mode="widthFix">
+            </image>
+          </view>
+          <!-- 右侧文本区域 -->
+          <view class=" card card-text" style="flex-grow: 2;">
+            <view class="card-title" style="background-color: transparent;">{{task.taskName}}</view>
+            <view class="card-desc" style="background-color: transparent">
+              {{task.startDate}}-{{task.deadLine}}</view>
+          </view>
+
+        </view>
+      </navigator>
+    </view>
+
+  </view>
+</view>

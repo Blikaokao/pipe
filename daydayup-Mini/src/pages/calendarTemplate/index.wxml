@@ -13,7 +13,7 @@
 		bindscrolltolower="onBottomRefresh">
 
 		<view>
-			<image wx:if="{{onedaytasks.length === 0}} || {{onedaytasks.length == null}}"
+			<image wx:if="{{onedaytasks.length === 0}}"
 				src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxcaAT0CkAAAeaU46Jpg040.png"
 				mode="widthFix" class="empty-fill"></image>
 

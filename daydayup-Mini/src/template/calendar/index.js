@@ -191,16 +191,16 @@ const conf = {
     //这个月第一天是星期几
     const firstDayOfWeek = conf.getFirstDayOfWeek(year, month);
 
-    console.log("===============上个月天数===============",prevMonthDays);
-    console.log("===============这个第一天星期几===============",firstDayOfWeek);
-    
+    console.log("===============上个月天数===============", prevMonthDays);
+    console.log("===============这个第一天星期几===============", firstDayOfWeek);
+
     //定义了一个数组
     //存储前面空出来的日子
     let empytGrids = [];
     if (firstDayOfWeek > 0) {
       const len = prevMonthDays - firstDayOfWeek;
-      console.log("===============插入的===============",len);
-    
+      console.log("===============插入的===============", len);
+
       for (let i = prevMonthDays; i > len; i--) {
         empytGrids.push(i);
       }
@@ -212,7 +212,7 @@ const conf = {
         'calendar.empytGrids': null,
       });
     }
-    console.log("===============计算空格===============",empytGrids);
+    console.log("===============计算空格===============", empytGrids);
   },
   /**
    * 计算下月应占的格子
@@ -257,19 +257,19 @@ const conf = {
    */
   calculateDays(year, month, curDate) {
 
-   
+
     this.data.calendar.showModalStatus = false;
 
-    this.data.calendar.isSubmit=false;
-    this.data.calendar.phone=false,
-    this.data.calendar.warn="",
-    this.data.calendar.name="",
+    this.data.calendar.isSubmit = false;
+    this.data.calendar.phone = false,
+      this.data.calendar.warn = "",
+      this.data.calendar.name = "",
       //表示表单现在表单内容
-    this.data.calendar.location=1,
-    this.data.calendar.backgroundcolorOne="white",
-    this.data.calendar.backgroundcolorTwo="#0899f99e"
- 
-    
+      this.data.calendar.location = 1,
+      this.data.calendar.backgroundcolorOne = "white",
+      this.data.calendar.backgroundcolorTwo = "#0899f99e"
+
+
 
 
     let days = [];
@@ -465,6 +465,7 @@ const conf = {
       console.error('请等待日历初始化完成后再调用该方法');
       return;
     }
+
     //拿到一个days的新数组（复制过去的一个数组）
     const days = calendar.days.slice();
 
@@ -486,21 +487,22 @@ const conf = {
       todoLabels = [], todoLabelPos, todoLabelColor
     } = calendar;
 
-   //对象的输出
-   const keys = Object.keys(calendar);
-   /*keys.forEach((item)=>{
-      console.log("item:"+item,"calendar[item]",calendar[item]);
-   });*/
+    //对象的输出
+    const keys = Object.keys(calendar);
+    /*keys.forEach((item)=>{
+       console.log("item:"+item,"calendar[item]",calendar[item]);
+    });*/
 
-    console.log("======calendar========",calendar);
-    console.log("======dotColor======",dotColor);
+    console.log("======calendar========", calendar);
+    console.log("======dotColor======", dotColor);
 
 
+    console.log("======todoDays======", todoDays.length);
+    console.log("======Days======", days.length);
 
-    console.log("======todoDays======",todoDays.length);
     //直接赋值   不用声明对象属性
     //days[0].name='test';
-    
+
 
     //这里有个是除去不在本月的事件
     /**
@@ -539,9 +541,8 @@ const conf = {
        }
     });*/
 
-
     const shouldMarkerTodoDay = todoDays.filter(item => {
-     // console.log("item.year",item.year);
+      // console.log("item.year",item.year);
       +item.year === year && +item.month === month;
       //console.log("item.year",item.year);
       return +item.year === year && +item.month === month;
@@ -549,67 +550,67 @@ const conf = {
 
     //只留下来用户的月份的 事件
     console.log("====================getFullYear === =========================================");
-    console.log("====================shouldMarkerTodoDay === =========================================",shouldMarkerTodoDay);
+    console.log("====================shouldMarkerTodoDay === =========================================", shouldMarkerTodoDay);
+
 
     if ((!shouldMarkerTodoDay || !shouldMarkerTodoDay.length) && !todoLabels.length) return;
 
+
     console.log("====================getFullYear === =========================================");
-    
+
+    console.log("====================todoLabels =====",);
+
     let temp = [];
     let currentMonthTodoLabels = todoLabels.filter(item => +item.year === year && +item.month === month);
-    
+
     shouldMarkerTodoDay.concat(currentMonthTodoLabels).forEach((item) => {
       temp.push(days[item.day - 1]);
-       //数组下标的问题  
-       let nowDate = new Date();
-       //过期
-       if(nowDate.getFullYear() > item.year){
+      //数组下标的问题  
+      let nowDate = new Date();
+      //过期
+      if (nowDate.getFullYear() > item.year) {
         days[item.day - 1].showTodoLabel = !days[item.day - 1].choosed;
         days[item.day - 1].dotColor = '#190101';
 
-        }else if(nowDate.getFullYear() === item.year){
+      } else if (nowDate.getFullYear() === item.year) {
 
         console.log("====================getFullYear === =========================================");
-       
-         if(nowDate.getMonth()+1 > item.month){
+
+        if (nowDate.getMonth() + 1 > item.month) {
           console.log("====================getMonth >>>=========================================");
-       
+
           days[item.day - 1].showTodoLabel = !days[item.day - 1].choosed;
           days[item.day - 1].dotColor = '#190101';
-         }else if(nowDate.getMonth()+1 === item.month){
-         
-            if(nowDate.getDate() > item.day){
+        } else if (nowDate.getMonth() + 1 === item.month) {
 
-             
-              days[item.day - 1].showTodoLabel = !days[item.day - 1].choosed;
-              days[item.day - 1].dotColor = '#190101';
-            }else{
-              
-              days[item.day - 1].showTodoLabel = !days[item.day - 1].choosed;
-              days[item.day - 1].dotColor = '#f90b0b';
-            }
-         }else{
-         
+          if (nowDate.getDate() > item.day) {
+
+
+            days[item.day - 1].showTodoLabel = !days[item.day - 1].choosed;
+            days[item.day - 1].dotColor = '#190101';
+          } else {
+
+            days[item.day - 1].showTodoLabel = !days[item.day - 1].choosed;
+            days[item.day - 1].dotColor = '#f90b0b';
+          }
+        } else {
+
           days[item.day - 1].showTodoLabel = !days[item.day - 1].choosed;
           days[item.day - 1].dotColor = '#f90b0b';
-         }
-       }else{
-      
+        }
+      } else {
+
         days[item.day - 1].showTodoLabel = !days[item.day - 1].choosed;
         days[item.day - 1].dotColor = '#f90b0b';
-       }
+      }
     });
-
-
-    
-
-
     //concat用来合并多个数组
     const o = {
       'calendar.days': days,
       'calendar.todoLabels': uniqueTodoLabels(todoDays.concat(todoLabels)),
     };
-    console.log("calendar",calendar);
+    console.log("===============================calendar.todoLabels",o['calendar.todoLabels']);
+    console.log("calendar", calendar);
     if (pos && pos !== todoLabelPos) o['calendar.todoLabelPos'] = pos;
     if (dotColor && dotColor !== todoLabelColor) o['calendar.todoLabelColor'] = dotColor;
     this.setData(o);
@@ -662,7 +663,11 @@ const conf = {
     });
     this.setData({
       'calendar.days': days,
-      'calendar.todoLabels': [],
+      'calendar.todoLabels': [{
+        year: 2022,
+        month: 7,
+        day: 8
+      }],
     });
   },
   /**
@@ -692,8 +697,8 @@ const conf = {
   renderCalendar(curYear, curMonth, curDate) {
     conf.calculateEmptyGrids.call(this, curYear, curMonth);
     conf.calculateDays.call(this, curYear, curMonth, curDate);
-    console.log("===========empytGrids=================",this.data.calendar.empytGrids);
-    
+    console.log("===========empytGrids=================", this.data.calendar.empytGrids);
+    console.log("===========todoLabels=================", this.data.calendar.todoLabels);
     const {
       todoLabels
     } = this.data.calendar || {};
