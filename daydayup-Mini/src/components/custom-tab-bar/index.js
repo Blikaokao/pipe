@@ -36,7 +36,7 @@ Component({
           text: "日历",
           iconPath: "http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxIGAfdVxAAAWc9E-UeU037.png",
           selectedIconPath: "http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxIGAfdVxAAAWc9E-UeU037.png"
-        },
+        }
       ]
     },
   

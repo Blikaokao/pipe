@@ -4,7 +4,8 @@ App({
   globalData: {
     userInfo: null,
     socketStatus: 'closed',
-    openid: null
+    openid: null,
+    unReadLetter: 0
   },
   touch: new touch(), //实例化这个touch对象
   //渐入，渐出实现 
@@ -90,6 +91,9 @@ App({
       }
       console.log("【websocket监听到消息】内容如下：");
       console.log(message);
+      //未读消息加一
+      if(message.type == 3)
+        this.globalData.unReadLetter = this.globalData.unReadLetter + 1;
     })
     // 打开信道
     wx.connectSocket({
@@ -118,6 +122,8 @@ App({
       })
     }
   },
+  //登录的时候做连接的通信
+  //暂时不做心跳
   login() {
     var that = this;
     wx.login({
@@ -147,5 +153,26 @@ App({
         })
       }
     })
-  }
+  },
+
+
+  
+  //app 全局属性监听
+  watch:function(method){
+    var obj = this.globalData;
+    var val = this.globalData.unReadLetter;
+    Object.defineProperty(obj,"unReadLetter", {
+      configurable: true,
+      enumerable: true,
+      set: function (value) {
+        val = value;
+        console.log('是否会被执行2',value)
+        method();
+      },
+      get:function(){
+      // 可以在这里打印一些东西，然后在其他界面调用getApp().globalData.name的时候，这里就会执行。
+        return val;
+      }
+    })
+  },
 })

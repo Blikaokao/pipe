@@ -494,3 +494,31 @@ to {height:500rpx;}
   .list-item-touch-active .item-content{
     margin-left: -10rpx;
   }
+
+  @font-face {
+    font-family: "iconfont"; /* Project id 3674051 */
+    src: url('//at.alicdn.com/t/c/font_3674051_fwlqdjqpapi.woff2?t=1664240477695') format('woff2'),
+         url('//at.alicdn.com/t/c/font_3674051_fwlqdjqpapi.woff?t=1664240477695') format('woff'),
+         url('//at.alicdn.com/t/c/font_3674051_fwlqdjqpapi.ttf?t=1664240477695') format('truetype');
+  }
+  
+  .iconfont {
+    font-family: "iconfont" !important;
+    font-size: 16px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  .icon-cunweixinxiang:before {
+    content: "\100e8";
+  }
+
+  .redPoint {
+    width: 3rpx;
+    height: 3rpx;
+    border-radius: 10rpx;
+    border-style: solid;
+    background-color: red;
+  }
+  

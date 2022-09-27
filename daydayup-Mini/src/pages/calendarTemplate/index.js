@@ -57,7 +57,7 @@ const conf = {
   data: {
     taskList: [],
     index: 1,
-
+    unReadLetter:0,
     showModalStatus: false,
 
     isSubmit: false,
@@ -569,6 +569,10 @@ const conf = {
   //请求获取到task
 
   onLoad: async function () {
+
+    getApp().watch(this.readLetter); // 设置监听
+
+
     var that = this;
     //不是改变的话就去获取用户名字
     await that.info();
@@ -867,6 +871,29 @@ const conf = {
       }
     )
   },
+  //websocket监控
+  /**
+   * 设置监听器  当App.unReadLetter通过setdata发生变化
+   * 对自己的值进行更新
+   */
+  
 
+  readLetter:function(){
+    
+      console.log("===",this.data.unReadLetter,App.globalData.unReadLetter)
+      this.setData({
+        'unReadLetter':App.globalData.unReadLetter
+      })
+    
+  },
+
+ //点击之后清空App.globalData.unReadLetter
+  addGlobal:function(){
+   var unReadLetter = App.globalData.unReadLetter;
+   console.log(unReadLetter);
+   console.log("调用了add方法");
+   App.globalData.unReadLetter = unReadLetter + 1;
+  }
+  
 };
 Page(conf);

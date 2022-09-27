@@ -18,7 +18,7 @@
 					<input class="input_base input_h30" name="phone" placeholder="手机号"
 						placeholder-class="placeholder"></input>
 				</view>
-				
+
 			</view>
 
 			<view class="drawer_content" wx:if="{{location == 2}}" style="height:55px">
@@ -37,10 +37,18 @@
 		<view class="calendar pink-color box box-tb">
 			<view class="top-handle fs28 box box-lr box-align-center box-pack-center">
 
+				<view bindtap="addGlobal" class=" search-icon " >
+					<view class=" search-icon " style="margin-left: -64rpx;width: 40rpx;height: 40rpx;">
+						<view class="iconfont icon-cunweixinxiang" bindtap="readLetter" style="display: inline;">
+						</view>
+					</view>
+					<view class=" search-icon " style="margin-left: -38rpx;width: 40rpx;height: 40rpx;">
+						<view style="color: red;" class="redPoint" wx:if="{{unReadLetter}}">{{unReadLetter}}</view>
+					</view>
+				</view>
 				<image bindtap="searchTask"
 					src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvy5SAXEL8AAASYJ_rFOI823.png"
-					class="search-icon"></image>
-
+					class="search-icon" style="margin-left: 20rpx;"></image>
 				<view bindtap="jump"
 					style="width: 20px;height: 20px;border-radius: 20px; background-color: rgb(0, 110, 255);color:white; text-align: center;text-decoration: white;">
 					今</view>
@@ -72,17 +80,18 @@
 						添加用户
 					</view>
 					<view class='nav_centent_arr'>
-						
-							<view class="list-item {{item.isTouchMove?'list-item-touch-active':''}}"
-								wx:for="{{nav_centent}}" wx:if="{{showMenu}}"  
-								wx:key="index" bindtouchstart="touchstart" bindtouchmove="touchmove"
-								wx:for-item="item" wx:for-index="index" wx:key="item.userId" data-id="{{item.userId}}">
 
-								<view class='item-content' bindtap="click_item" data-choseitem="{{item}}">
-									{{item.names}}</view>
-								
-								<view class="item-delete" bindtap="touchdelete" data-chosedelete="{{item.userId}}" wx:if="{{item.type!=0}}">×</view>
-							</view>
+						<view class="list-item {{item.isTouchMove?'list-item-touch-active':''}}"
+							wx:for="{{nav_centent}}" wx:if="{{showMenu}}" wx:key="index" bindtouchstart="touchstart"
+							bindtouchmove="touchmove" wx:for-item="item" wx:for-index="index" wx:key="item.userId"
+							data-id="{{item.userId}}">
+
+							<view class='item-content' bindtap="click_item" data-choseitem="{{item}}">
+								{{item.names}}</view>
+
+							<view class="item-delete" bindtap="touchdelete" data-chosedelete="{{item.userId}}"
+								wx:if="{{item.type!=0}}">×</view>
+						</view>
 					</view>
 
 
@@ -100,8 +109,8 @@
 					wx:for="{{empytGrids}}" wx:key="{{index}}" data-idx="{{index}}">
 					<view class="day box box-align-center box-pack-center disable-day-text">{{item}}</view>
 				</view>
-				<view class="grid normal-day-color box box-align-center box-pack-center" wx:for="{{days}}"
-					wx:key="id" data-disable="{{item.disable}}" data-idx="{{index}}" bindtap="tapDayItem">
+				<view class="grid normal-day-color box box-align-center box-pack-center" wx:for="{{days}}" wx:key="id"
+					data-disable="{{item.disable}}" data-idx="{{index}}" bindtap="tapDayItem">
 					<view class="day-with-dot box box-tb box-align-center box-pack-center ">
 
 						<view wx:if="{{item.showTodoLabel && todoLabelPos === 'top'}}" class="todo-dot"
