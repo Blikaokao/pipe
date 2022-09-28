@@ -4,7 +4,7 @@
 	  <navigator class="navigator" url="/pages/text/index">文本添加</navigator>
     <navigator class="navigator" url="/pages/introMulti/intromulti">多设备融合</navigator>
     <navigator class="navigator" url="/pages/introInput/introinput">多元输入</navigator>
-    <navigator class="navigator" url="/pages/searchBar/searchBar">websocket</navigator>
+    <navigator class="navigator" url="/pages/userRequest/userRequest">request</navigator>
 
     <block wx:if="{{canIUseGetUserProfile}}">
     <button class="loginBtn" type="primary" size="default" bindtap="getUserProfile">微信一键登录</button>

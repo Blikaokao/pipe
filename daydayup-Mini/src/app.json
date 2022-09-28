@@ -20,7 +20,8 @@
         "pages/introMulti/intromulti",
         "pages/introData/introdata",
         "ec-canvas/ec-canvas",
-        "pages/wsTest/wsTest"
+        "pages/wsTest/wsTest",
+        "pages/userRequest/userRequest"
     ],
     "window": {
         "backgroundTextStyle": "light",

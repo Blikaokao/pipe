@@ -15,7 +15,7 @@
 			<view wx:if="{{location == 1}}" class="drawer_content" style="height: 55px;">
 				<view class="top grid">
 					<label class="title col-0">微信昵称</label>
-					<input class="input_base input_h30" name="phone" placeholder="手机号"
+					<input class="input_base input_h30" name="phone" placeholder="微信名"
 						placeholder-class="placeholder"></input>
 				</view>
 

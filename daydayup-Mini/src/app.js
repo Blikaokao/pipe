@@ -2,10 +2,11 @@
 import touch from 'pages/utils/touch.js' //新加
 App({
   globalData: {
-    userInfo: null,
+    userRelation: [],
     socketStatus: 'closed',
     openid: null,
-    unReadLetter: 0
+    unReadLetter: 0,
+    userinfo:null
   },
   touch: new touch(), //实例化这个touch对象
   //渐入，渐出实现 
@@ -55,7 +56,7 @@ App({
     that.setData(json)
   },
   onLaunch: function () {
-    var that = this;
+    var that = this; 
     if (that.globalData.socketStatus === 'closed') {
       that.openSocket();
     }
@@ -67,7 +68,6 @@ App({
     wx.onSocketOpen(() => {
       console.log('WebSocket 已连接')
       this.globalData.socketStatus = 'connected';
-      
       this.login();
 
     })
@@ -92,7 +92,7 @@ App({
       console.log("【websocket监听到消息】内容如下：");
       console.log(message);
       //未读消息加一
-      if(message.type == 3)
+      if(message.type == 7)
         this.globalData.unReadLetter = this.globalData.unReadLetter + 1;
     })
     // 打开信道
@@ -138,17 +138,36 @@ App({
           success(res) {
             console.log("初始化时完成openid的获取", res);
             that.globalData.openid = res.data.openid;
-            var message = {};
-            message.did = that.globalData.openid;
-            /**
-             * 1:连接
-             * 2:心跳
-             * 3:好友添加
-             */
-            message.type = 1;
-            message = JSON.stringify(message)
-            console.log("message 的值",message)
-            that.sendMessage(message);
+            
+            //根据openid获取用户的id
+            wx.request({
+              url: 'http://127.0.0.1:8808/fUser/getMiniusers/' + that.globalData.openid,
+              method: 'GET',
+              success(res) {
+                console.log("初始化时完成usr的获取", res);
+                that.globalData.userRelation = res.data.data;
+                var info = res.data.data;
+                for(var i = 0;i<info.length;i++){
+                  if(info[i].type == 0)
+                    that.globalData.userinfo = info[i];
+                }
+                console.log("userRelation", that.globalData.userRelation);
+                console.log("info",that.globalData.userinfo);
+
+                var message = {};
+                message.did = that.globalData.userinfo.id;
+                /**
+                 * 1:连接
+                 * 2:心跳
+                 * 7:好友添加
+                 */
+                message.type = 1;
+                message = JSON.stringify(message)
+                console.log("message 的值",message)
+                that.sendMessage(message);
+              }
+            })
+
           }
         })
       }
@@ -175,4 +194,13 @@ App({
       }
     })
   },
+  /*startInter(){
+    var that = this;
+   setInterval(
+        function () {
+            // TODO 你需要无限循环执行的任务
+            that.globalData.unReadLetter = that.globalData.unReadLetter + 1;
+            console.log('setInterval 每过500毫秒执行一次任务')
+        }, 500);    
+  },*/
 })

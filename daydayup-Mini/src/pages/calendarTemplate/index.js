@@ -57,7 +57,7 @@ const conf = {
   data: {
     taskList: [],
     index: 1,
-    unReadLetter:0,
+    unReadLetter: 0,
     showModalStatus: false,
 
     isSubmit: false,
@@ -124,7 +124,7 @@ const conf = {
               'https://api.weixin.qq.com/sns/jscode2session?appid=wxc9c73915eeb63d6c&secret=83ac589ce417001b23c7191d3cb2fc4e&js_code=' + res.code + '&grant_type=authorization_code',
               'POST', {},
               res => {
-                
+
                 console.log(res);
                 userInfo.openid = res.data.openid;
                 that.setData({
@@ -141,30 +141,30 @@ const conf = {
                       //先清空标记
 
                       //请求成功之后，把openid放到储存里面
-                      
+
                       wx.setStorage({
                         key: 'openid',
                         data: res.data.data.role
                       })
 
                       var oldDays = that.data.days;
-                      if(oldDays != null){
-                        
-                        for(var i =0;i<oldDays.length;i++){
+                      if (oldDays != null) {
+
+                        for (var i = 0; i < oldDays.length; i++) {
                           oldDays[i].hasTodo = false;
                           oldDays[i].dotColor = "";
                         }
                         that.setData({
-                          'days':oldDays
+                          'days': oldDays
                         })
                         console.log(oldDays)
-                        for(var i =0;i<days.length;i++){
+                        for (var i = 0; i < days.length; i++) {
                           days[i].hasTodo = false;
                           days[i].dotColor = "";
                         }
                       }
                       that.setData({
-                        'days':[]
+                        'days': []
                       })
                       days = [];
                       testallTasks = [];
@@ -172,7 +172,7 @@ const conf = {
 
                       console.log("===============res.data=====================", res.data)
                       console.log("===============data.days=====================", that.data.days)
-                      
+
                       //2:在请求接口成功之后，用setData接收数据
                       /*that.setData({
                         //第一个data为固定用法
@@ -327,7 +327,7 @@ const conf = {
                         days.push(tmpday);
                         that.setData({
                           'days': days,
-                          'calendar.todoLabels':days
+                          'calendar.todoLabels': days
                         });
 
                         /*var tmpday = {
@@ -385,7 +385,7 @@ const conf = {
                            * 日历初次渲染完成后触发事件，如设置事件标记
                            */
                           afterCalendarRender() {
-                            
+
                             //console.log("========dayslength======",that.data.days);
 
                             setTodoLabels({
@@ -444,7 +444,7 @@ const conf = {
                       days.push(tmpday);
                       that.setData({
                         'days': days,
-                        'chdays':days
+                        'chdays': days
                       });
                       console.log("===========days========", that.data.chdays);
 
@@ -495,7 +495,7 @@ const conf = {
                          * 日历初次渲染完成后触发事件，如设置事件标记
                          */
                         afterCalendarRender() {
-                          
+
                           console.log("========dayslength======", that.data.days);
 
                           setTodoLabels({
@@ -684,11 +684,25 @@ const conf = {
     if (that.data.location == 1) {
       if (!phone) {
         this.setData({
-          warn: "手机号为空！",
+          warn: "微信号为空！",
           isSubmit: true
         })
         return;
       }
+      Http.asyncRequest(
+        'http://127.0.0.1:8808/fUser/createMiniChild/' + that.data.openid + '/' + nameusr,
+        'POST', {},
+        res => {
+          console.log('=====nameusr======', nameusr);
+          if (res.data.code == 200) {
+            var usr_centent_list = that.data.usr_centent_list;
+            usr_centent_list.push(res.data.data);
+            that.setData({
+              'nav_centent': usr_centent_list, //每点击一次就取反
+            });
+          }
+        }
+      )
     } else if (that.data.location == 2) {
       Http.asyncRequest(
         'http://127.0.0.1:8808/fUser/createMiniChild/' + that.data.openid + '/' + nameusr,
@@ -741,7 +755,7 @@ const conf = {
     this.setData({
       nickName: e.currentTarget.dataset.choseitem.names,
       changeName: true,
-      onedaytasks:[]
+      onedaytasks: []
     })
     clearTodoLabels();
     this.onLoad();
@@ -876,24 +890,39 @@ const conf = {
    * 设置监听器  当App.unReadLetter通过setdata发生变化
    * 对自己的值进行更新
    */
-  
 
-  readLetter:function(){
-    
-      console.log("===",this.data.unReadLetter,App.globalData.unReadLetter)
-      this.setData({
-        'unReadLetter':App.globalData.unReadLetter
-      })
-    
+
+  readLetter: function () {
+
+    console.log("===", this.data.unReadLetter, App.globalData.unReadLetter)
+    this.setData({
+      'unReadLetter': App.globalData.unReadLetter
+    })
+
   },
 
- //点击之后清空App.globalData.unReadLetter
-  addGlobal:function(){
-   var unReadLetter = App.globalData.unReadLetter;
-   console.log(unReadLetter);
-   console.log("调用了add方法");
-   App.globalData.unReadLetter = unReadLetter + 1;
+  //点击之后清空App.globalData.unReadLetter
+  //点击进入之后获取到所有的未处理请求  --处理过的消息不在展示
+  //先把一条路走通过去   接收好友请求  +  处理好友请求
+  addGlobal: function () {
+    var unReadLetter = App.globalData.unReadLetter;
+    console.log(unReadLetter);
+    console.log("调用了add方法，点击清空未读信件");
+    App.globalData.unReadLetter = 0;
+    Http.asyncRequest(
+      'http://127.0.0.1:8808/fUser/getAllRequest',
+      'GET', {'tId':App.globalData.userinfo.id},
+      res => {
+        console.log('=====getAllRequest======', res.data.data);
+        App.globalData.requests= res.data.data;
+        console.log('=====App.globalData.requests======', App.globalData.requests);
+        //进行跳转
+        wx.navigateTo({
+          url: '../userRequest/userRequest',
+        })
+      }
+    )
   }
-  
+
 };
 Page(conf);

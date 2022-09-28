@@ -1,0 +1,51 @@
+/* pages/userRequest/userRequest.wxss */
+.textinput{
+    margin-right: 20rpx;
+    
+    background : linear-gradient(to bottom right,#dbebe8,#dbebe8,#ffffff);
+    border-radius: 90rpx;
+    border-color: #dbebe8;
+    border-style: solid;
+    box-shadow: 11rpx 12rpx 19rpx -3rpx #bed7d2;
+    margin-top: 20rpx;
+}
+
+.voiceinput {
+    margin-right: 20rpx;
+    
+    background : linear-gradient(to right,#ffffff,#ffffff,#0280fea4);
+    border-radius: 90rpx;
+    border-color: transparent;
+    border-style: solid;
+    box-shadow: 11rpx 12rpx 19rpx -3rpx #027ffe;
+    margin-top: 20rpx;
+    
+}
+
+.photoinput {
+    margin-right: 20rpx;
+    
+    background : linear-gradient(to bottom right,#ffffff,#ffffff,#f3cbed);
+    border-radius: 90rpx;
+    border-color: transparent;
+    border-style: solid;
+    box-shadow: 11rpx 12rpx 19rpx -3rpx #9e4d99;
+    margin-top: 20rpx;
+}
+
+.agree {
+    background-color: red;
+}
+
+.refuse {
+    background-color: green;
+}
+
+.buttont {
+    border-radius: 25rpx;
+    border-style: solid;
+    border-color: transparent;
+    flex: 1;
+    text-align: right;
+    color: black;
+}

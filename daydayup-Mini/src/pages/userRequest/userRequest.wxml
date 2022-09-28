@@ -1,0 +1,22 @@
+<!--pages/userRequest/userRequest.wxml-->
+<view wx:for="{{requests}}">
+    <!--pages/introInput/introinput.wxml-->
+
+    <view style="display: flex;width: 750rpx;margin-right: 20rpx;margin-bottom: 30rpx;" class="photoinput">
+        <view style="flex: 1; background-color: transparent;height: 50rpx;margin-top: 48rpx;text-align: center;">
+            <image src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmM0aGiAO7HKAAAf_Oap-mo892.png"
+                style="height: 80rpx;width: 80rpx;"></image>
+        </view>
+        <view style="flex: 2; background-color: transparent;">
+            <view style="text-align: center;height: 114rpx;line-height: 150rpx;font-size: larger;font-weight: bolder;">
+                图片输入</view>
+            <view style="display: flex;">
+                <view style="flex: 1;" ></view>
+                <view bindtap=""  class="agree buttont">同意</view>
+                <view style="flex: 1;"></view>
+                <view bindtap=""  class="refuse buttont">拒绝</view>
+            </view>
+        </view>
+    </view>
+
+</view>
