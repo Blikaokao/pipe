@@ -56,21 +56,41 @@ Page({
         var friendRequest  = {};
         for(var  i =0;i<userRequests.length;i++){
           if(userRequests[i].id == id){
+            //更新消息状态
             friendRequest = userRequests[i];
+            friendRequest.status = 3;
             break;
           }
         }
-        friendRequest.status = 3;
         console.log("======friendRequest====",friendRequest)
         Http.asyncRequest(
             'http://localhost:8808/fUser/addAck',
             'POST', friendRequest,
             res => {
+              if(res.data.code == 400){
+                wx.showToast({
+                  title: res.data.msg,
+                  icon: 'error',
+                  duration: 2000//持续的时间
+                })
+                return;
+              }
                 console.log("点击了接受好友请求",res.data);
                 wx.showToast({
                   title: '已添加',
                   icon: 'success',
                   duration: 2000//持续的时间
+                })
+                //第二次发出请求 刷新页面  或者本地对请求做处理
+                /**
+                 * 进行本地的更新
+                 */
+                for(var i =0;i<userRequests.length;i++){
+                  if(userRequests[i].fid == friendRequest.fid && userRequests[i].tid == friendRequest.tid)
+                      userRequests[i].status = 3;
+                }
+                this.setData({
+                  'requests': App.globalData.requests
                 })
             })
     },
@@ -83,20 +103,33 @@ Page({
       for(var  i =0;i<userRequests.length;i++){
         if(userRequests[i].id == id){
           friendRequest = userRequests[i];
+          friendRequest.status = 2;
+          userRequests[i].status = 2;
           break;
         }
       }
-      friendRequest.status = 2;
+      
       console.log("======friendRequest====",friendRequest)
       Http.asyncRequest(
           'http://localhost:8808/fUser/addAck',
           'POST', friendRequest,
           res => {
+            if(res.data.code == 400){
+              wx.showToast({
+                title: res.data.msg,
+                icon: 'error',
+                duration: 2000//持续的时间
+              })
+              return;
+            }
               console.log("点击了拒绝好友请求",res.data);
               wx.showToast({
                 title: '已拒绝',
-                icon: 'fail',
+                icon: 'success',
                 duration: 2000//持续的时间
+              })
+              this.setData({
+                'requests': App.globalData.requests
               })
           })
     }

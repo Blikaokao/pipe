@@ -9,14 +9,21 @@
         </view>
         <view style="flex: 2; background-color: transparent;">
             <view class="requestItem">
-            <view class="requestName">{{request.fname}} </view>
+            <view class="requestName">
+            <view>{{request.fname}} </view>
+            <view wx:if="{{request.status == 1}}">待处理</view>
+            <view wx:if="{{request.status == 2}}">已拒绝</view>
+            <view wx:if="{{request.status == 3}}">已同意</view>
+            </view>
             <view class="requestId">{{request.fid}}</view>
                 </view>
             <view class="opera">
                 <view style="flex: 1;" ></view>
-                <view bindtap="agreeTap"  class="agree buttont" data-idx="{{request.id}}">同意</view>
+                <view bindtap="agreeTap"  class="agree buttont" data-idx="{{request.id}}" wx:if="{{request.status != 1}}">同意</view>
+                <view bindtap="agreeTap"  class="agree buttont" data-idx="{{request.id}}" wx:if="{{request.status == 1}}">同意</view>
                 <view style="flex: 1;"></view>
-                <view bindtap="refuseTap"  class="refuse buttont" data-idx="{{request.id}}">拒绝</view>
+                <view bindtap="refuseTap"  class="refuse buttont" data-idx="{{request.id}}" wx:if="{{request.status != 1}}">拒绝</view>
+                <view bindtap="refuseTap"  class="refuse buttont" data-idx="{{request.id}}" wx:if="{{request.status == 1}}">拒绝</view>
                 <view style="flex: 1;"></view>
             </view>
         </view>
