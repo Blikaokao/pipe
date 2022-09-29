@@ -1,5 +1,5 @@
 <!--pages/userRequest/userRequest.wxml-->
-<view wx:for="{{requests}}">
+<view wx:for="{{requests}}" wx:for-item="request" wx:for-index="index" data-idx="{{request.id}}">
     <!--pages/introInput/introinput.wxml-->
 
     <view style="display: flex;width: 750rpx;margin-right: 20rpx;margin-bottom: 30rpx;" class="photoinput">
@@ -8,13 +8,16 @@
                 style="height: 80rpx;width: 80rpx;"></image>
         </view>
         <view style="flex: 2; background-color: transparent;">
-            <view style="text-align: center;height: 114rpx;line-height: 150rpx;font-size: larger;font-weight: bolder;">
-                图片输入</view>
-            <view style="display: flex;">
+            <view class="requestItem">
+            <view class="requestName">{{request.fname}} </view>
+            <view class="requestId">{{request.fid}}</view>
+                </view>
+            <view class="opera">
                 <view style="flex: 1;" ></view>
-                <view bindtap=""  class="agree buttont">同意</view>
+                <view bindtap="agreeTap"  class="agree buttont" data-idx="{{request.id}}">同意</view>
                 <view style="flex: 1;"></view>
-                <view bindtap=""  class="refuse buttont">拒绝</view>
+                <view bindtap="refuseTap"  class="refuse buttont" data-idx="{{request.id}}">拒绝</view>
+                <view style="flex: 1;"></view>
             </view>
         </view>
     </view>

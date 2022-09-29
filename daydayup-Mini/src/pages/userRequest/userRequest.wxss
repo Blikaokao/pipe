@@ -25,27 +25,58 @@
 .photoinput {
     margin-right: 20rpx;
     
-    background : linear-gradient(to bottom right,#ffffff,#ffffff,#f3cbed);
+    background : linear-gradient(to bottom right,#ffffff,#ffffff,#3c60e4);
     border-radius: 90rpx;
     border-color: transparent;
     border-style: solid;
-    box-shadow: 11rpx 12rpx 19rpx -3rpx #9e4d99;
+    box-shadow: 11rpx 12rpx 19rpx -3rpx #3c60e4c2;
     margin-top: 20rpx;
 }
 
 .agree {
-    background-color: red;
+    box-shadow: 8rpx 2rpx 12rpx -3rpx red;
+
 }
 
 .refuse {
-    background-color: green;
+    box-shadow: 8rpx 2rpx 12rpx -3rpx green;
 }
 
 .buttont {
     border-radius: 25rpx;
     border-style: solid;
-    border-color: transparent;
+    background-color: white;
     flex: 1;
-    text-align: right;
+    text-align: center;
     color: black;
+    border-color: transparent;
+}
+
+.opera {
+    margin-bottom: 13rpx;
+    display: flex;
+}
+
+.requestItem {
+    text-align: center;
+    height: 108rpx;
+    line-height: 85rpx;
+    font-size: larger;
+    font-weight: bolder;
+}
+
+.requestName {
+    height: 60rpx;
+    font-size: 33rpx;
+    text-align: left;
+    margin-left: 45rpx;
+}
+
+.requestId{
+    height: 50rpx;
+    font-size: 24rpx;
+    margin-left: 60rpx;
+    margin-top: -10rpx;
+    text-align: left;
+    color: gray;
 }
