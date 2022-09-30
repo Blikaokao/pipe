@@ -33,7 +33,7 @@ Page({
      * 页面的初始数据
      */
     data: {
-        'requests':[1]
+        'requests':[]
     },
 
     /**
@@ -44,6 +44,23 @@ Page({
         this.setData({
             'requests': App.globalData.requests
         }) 
+
+        if(App.globalData.requests.length == 0 || App.globalData.request  == null){
+          wx.showToast({
+            title: "暂无好友请求",
+            icon: 'error',
+            duration: 2000,//持续的时间
+            success:function () {
+              setTimeout(function () {
+                  //要延时执行的代码
+                  wx.switchTab({
+                    url: '../calendarTemplate/index',
+                  })
+              }, 1000) //延迟时间 
+            }
+          })
+
+        }
 
     },
 
@@ -96,7 +113,7 @@ Page({
     },
 
     refuseTap:function(){
-      console.log("agreeTap",e.currentTarget.dataset.idx)
+      console.log("refuseTap",e.currentTarget.dataset.idx)
       var id = e.currentTarget.dataset.idx;
       var userRequests = App.globalData.requests;
       var friendRequest  = {};

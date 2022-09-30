@@ -1,35 +1,12 @@
 /* pages/userRequest/userRequest.wxss */
-.textinput{
-    margin-right: 20rpx;
-    
-    background : linear-gradient(to bottom right,#dbebe8,#dbebe8,#ffffff);
-    border-radius: 90rpx;
-    border-color: #dbebe8;
-    border-style: solid;
-    box-shadow: 11rpx 12rpx 19rpx -3rpx #bed7d2;
-    margin-top: 20rpx;
-}
-
-.voiceinput {
-    margin-right: 20rpx;
-    
-    background : linear-gradient(to right,#ffffff,#ffffff,#0280fea4);
-    border-radius: 90rpx;
-    border-color: transparent;
-    border-style: solid;
-    box-shadow: 11rpx 12rpx 19rpx -3rpx #027ffe;
-    margin-top: 20rpx;
-    
-}
-
 .photoinput {
     margin-right: 20rpx;
     
-    background : linear-gradient(to bottom right,#ffffff,#ffffff,#3c60e4);
+    background : linear-gradient(to bottom right,#ffffff,#ffffff,#3c60e424);
     border-radius: 90rpx;
     border-color: transparent;
     border-style: solid;
-    box-shadow: 11rpx 12rpx 19rpx -3rpx #3c60e4c2;
+    box-shadow: 11rpx 12rpx 13rpx -3rpx #3c60e4c2;
     margin-top: 20rpx;
 }
 
@@ -70,6 +47,7 @@
     font-size: 33rpx;
     text-align: left;
     margin-left: 45rpx;
+    display: flex;
 }
 
 .requestId{
@@ -78,5 +56,22 @@
     margin-left: 60rpx;
     margin-top: -10rpx;
     text-align: left;
+    color: gray;
+}
+
+.status {
+  margin-left: 250rpx;
+  font-size: 21rpx;
+}
+
+.todoStatus {
+    color: rgb(226, 90, 90);
+}
+
+.refuseStatus {
+    color: gray;
+}
+
+.agreeStatus {
     color: gray;
 }
