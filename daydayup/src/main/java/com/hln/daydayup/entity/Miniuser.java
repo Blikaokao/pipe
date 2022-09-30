@@ -42,7 +42,7 @@ public class Miniuser implements Serializable {
         this.nickName = nickName;
     }
 
-    public RelationDto convertToRelationDto(Integer type){
-        return new RelationDto(this.id, this.nickName,type);
+    public RelationDto convertToRelationDto(Integer type,Integer id){
+        return new RelationDto(this.openid, this.nickName,type,id);
     }
 }

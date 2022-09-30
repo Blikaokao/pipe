@@ -36,7 +36,7 @@ public class User implements Serializable {
     private Integer parentId;
 
     public RelationDto convertToRelationDto(Integer type){
-        return new RelationDto(this.id, this.name,type,this.phone);
+        return new RelationDto(this.id.toString(), this.name,type,this.phone);
     }
 
 }

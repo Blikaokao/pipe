@@ -16,11 +16,7 @@ import org.springframework.util.StringUtils;
 
 
 @Component
-@RabbitListener(queues = "ws_queue_${netty.port}")
 public class WsQueueListener {
-
-    @Autowired
-    private StringRedisTemplate redisTemplate;
 
    /* @RabbitHandler
     public void wsMsg(ShutDownMsg shutDownMsg){
@@ -36,7 +32,8 @@ public class WsQueueListener {
     }*/
 
     @RabbitHandler
-    public void addRequestMsg(AddMsg addMsg){
+    @RabbitListener(queues = "ws_queue_${netty.port}")
+    public void addRequestMsg(String jsonStr){
         //查看当前接收方是否在本机  --因为分布式有这个判断  单机直接写就行
         /*
         * 这里可以理解成是否在线  当用户下线之后通道关闭 只放入数据库中
@@ -48,19 +45,22 @@ public class WsQueueListener {
         * 同意还是拒绝  还是新的好友添加请求
         * 前端利用值不同  进行不同的页面显示
         * */
-        String tid = addMsg.getTid();
-        Channel channel = ChannelGroup.getChannel(tid);
+        AddMsg addMsg = JSONUtil.toBean(jsonStr, AddMsg.class);
+        Integer tid = addMsg.getTid();
+        Channel channel = ChannelGroup.getChannel(tid.toString());
+        System.out.println("拿到了发送好友请求的消息"+addMsg);
         if (channel != null) {
             //转成json 放进去数据帧里面
-            String jsonStr = JSONUtil.toJsonStr(addMsg);
-            TextWebSocketFrame resp = new TextWebSocketFrame(jsonStr);
+            System.out.println("channel!=null");
+            String toJsonStr = JSONUtil.toJsonStr(addMsg);
+            TextWebSocketFrame resp = new TextWebSocketFrame(toJsonStr);
             //好友添加消息发送过去
             channel.writeAndFlush(resp);
         }
 
     }
 
-    @RabbitHandler
+    /*@RabbitHandler
     public void chatMsg(ChatMsg chatMsg){
         //根据监听消息的类型进行处理
         //查看设备号是否在本机
@@ -71,5 +71,5 @@ public class WsQueueListener {
             channel.writeAndFlush(chatMsg);
         }
 
-    }
+    }*/
 }

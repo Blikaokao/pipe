@@ -1,6 +1,7 @@
 package com.hln.daydayup.entity;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -30,12 +31,12 @@ public class FriendRequest implements Serializable {
     /**
      * 发送好友请求方
      */
-    private String fId;
+    private Integer fId;
 
     /**
      * 接收好友请求方
      */
-    private String tId;
+    private Integer tId;
 
     /**
      * 1.接受 2.拒绝 0.待处理
@@ -46,5 +47,8 @@ public class FriendRequest implements Serializable {
     * 发送好友请求的时间
     * */
     private LocalDateTime createTime;
+
+
+    private String fName;
 
 }

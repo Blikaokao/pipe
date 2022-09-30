@@ -1,6 +1,7 @@
 package com.hln.daydayup.controller;
 
 
+import cn.hutool.json.JSONUtil;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -157,12 +158,41 @@ public class UserController {
             user.setNickName(nickName);
             user.setOpenid(openid+"_"+nickName);
             miniuserService.save(user);
-            return Response.success(user.convertToRelationDto(1),"成功添加");
+            return Response.success(user.convertToRelationDto(1,user.getId()),"成功添加");
         }else return Response.success("已添加过该角色");
     }
 
-
-
+    /*@PostMapping("/createMiniRelation/{fId}/{tId}")
+    public Response createMiniRelation(@PathVariable("fId")Integer fid,@PathVariable("tId")Integer tid){
+        *//**
+         * todo
+         *      1.根据id找名字
+         *      2.将好友请求放入数据库中
+         *//*
+        //找id
+        try {
+            Miniuser miniuser1 = miniuserService.getById(fid);
+            Miniuser miniuser2 = miniuserService.getById(tid);
+            Relation relation = new Relation();
+            Relation relation1 = new Relation();
+            //双向绑定  fid开始
+            relation.setUserId(fid)
+                    .setFriends(tid)
+                    .setName(miniuser2.getNickName())
+                    .setType(2);
+            relation1.setUserId(tid)
+                    .setFriends(fid)
+                    .setName(miniuser1.getNickName())
+                    .setType(1);
+            relationService.save(relation);
+            relationService.save(relation1);
+            return Response.success();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Response.fail("error");
+    }
+*/
     /*
     * 关联用户   需要提供手机号等信息   进行验证
     *
@@ -348,7 +378,7 @@ public class UserController {
             @RequestBody RelationDto user){
 
         //被关联的账户 或者自己
-        Integer id = user.getUserId();
+        String id = user.getUserId();
         String name = user.getNames();
         if(user.getType() == 2){
             //如果是被关联的用户  需要去把主账户的id也传过来
@@ -387,15 +417,21 @@ public class UserController {
             //对于关联账号的删除
             QueryWrapper<Relation> wrapper = new QueryWrapper<>();
             wrapper.eq("user_id",userId)
-                    .eq("friends",id);
+                    .eq("friends",id)
+                    .eq("type",1);
             relationService.remove(wrapper);
             return Response.success("删除成功");
         }
     }
 
 
-    @DeleteMapping("/deleteMiniUser/{id}")
-    public Response deleteUser(@PathVariable("id")String id){
+    /**
+     * 删除用户
+     * @param relationDto 传进来的是关系
+     * @return response
+     */
+    @DeleteMapping("/deleteMiniUser/{openid}")
+    public Response deleteMiniUser(@PathVariable("openid")String mainUser,@RequestBody RelationDto relationDto){
         /*
          * userId : 主账户的id
          * id : 被删除账户的id
@@ -404,24 +440,76 @@ public class UserController {
          * */
 
         //删除所有创建的日程 以及 子日程
-        detailtaskService.deleteAllById(id);
-        //删除用户
-        miniuserService.removeById(id);
+        Integer type = relationDto.getType();
+        String openid = relationDto.getUserId();
+        Integer id = relationDto.getId();
+        try {
+            if(type == 1){
+                //如果删除的是创建的用户
+                //删除日程用的是openid
+                detailtaskService.deleteAllById(openid);
+                //删除用户
+                miniuserService.removeById(id);
+                return Response.success("成功删除子用户");
+            }else{
+                //如果是好友关系
+                //不删除子日程
+                Miniuser mainMiniUser = miniuserService.getOneByOpenId(mainUser);
+                QueryWrapper<Relation> wrapper = new QueryWrapper<>();
+                wrapper.eq("user_id",mainMiniUser.getId())
+                        .eq("friends",id)
+                        .eq("type",2);
+                relationService.remove(wrapper);
+                return Response.success("成功删除好友");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return Response.fail("error");
+    }
+
+    @DeleteMapping("/deleteMiniUserFriend/{userId}/{id}")
+    public Response deleteMiniUserFriend(@PathVariable("userId")Integer userId,@PathVariable("id")Integer id){
+        /*
+         * userId : 主账户的id
+         * id : 被删除账户的id
+         * 1.如果是关联的用户  只需要把关系删除掉
+         *
+         * */
+        QueryWrapper<Relation> wrapper = new QueryWrapper<>();
+        wrapper.eq("user_id",userId)
+                .eq("friends",id)
+                .eq("type",2);
+        relationService.remove(wrapper);
         return Response.success("删除成功");
 
     }
 
+    /**
+     * 前端的是微信名称
+     * 发送好友请求的时候
+     * @param addMsg
+     * @return
+     */
     @PostMapping("/add")
-    public Response addUser(AddMsg addMsg){
+    public Response addUser(@RequestBody AddMsg addMsg){
         //保存好友添加消息到数据库 0表示待处理
+        log.info("传送过来的msg{}",addMsg);
         FriendRequest friendRequest = new FriendRequest();
-        friendRequest.setTId(addMsg.getTid())
+
+        Miniuser tMiniuser = miniuserService.getOneByName(addMsg.getTName());
+        friendRequest.setTId(tMiniuser.getId())
                 .setFId(addMsg.getFid());
+        Miniuser miniuser = miniuserService.getById(addMsg.getFid());
+        friendRequest.setFName(miniuser.getNickName());
+        addMsg.setTid(tMiniuser.getId());
+        addMsg.setStatus(1);
         try {
             //保存到数据库中
             friendRequestService.save(friendRequest);
             //发送消息  websocket去处理
-            rabbitTemplate.convertAndSend("wx_exchange","",addMsg);
+            String jsonStr = JSONUtil.toJsonStr(addMsg);
+            rabbitTemplate.convertAndSend("ws_exchange","",jsonStr);
             return Response.success();
         } catch (AmqpException e) {
             e.printStackTrace();
@@ -429,32 +517,43 @@ public class UserController {
         return Response.fail("error");
     }
 
+    /*
+    * 返回时的前端是拿FriendRequest发出请求的
+    * 来自同一个用户的请求作出相同的处理  -- 如果是同意的话
+    * */
     @PostMapping("/addAck")
-    public Response ackForAdd(AddMsg addMsg){
-        Integer status = addMsg.getStatus();
-        FriendRequest friendRequest = new FriendRequest();
-        friendRequest.setTId(addMsg.getTid())
-                .setFId(addMsg.getFid())
-                .setStatus(addMsg.getStatus())
-                .setCreateTime(addMsg.getCreate_time());
-        if(status == 1) {
-            //1接受  保存到数据库里面
-            relationService.saveRelation(addMsg.getFid(), addMsg.getTid());
+    public Response ackForAdd(@RequestBody FriendRequest friendRequest){
+        Integer status = friendRequest.getStatus();
+
+        log.info("接收好友请求{}",friendRequest);
+        //需要确认是否已经成为好友
+        boolean isfriend = relationService.findRelation(friendRequest);
+        if(isfriend)
+            return Response.fail("已是好友");
+        if(status == 3) {
+            //接受  保存到数据库里面
+            relationService.saveRelation(friendRequest.getFId().toString(), friendRequest.getTId().toString());
         }
 
-        //接受拒绝都要更新状态
-        friendRequestService.updateById(friendRequest);
+        //接受拒绝都要更新状态  因为只显示待处理的请求
+        friendRequestService.updateByFATid(friendRequest);
 
         return Response.success();
     }
 
+    /**
+     * 显示所有的未处理请求
+     * @param tId
+     * @return
+     */
     @GetMapping("/getAllRequest")
-    public Response getAllRequest(String openid){
+    public Response getAllRequest(Integer tId){
         //寻找所有接收方是openid的未处理好友添加请求
         QueryWrapper<FriendRequest> wrapper = new QueryWrapper<>();
-        wrapper.eq("t_id",openid)
-                .eq("status",0);
+        wrapper.eq("t_id",tId)
+                .eq("status",1);
         List<FriendRequest> friendRequests = friendRequestService.list(wrapper);
+
         return Response.success(friendRequests);
     }
 }

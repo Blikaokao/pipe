@@ -191,15 +191,15 @@ const conf = {
     //这个月第一天是星期几
     const firstDayOfWeek = conf.getFirstDayOfWeek(year, month);
 
-    console.log("===============上个月天数===============", prevMonthDays);
-    console.log("===============这个第一天星期几===============", firstDayOfWeek);
+    /*console.log("===============上个月天数===============", prevMonthDays);
+    console.log("===============这个第一天星期几===============", firstDayOfWeek);*/
 
     //定义了一个数组
     //存储前面空出来的日子
     let empytGrids = [];
     if (firstDayOfWeek > 0) {
       const len = prevMonthDays - firstDayOfWeek;
-      console.log("===============插入的===============", len);
+      //console.log("===============插入的===============", len);
 
       for (let i = prevMonthDays; i > len; i--) {
         empytGrids.push(i);
@@ -212,7 +212,7 @@ const conf = {
         'calendar.empytGrids': null,
       });
     }
-    console.log("===============计算空格===============", empytGrids);
+    //console.log("===============计算空格===============", empytGrids);
   },
   /**
    * 计算下月应占的格子
@@ -491,14 +491,14 @@ const conf = {
     const keys = Object.keys(calendar);
     /*keys.forEach((item)=>{
        console.log("item:"+item,"calendar[item]",calendar[item]);
-    });*/
+    });
 
     console.log("======calendar========", calendar);
     console.log("======dotColor======", dotColor);
 
 
     console.log("======todoDays======", todoDays.length);
-    console.log("======Days======", days.length);
+    console.log("======Days======", days.length);*/
 
     //直接赋值   不用声明对象属性
     //days[0].name='test';
@@ -549,16 +549,16 @@ const conf = {
     });
 
     //只留下来用户的月份的 事件
-    console.log("====================getFullYear === =========================================");
+    /*console.log("====================getFullYear === =========================================");
     console.log("====================shouldMarkerTodoDay === =========================================", shouldMarkerTodoDay);
-
+    */
 
     if ((!shouldMarkerTodoDay || !shouldMarkerTodoDay.length) && !todoLabels.length) return;
 
 
-    console.log("====================getFullYear === =========================================");
+    /*console.log("====================getFullYear === =========================================");
 
-    console.log("====================todoLabels =====",);
+    console.log("====================todoLabels =====",);*/
 
     let temp = [];
     let currentMonthTodoLabels = todoLabels.filter(item => +item.year === year && +item.month === month);
@@ -574,10 +574,10 @@ const conf = {
 
       } else if (nowDate.getFullYear() === item.year) {
 
-        console.log("====================getFullYear === =========================================");
+        //console.log("====================getFullYear === =========================================");
 
         if (nowDate.getMonth() + 1 > item.month) {
-          console.log("====================getMonth >>>=========================================");
+         // console.log("====================getMonth >>>=========================================");
 
           days[item.day - 1].showTodoLabel = !days[item.day - 1].choosed;
           days[item.day - 1].dotColor = '#190101';
@@ -609,8 +609,8 @@ const conf = {
       'calendar.days': days,
       'calendar.todoLabels': uniqueTodoLabels(todoDays.concat(todoLabels)),
     };
-    console.log("===============================calendar.todoLabels",o['calendar.todoLabels']);
-    console.log("calendar", calendar);
+   // console.log("===============================calendar.todoLabels",o['calendar.todoLabels']);
+    //console.log("calendar", calendar);
     if (pos && pos !== todoLabelPos) o['calendar.todoLabelPos'] = pos;
     if (dotColor && dotColor !== todoLabelColor) o['calendar.todoLabelColor'] = dotColor;
     this.setData(o);
@@ -697,8 +697,8 @@ const conf = {
   renderCalendar(curYear, curMonth, curDate) {
     conf.calculateEmptyGrids.call(this, curYear, curMonth);
     conf.calculateDays.call(this, curYear, curMonth, curDate);
-    console.log("===========empytGrids=================", this.data.calendar.empytGrids);
-    console.log("===========todoLabels=================", this.data.calendar.todoLabels);
+   // console.log("===========empytGrids=================", this.data.calendar.empytGrids);
+   // console.log("===========todoLabels=================", this.data.calendar.todoLabels);
     const {
       todoLabels
     } = this.data.calendar || {};

@@ -13,9 +13,10 @@ public class NettyMsg implements Serializable { //作为网络传输的对象，
      * 4.正在输入
      * 5.结束输入
      * 6.挤下线
+     * 7.好友添加
      */
     private Integer type;
     
-    //客户端的设备id
+    //客户端的设备id    微信端的用户的id
     private String did;
 }

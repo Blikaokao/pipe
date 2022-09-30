@@ -22,6 +22,6 @@ public class ChatHandler extends SimpleChannelInboundHandler<ChatMsg> {
 
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, ChatMsg chatMsg) throws Exception {
-        rabbitTemplate.convertAndSend("wx_exchange","",chatMsg);
+        rabbitTemplate.convertAndSend("ws_exchange","",chatMsg);
     }
 }

@@ -76,7 +76,7 @@ const conf = {
 
   detailPage: function (e) {
     try {
-      console.log("taskId", e.currentTarget.dataset.taskid);
+      //console.log("taskId", e.currentTarget.dataset.taskid);
       wx.setStorageSync('taskId', e.currentTarget.dataset.taskid);
     } catch (e) {
       console.log(e);
@@ -99,10 +99,10 @@ const conf = {
         //获取openId（需要code来换取）这是用户的唯一标识符
         // 获取code值
         let nickName = res.userInfo.nickName
-        console.log("========nickName========", nickName)
+        //console.log("========nickName========", nickName)
         var localNickName = that.data.nickName;
         if (that.data.nickName == null) {
-          console.log("========nickName========", nickName)
+          //console.log("========nickName========", nickName)
           that.setData({
             'nickName': nickName
           })
@@ -170,8 +170,8 @@ const conf = {
                       testallTasks = [];
                       //1:在控制台打印一下返回的res.data数据
 
-                      console.log("===============res.data=====================", res.data)
-                      console.log("===============data.days=====================", that.data.days)
+                      //console.log("===============res.data=====================", res.data)
+                      //console.log("===============data.days=====================", that.data.days)
 
                       //2:在请求接口成功之后，用setData接收数据
                       /*that.setData({
@@ -305,7 +305,7 @@ const conf = {
                           'taskList': testallTasks
                         });
 
-                        console.log("===========taskList========", that.data.taskList);
+                       // console.log("===========taskList========", that.data.taskList);
 
                         var tmpday = {
                           year: 2022,
@@ -403,9 +403,9 @@ const conf = {
                           backgroundcolorTwo: "#0899f99e"
                         });
                         setGetAllTasks(that.data.calendar.selectedDay[0]);
-                        console.log("that.data.calendar.selectedDay", that.data.calendar.selectedDay[0]);
+                        //console.log("that.data.calendar.selectedDay", that.data.calendar.selectedDay[0]);
 
-                        console.log('==============allTasks=================', that.data.taskList);
+                        //console.log('==============allTasks=================', that.data.taskList);
 
                       };
                       var tmptask = {
@@ -428,7 +428,7 @@ const conf = {
                         'taskList': testallTasks
                       });
 
-                      console.log("===========taskList========", that.data.taskList);
+                      //console.log("===========taskList========", that.data.taskList);
 
                       var tmpday = {
                         year: 2022,
@@ -446,7 +446,7 @@ const conf = {
                         'days': days,
                         'chdays': days
                       });
-                      console.log("===========days========", that.data.chdays);
+                      //console.log("===========days========", that.data.chdays);
 
 
                       // console.log("days",days);
@@ -689,18 +689,27 @@ const conf = {
         })
         return;
       }
+      var addMsg = {};
+      addMsg.fid = App.globalData.userinfo.id;
+      addMsg.tname = e.detail.value.phone;
+      console.log("====addMsg====发送好友添加请求=====",addMsg);
       Http.asyncRequest(
-        'http://127.0.0.1:8808/fUser/createMiniChild/' + that.data.openid + '/' + nameusr,
-        'POST', {},
+        'http://127.0.0.1:8808/fUser/add',
+        'POST', addMsg,
         res => {
-          console.log('=====nameusr======', nameusr);
-          if (res.data.code == 200) {
-            var usr_centent_list = that.data.usr_centent_list;
-            usr_centent_list.push(res.data.data);
-            that.setData({
-              'nav_centent': usr_centent_list, //每点击一次就取反
-            });
-          }
+          //console.log('=====nameusr======', nameusr);
+          if(res.data.code == 200)
+            wx.showToast({
+              title: "已发送请求",
+              icon: 'success',
+              duration: 2000,//持续的时间
+            })
+          if(res.data.code == 400)
+          wx.showToast({
+            title: "error",
+            icon: 'error',
+            duration: 2000,//持续的时间
+          })
         }
       )
     } else if (that.data.location == 2) {
@@ -731,7 +740,7 @@ const conf = {
 
   click_nav: function (e) {
     var that = this;
-    console.log("=-====click_nav ====");
+    //console.log("=-====click_nav ====");
     var usr_centent_list = that.data.usr_centent_list;
 
 
@@ -863,10 +872,11 @@ const conf = {
     var deleteId = e.currentTarget.dataset.chosedelete;
     var user_list = this.data.nav_centent;
     var new_user_list = [];
-
+    var goalUser = {};
     for (var i = 0; i < user_list.length; i++) {
       if (user_list[i].userId != deleteId)
         new_user_list.push(user_list[i]);
+      else goalUser = user_list[i];
     }
 
     console.log("new_user_list", new_user_list);
@@ -876,12 +886,25 @@ const conf = {
     });
 
     var deleteType = 1;
+    var openid = this.data.openid;
+    console.log("===要删除的好友===",goalUser)
     Http.asyncRequest(
-      'http://127.0.0.1:8808/fUser/deleteMiniUser/' + deleteId,
-      'DELETE', {},
+      'http://127.0.0.1:8808/fUser/deleteMiniUser/' +openid ,
+      'DELETE', goalUser,
       res => {
-        console.log('=====deleteResult======', res.data.data);
-
+       // console.log('=====deleteResult======', res.data.data);
+       if(res.data.code == 200)
+          wx.showToast({
+            title: res.data.msg,
+            icon: 'success',
+            duration: 2000,//持续的时间
+          })
+      else if(res.data.code == 400)
+      wx.showToast({
+        title: res.data.msg,
+        icon: 'error',
+        duration: 2000,//持续的时间
+      })
       }
     )
   },

@@ -7,7 +7,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 
 /*
-* 好友添加请求
+* 好友答复请求
 * */
 public class AddHandler extends SimpleChannelInboundHandler<AddMsg> {
 
@@ -20,6 +20,6 @@ public class AddHandler extends SimpleChannelInboundHandler<AddMsg> {
     @Override
     protected void channelRead0(ChannelHandlerContext channelHandlerContext, AddMsg addMsg) throws Exception {
         System.out.println("发送好友添加消息"+addMsg.toString());
-        rabbitTemplate.convertAndSend("wx_exchange","",addMsg);
+        rabbitTemplate.convertAndSend("ws_exchange","",addMsg);
     }
 }

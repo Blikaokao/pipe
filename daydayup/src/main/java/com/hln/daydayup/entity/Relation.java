@@ -34,8 +34,15 @@ public class Relation implements Serializable {
 
     private String phone;
 
+    /*
+    * 关系类型
+    * 1.移动端
+    * 2.微信小程序端
+    * */
+    private Integer type;
+
     public RelationDto convertToDto(){
-        return new RelationDto(this.friends,this.name,2,this.phone);
+        return new RelationDto(this.friends.toString(),this.name,2,this.phone);
     }
 
 }

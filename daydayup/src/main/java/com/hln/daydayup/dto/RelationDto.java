@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RelationDto {
     //关联账号的id
-    private Integer userId;
+    private String userId;
 
     //关联账号的名字（在主账户标记的名字） 相当于备注
     private String names;
@@ -26,9 +26,25 @@ public class RelationDto {
     * */
     private String phone;
 
-    public RelationDto(Integer id,String name,Integer type){
+    private Integer id;
+
+    public RelationDto(String id,String name,Integer type){
         this.names = name;
         this.userId = id;
         this.type = type;
+    }
+
+    public RelationDto(String id,String name,Integer type,String phone){
+        this.names = name;
+        this.userId = id;
+        this.type = type;
+        this.phone = phone;
+    }
+
+    public RelationDto(String userId,String name,Integer type,Integer id){
+        this.names = name;
+        this.userId = userId;
+        this.type = type;
+        this.id = id;
     }
 }

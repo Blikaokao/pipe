@@ -13,4 +13,5 @@ import com.hln.daydayup.entity.FriendRequest;
  */
 public interface FriendRequestService extends IService<FriendRequest> {
 
+    void updateByFATid(FriendRequest friendRequest);
 }

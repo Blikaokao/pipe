@@ -75,7 +75,7 @@ public class MiniuserServiceImpl extends ServiceImpl<MiniuserMapper, Miniuser> i
 
         if(usersChildren != null || usersChildren.size()!=0)
             for (Miniuser usersChild : usersChildren) {
-                users.add(usersChild.convertToRelationDto(1));
+                users.add(usersChild.convertToRelationDto(1,usersChild.getId()));
             }
 
 
@@ -85,20 +85,22 @@ public class MiniuserServiceImpl extends ServiceImpl<MiniuserMapper, Miniuser> i
          * step 找到关联的账户
          *
          * */
-        //将数据库数据查询返回所有关联账户
+        //将数据库数据查询返回所有关联账户 并且是微信用户
         QueryWrapper<Relation> relationQueryWrapper = new QueryWrapper<>();
-        relationQueryWrapper.eq("user_id",miniuser.getId());
+        relationQueryWrapper.eq("user_id",miniuser.getId())
+                            .eq("type",2);
         List<Relation> relations = relationMapper.selectList(relationQueryWrapper);
         log.info(relations.toString());
         /*
          * 存储的方式改变
          * 数据库中存储的是
          *主账户id 关联账户id 账户名字
-         *
+         *换成openid
          * */
         if(relations != null || relations.size()!=0)
             for (Relation relation : relations) {
-                RelationDto relationDto = new RelationDto(relation.getFriends(),relation.getName(),2);
+                Miniuser id = query().eq("id", relation.getFriends().toString()).one();
+                RelationDto relationDto = new RelationDto(id.getOpenid(),relation.getName(),2,id.getId());
                 users.add(relationDto);
             }
 
@@ -106,9 +108,18 @@ public class MiniuserServiceImpl extends ServiceImpl<MiniuserMapper, Miniuser> i
          *
          * 把自己也加进去
          * */
-        users.add(miniuser.convertToRelationDto(0));
+        users.add(miniuser.convertToRelationDto(0,miniuser.getId()));
         return users;
 
+    }
+
+    @Override
+    public Miniuser getOneByName(String tName) {
+        Miniuser nickName = query().eq("nick_name", tName)
+                                    .eq("parent_id",0)
+                                    .one();
+
+        return nickName;
     }
 
     private boolean addTask(String userId, TaskView taskView) {

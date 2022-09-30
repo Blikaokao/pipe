@@ -23,4 +23,6 @@ public interface MiniuserService extends IService<Miniuser> {
     boolean setTasks(List<TaskView> taskViews, String userId) throws DateInputException;
 
     List<RelationDto> getAllUsers(Miniuser miniuser);
+
+    Miniuser getOneByName(String tName);
 }

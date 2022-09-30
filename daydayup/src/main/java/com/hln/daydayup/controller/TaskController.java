@@ -244,12 +244,12 @@ public class TaskController {
     public Response getAll(@PathVariable String userId,@RequestParam(required = false)Integer counts,@RequestParam(required = false)String nickName)throws Exception {
         User user = userService.getById(userId);
         Miniuser miniuser = miniuserService.getOneByOpenId(userId);
-        if (user == null && nickName == null)
+        if (user == null && miniuser == null)
             return Response.fail("no user");
-        else if(miniuser ==  null && nickName != null){
+        /*else if(miniuser ==  null && nickName != null){
             miniuserService.save(new Miniuser(userId,nickName));
             return Response.success("wx register");
-        }
+        }*/
 
         List<RelationDto> allUsers = new ArrayList<>();
         if(user != null)
@@ -274,14 +274,24 @@ public class TaskController {
             counts = 10;
         User user = userService.getById(userId);
         Miniuser miniuser = miniuserService.getOneByOpenId(userId);
+
         if (user == null && nickName == null)
             return Response.fail("no user");
         else if(miniuser ==  null && nickName != null){
             miniuserService.save(new Miniuser(userId,nickName));
             return Response.success();
+        }else if(miniuser != null){
+            if(! miniuser.getNickName().equals(nickName)){
+                log.info("用户为角色用户");
+                userId = userId+"_"+nickName;
+                log.info(userId);
+            }
         }
         List<TaskView> task = taskService.getTask(userId, counts);
-        return Response.success(task);
+        Map<String,Object> map = new HashMap<>();
+        map.put("task",task);
+        map.put("role",userId);
+        return Response.success(map);
     }
 
     //日程表系列

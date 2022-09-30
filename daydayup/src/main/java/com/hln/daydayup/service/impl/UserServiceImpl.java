@@ -104,7 +104,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
          * */
         //将数据库数据查询返回所有关联账户
         QueryWrapper<Relation> relationQueryWrapper = new QueryWrapper<>();
-        relationQueryWrapper.eq("user_id",one.getId());
+        relationQueryWrapper.eq("user_id",one.getId()).eq("type",1);
         List<Relation> relations = relationMapper.selectList(relationQueryWrapper);
         log.info(relations.toString());
         /*
@@ -115,7 +115,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
          * */
         if(relations != null || relations.size()!=0)
             for (Relation relation : relations) {
-                RelationDto relationDto = new RelationDto(relation.getFriends(),relation.getName(),2,relation.getPhone());
+                RelationDto relationDto = new RelationDto(relation.getFriends().toString(),relation.getName(),2,relation.getPhone());
                 users.add(relationDto);
             }
 
