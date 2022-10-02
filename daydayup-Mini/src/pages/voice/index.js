@@ -77,7 +77,8 @@ Page({
     var that = this;
     const recorderManager = wx.getRecorderManager();
     recorderManager.start({
-      format: 'mp3',
+      sampleRate: 16000,
+      numberOfChannels:1
     });
 
     recorderManager.onStart(() => {
@@ -102,7 +103,7 @@ Page({
         tempFilePath
       } = res;
 
-      if (res.duration < 1000) {
+      /*if (res.duration < 1000) {
 
         wx.showToast({
           title: '说话时间太短!',
@@ -115,7 +116,7 @@ Page({
           showVoiceMask: false
         })
         return;
-      }
+      }*/
 
       if (this.data.cancleRecording === false) {
 
@@ -141,7 +142,22 @@ Page({
           })
           that.stopVoiceRecordAnimation();
           console.log("暂停1",res);
-        }
+          var tempImagePath = res.tempFilePath;
+          var fsm = wx.getFileSystemManager()
+          var base64code = fsm.readFileSync(tempImagePath,'base64');
+          var voice = {};
+          voice.len  = res.fileSize;
+          voice.speech  = base64code;
+          //console.log("voice",voiceInput);
+          Http.asyncRequest(
+              'http://127.0.0.1:8808/oneDayTask/byVoice',
+              'POST', voice,
+               res => {
+                console.log('=====res.data======', res.data);
+
+                }
+            )
+          }
       } else {
         that.setData({
           selectResource: false,
@@ -152,10 +168,23 @@ Page({
         that.stopVoiceRecordAnimation();
 
         console.log("暂停2",res);
-        var tempImagePath = res.tempFilePaths;
+        var tempImagePath = res.tempFilePath;
         var fsm = wx.getFileSystemManager()
-        var base64code = fsm.readFileSync(tempImagePath[0],'base64');
+        var base64code = fsm.readFileSync(tempImagePath,'base64');
         console.log(base64code);
+        var voice = {};
+        //console.log("voice",res.fileSize);
+        voice.len  = res.fileSize;
+        voice.speech  = base64code;
+        //console.log("voice",voiceInput);
+        Http.asyncRequest(
+          'http://127.0.0.1:8808/oneDayTask/byVoice',
+          'POST', voice,
+          res => {
+            console.log('=====res.data======', res.data);
+
+          }
+        )
       }
     })
   },

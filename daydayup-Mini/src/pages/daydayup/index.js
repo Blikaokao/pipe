@@ -74,7 +74,7 @@ Page({
       },
       redirectToIndex: function(){
         wx.switchTab({
-          url: '/pages/calendarTemplate/index',
+          url: '/pages/index/index',
         })
       },
 

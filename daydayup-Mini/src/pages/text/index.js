@@ -545,7 +545,7 @@ Page({
                 success: function(){
                   setTimeout(() => {
                     wx.switchTab({
-                      url: '/pages/calendarTemplate/index',
+                      url: '/pages/index/index',
                     })
                   }, 2000);
                 }
