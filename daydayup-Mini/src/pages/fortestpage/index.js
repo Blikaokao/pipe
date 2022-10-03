@@ -56,7 +56,7 @@ Page({
   },
   info(){
     var that = this;
-    wx.getUserInfo({
+    /*wx.getUserInfo({
       //成功后会返回
       success:(res)=>{
         console.log(res);
@@ -89,13 +89,7 @@ Page({
       }
     })
   },
-
-  
-
-
-
-
-    })
+    })*/
   },
 
   

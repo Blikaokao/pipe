@@ -6,8 +6,10 @@ App({
     socketStatus: 'closed',
     openid: null,
     unReadLetter: 0,
-    userinfo:null,
-    url:"101.33.248.42"
+    userinfo: null,
+    url: "101.33.248.42",
+    authUser: false,
+    nickName: ""
   },
   touch: new touch(), //实例化这个touch对象
   //渐入，渐出实现 
@@ -57,9 +59,34 @@ App({
     that.setData(json)
   },
   onLaunch: function () {
-    var that = this; 
-    if (that.globalData.socketStatus === 'closed') {
-      that.openSocket();
+    var that = this;
+    if (that.globalData.authUser != true) {
+      wx.showModal({
+        title: '提示',
+        content: '需要用户授予昵称',
+        success(res) {
+          if (res.confirm) {
+            wx.getUserProfile({
+              desc: '用于完善用户资料',
+              //成功后会返回
+              success: (resdata) => {
+                console.log("======", resdata);
+                that.globalData.authUser = true;
+                that.globalData.nickName = resdata.userInfo.nickName;
+                console.log("======", that.globalData.nickName);
+                that.openSocket();
+              }
+            })
+          } else if (res.cancel) {
+            console.log('用户点击拒绝')
+            wx.showToast({
+              title: '拒绝',
+              icon: 'error',
+              duration: 2000
+            })
+          }
+        }
+      })
     }
   },
 
@@ -93,7 +120,7 @@ App({
       console.log("【websocket监听到消息】内容如下：");
       console.log(message);
       //未读消息加一
-      if(message.type == 7)
+      if (message.type == 7)
         this.globalData.unReadLetter = this.globalData.unReadLetter + 1;
     })
     // 打开信道
@@ -127,6 +154,8 @@ App({
   //暂时不做心跳
   login() {
     var that = this;
+    console.log("======");
+
     wx.login({
       //成功放回
       success: (res) => {
@@ -139,33 +168,73 @@ App({
           success(res) {
             console.log("初始化时完成openid的获取", res);
             that.globalData.openid = res.data.openid;
-            
+
+
             //根据openid获取用户的id
             wx.request({
               url: 'http://101.33.248.42:8808/fUser/getMiniusers/' + that.globalData.openid,
               method: 'GET',
               success(res) {
-                console.log("初始化时完成usr的获取", res);
-                that.globalData.userRelation = res.data.data;
-                var info = res.data.data;
-                for(var i = 0;i<info.length;i++){
-                  if(info[i].type == 0)
-                    that.globalData.userinfo = info[i];
-                }
-                console.log("userRelation", that.globalData.userRelation);
-                console.log("info",that.globalData.userinfo);
+                console.log("初始化时完成usr的获取", res.data.data);
+                if (res.data.data == null) {
+                  console.log("未注册");
+                  //如果用户没有注册
+                  wx.request({
+                    url: 'http://101.33.248.42:8808/fUser/registermini/' + that.globalData.openid + '/' + that.globalData.nickName,
+                    method: 'POST',
+                    success(resregister) {
+                      wx.request({
+                        url: 'http://101.33.248.42:8808/fUser/getMiniusers/' + that.globalData.openid,
+                        method: 'GET',
+                        success(resLogin) {
+                          that.globalData.userRelation = resLogin.data.data;
+                          var info = resLogin.data.data;
+                          for (var i = 0; i < info.length; i++) {
+                            if (info[i].type == 0)
+                              that.globalData.userinfo = info[i];
+                          }
+                          console.log("userRelation", that.globalData.userRelation);
+                          console.log("info", that.globalData.userinfo);
 
-                var message = {};
-                message.did = that.globalData.userinfo.id;
-                /**
-                 * 1:连接
-                 * 2:心跳
-                 * 7:好友添加
-                 */
-                message.type = 1;
-                message = JSON.stringify(message)
-                console.log("message 的值",message)
-                that.sendMessage(message);
+                          var message = {};
+                          message.did = that.globalData.userinfo.id;
+                          /**
+                           * 1:连接
+                           * 2:心跳
+                           * 7:好友添加
+                           */
+                          message.type = 1;
+                          message = JSON.stringify(message)
+                          console.log("message 的值", message)
+                          that.sendMessage(message);
+                        }
+                      })
+                    }
+                  })
+                } else {
+                  that.globalData.userRelation = res.data.data;
+                  var info = res.data.data;
+
+                  for (var i = 0; i < info.length; i++) {
+                    if (info[i].type == 0)
+                      that.globalData.userinfo = info[i];
+                  }
+                  console.log("userRelation", that.globalData.userRelation);
+                  console.log("info", that.globalData.userinfo);
+
+                  var message = {};
+                  message.did = that.globalData.userinfo.id;
+                  /**
+                   * 1:连接
+                   * 2:心跳
+                   * 7:好友添加
+                   */
+                  message.type = 1;
+                  message = JSON.stringify(message)
+                  console.log("message 的值", message)
+                  that.sendMessage(message);
+                }
+
               }
             })
 
@@ -176,21 +245,21 @@ App({
   },
 
 
-  
+
   //app 全局属性监听
-  watch:function(method){
+  watch: function (method) {
     var obj = this.globalData;
     var val = this.globalData.unReadLetter;
-    Object.defineProperty(obj,"unReadLetter", {
+    Object.defineProperty(obj, "unReadLetter", {
       configurable: true,
       enumerable: true,
       set: function (value) {
         val = value;
-        console.log('是否会被执行2',value)
+        console.log('是否会被执行2', value)
         method();
       },
-      get:function(){
-      // 可以在这里打印一些东西，然后在其他界面调用getApp().globalData.name的时候，这里就会执行。
+      get: function () {
+        // 可以在这里打印一些东西，然后在其他界面调用getApp().globalData.name的时候，这里就会执行。
         return val;
       }
     })

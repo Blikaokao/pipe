@@ -1,9 +1,6 @@
 {
-	"navigationBarTitleText": "掌舵者",
-	"disableScroll": true,
+    "navigationBarTitleText": "掌舵者",
     "usingComponents": {
-        "tab-bar":"../../components/custom-tab-bar",
-
-        "searchbar": "../../components/searchBar/searchBar"
+        "tab-bar":"../../components/custom-tab-bar"
     }
 }

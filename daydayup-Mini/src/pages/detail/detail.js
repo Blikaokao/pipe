@@ -271,7 +271,7 @@ Page({
         res => {
           console.log("修改结果：",res.data);
           wx.switchTab({
-            url: '../index/index',
+            url: '../mycalen/index',
           })
         }
       );

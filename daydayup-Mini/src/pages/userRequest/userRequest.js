@@ -54,7 +54,7 @@ Page({
               setTimeout(function () {
                   //要延时执行的代码
                   wx.switchTab({
-                    url: '../index/index',
+                    url: '../mycalen/index',
                   })
               }, 1000) //延迟时间 
             }

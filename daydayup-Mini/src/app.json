@@ -1,10 +1,11 @@
 {
     "pages": [
         "pages/index/index",
+        "pages/mycalen/index",
         "pages/calendar/index",
         "pages/fortestpage/index",
         "pages/datepickerTemplate/index",
-        "pages/daydayup/index",
+        
         "pages/addUser/index",
         "pages/Test/test",
         "pages/allCalendar/index",
@@ -36,13 +37,13 @@
         "backgroundColor": "white",
         "list": [
             {
-                "pagePath": "pages/daydayup/index",
+                "pagePath": "pages/index/index",
                 "text": "首页",
                 "iconPath": "images/home.png",
                 "selectedIconPath": "images/home.png"
             },
             {
-                "pagePath": "pages/index/index",
+                "pagePath": "pages/mycalen/index",
                 "text": "日历",
                 "iconPath": "images/calendar.png",
                 "selectedIconPath": "images/calendar.png"

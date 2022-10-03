@@ -1,8 +1,5 @@
 {
     "description": "项目配置文件",
-    "packOptions": {
-        "ignore": []
-    },
     "setting": {
         "urlCheck": false,
         "es6": true,
@@ -18,13 +15,11 @@
         "scopeDataCheck": false,
         "uglifyFileName": false,
         "checkInvalidKey": true,
-        "checkSiteMap": true,
+        "checkSiteMap": false,
         "uploadWithSourceMap": true,
         "compileHotReLoad": false,
-        "lazyloadPlaceholderEnable": false,
-        "useMultiFrameRuntime": true,
+        "useMultiFrameRuntime": false,
         "useApiHook": true,
-        "useApiHostProcess": true,
         "babelSetting": {
             "ignore": [],
             "disablePlugins": [],
@@ -32,47 +27,29 @@
         },
         "enableEngineNative": false,
         "useIsolateContext": true,
+        "useCompilerModule": true,
+        "userConfirmedUseCompilerModuleSwitch": false,
         "userConfirmedBundleSwitch": false,
         "packNpmManually": false,
         "packNpmRelationList": [],
         "minifyWXSS": true,
-        "disableUseStrict": false,
-        "minifyWXML": true,
-        "showES6CompileOption": false,
-        "useCompilerPlugins": false
+        "bundle": false
     },
     "compileType": "miniprogram",
-    "libVersion": "2.24.5",
+    "miniprogramRoot": "src/",
+    "editorSetting": {
+        "tabIndent": "insertSpaces",
+        "tabSize": 4
+    },
+    "libVersion": "2.14.1",
+    "srcMiniprogramRoot": "src/",
+    "packOptions": {
+        "ignore": [],
+        "include": []
+    },
     "appid": "wxc9c73915eeb63d6c",
     "projectname": "daydayupMini",
-    "debugOptions": {
-        "hidedInDevtools": []
-    },
-    "scripts": {},
-    "staticServerOptions": {
-        "baseURL": "",
-        "servePath": ""
-    },
-    "isGameTourist": false,
-    "miniprogramRoot": "src/",
-    "condition": {
-        "search": {
-            "list": []
-        },
-        "conversation": {
-            "list": []
-        },
-        "game": {
-            "list": []
-        },
-        "plugin": {
-            "list": []
-        },
-        "gamePlugin": {
-            "list": []
-        },
-        "miniprogram": {
-            "list": []
-        }
-    }
+    "simulatorType": "wechat",
+    "simulatorPluginLibVersion": {},
+    "condition": {}
 }
