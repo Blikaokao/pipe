@@ -28,7 +28,7 @@ class Http {
         backMethod(res)
     }
 };
-
+const App = getApp();
 Page({
   
     // 已有 点击展开
@@ -80,7 +80,9 @@ Page({
       console.log("e",e);
       var task = this.data.task;
       var array = this.data.activityArr;
-      task.alert =(array[e.detail.value].label).splice(2,4);
+      console.log("array[e.detail.value].label",array[e.detail.value].label)
+      var label = array[e.detail.value].label;
+      task.alert =label.slice(2,4);
       this.setData({
         setIndex: parseInt(e.detail.value),
         updatetask: true,
@@ -120,7 +122,7 @@ Page({
        
           //要延时执行的代码
           Http.asyncRequest(
-            'http://127.0.0.1:8808/oneDayTask/getDetailTask/'+ options.taskId,
+            'http://'+App.globalData.url+':8808/oneDayTask/getDetailTask/'+ options.taskId,
             'POST',{},
             res => {
               var task = res.data.data;
@@ -264,10 +266,13 @@ Page({
        //要延时执行的代码
        var task= this.data.task;
        Http.asyncRequest(
-        'http://127.0.0.1:8808/oneDayTask/updateTask',
+        'http://'+App.globalData.url+':8808/oneDayTask/updateTask',
         'POST',task,       
         res => {
           console.log("修改结果：",res.data);
+          wx.switchTab({
+            url: '../index/index',
+          })
         }
       );
       console.log("======updateTask======",this.data.task);

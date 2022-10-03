@@ -27,6 +27,7 @@ class Http {
   }
 };
 var taskList = [];
+var App = getApp();
 Page({
 
   /**
@@ -34,47 +35,7 @@ Page({
    */
   
   data:{
-    'taskSearch':[{
-      account: "妈妈",
-      alert: null,
-      changeTimes: null,
-      createDate: "2022-09-26T21:07:30",
-      deadLine: "2022-09-28 09:00:00",
-      detailtaskList: [],
-      eventId: -1,
-      eventType: 0,
-      finishDate: null,
-      id: 932,
-      label: 0,
-      overallProgress: "0",
-      period: 0,
-      startDate: "2022-09-27 08:00:00",
-      taskDetailNum: 0,
-      taskName: "一期报到日期",
-      taskStatus: 0,
-      taskType: "2",
-      uniqueid: "okwj45X3X946Jox9qw5WqVyalA2s_妈妈"
-    },{
-      account: "妈妈",
-      alert: null,
-      changeTimes: null,
-      createDate: "2022-09-26T21:07:30",
-      deadLine: "2022-09-28 09:00:00",
-      detailtaskList: [],
-      eventId: -1,
-      eventType: 0,
-      finishDate: null,
-      id: 932,
-      label: 0,
-      overallProgress: "0",
-      period: 0,
-      startDate: "2022-09-27 08:00:00",
-      taskDetailNum: 0,
-      taskName: "一期报到日期",
-      taskStatus: 0,
-      taskType: "2",
-      uniqueid: "okwj45X3X946Jox9qw5WqVyalA2s_妈妈"
-    }]
+    'taskSearch':[]
   },
 
   handleSearch(e){   
@@ -109,7 +70,7 @@ Page({
         console.log("获取到的用户名", res.data);
         var data = res.data;
         Http.asyncRequest(
-          'http://127.0.0.1:8808/oneDayTask/getAllTasks/' + data,
+          'http://'+App.globalData.url+':8808/oneDayTask/getAllTasks/' + data,
           'POST', {},
           res => {
             console.log('=====findAllRoleTasks======', res.data.msg);

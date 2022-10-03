@@ -161,7 +161,7 @@ Page({
 
     var tempFilePaths = this.data.base64code;
     Http.asyncRequest(
-      'http://127.0.0.1:8808/oneDayTask/byPhoto',
+      'http://'+app.globalData.url+':8808/oneDayTask/byPhoto',
       'POST', {
         'img': tempFilePaths
       },
@@ -401,7 +401,7 @@ Page({
       image.img = base64code.toString();
 
       wx.request({
-        url: 'http://127.0.0.1:8808/oneDayTask/byPhoto',
+        url: 'http://'+app.globalData.url+':8808/oneDayTask/byPhoto',
         method: 'POST',
         data: image,
         header: {
@@ -577,7 +577,7 @@ Page({
         })
 
         Http.asyncRequest(
-          'http://127.0.0.1:8808/oneDayTask/createTask/' + data,
+          'http://'+app.globalData.url+':8808/oneDayTask/createTask/' + data,
           'POST', taskLists,
           res => {
             console.log('=====createTaskResult======', res.data.msg);
@@ -597,7 +597,7 @@ Page({
                 success: function(){
                   setTimeout(() => {
                     wx.reLaunch({
-                      url: '/pages/calendarTemplate/index',
+                      url: '/pages/index/index',
                     })
                   }, 2000);
                 }

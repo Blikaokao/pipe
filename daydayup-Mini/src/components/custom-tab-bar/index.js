@@ -32,7 +32,7 @@ Component({
           selectedIconPath: "http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvw-6AG3pvAAAV8CQa5tI741.png"
         },
         {
-          pagePath: "/pages/calendarTemplate/index",
+          pagePath: "/pages/index/index",
           text: "日历",
           iconPath: "http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxIGAfdVxAAAWc9E-UeU037.png",
           selectedIconPath: "http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxIGAfdVxAAAWc9E-UeU037.png"

@@ -26,6 +26,7 @@ class Http {
         backMethod(res)
     }
 };
+var App = getApp();
 // pages/voice/index.js
 Page({
 
@@ -150,7 +151,7 @@ Page({
           voice.speech  = base64code;
           //console.log("voice",voiceInput);
           Http.asyncRequest(
-              'http://127.0.0.1:8808/oneDayTask/byVoice',
+              'http://'+App.globalData.url+':8808/oneDayTask/byVoice',
               'POST', voice,
                res => {
                 console.log('=====res.data======', res.data);
@@ -178,7 +179,7 @@ Page({
         voice.speech  = base64code;
         //console.log("voice",voiceInput);
         Http.asyncRequest(
-          'http://127.0.0.1:8808/oneDayTask/byVoice',
+          'http://'+App.globalData.url+':8808/oneDayTask/byVoice',
           'POST', voice,
           res => {
             console.log('=====res.data======', res.data);

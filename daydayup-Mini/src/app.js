@@ -6,7 +6,8 @@ App({
     socketStatus: 'closed',
     openid: null,
     unReadLetter: 0,
-    userinfo:null
+    userinfo:null,
+    url:"101.33.248.42"
   },
   touch: new touch(), //实例化这个touch对象
   //渐入，渐出实现 
@@ -97,7 +98,7 @@ App({
     })
     // 打开信道
     wx.connectSocket({
-      url: "ws://" + "localhost" + ":8084",
+      url: "ws://" + this.globalData.url + ":8084",
     })
   },
 
@@ -141,7 +142,7 @@ App({
             
             //根据openid获取用户的id
             wx.request({
-              url: 'http://127.0.0.1:8808/fUser/getMiniusers/' + that.globalData.openid,
+              url: 'http://101.33.248.42:8808/fUser/getMiniusers/' + that.globalData.openid,
               method: 'GET',
               success(res) {
                 console.log("初始化时完成usr的获取", res);

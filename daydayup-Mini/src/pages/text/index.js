@@ -28,6 +28,7 @@ class Http {
         backMethod(res)
     }
 };
+var App = getApp();
 // pages/text/index.js
 Page({
 
@@ -100,7 +101,7 @@ Page({
     byText: function(options){
       var text = this.data.taskText;
       Http.asyncRequest(
-        'http://127.0.0.1:8808/oneDayTask/byText',
+        'http://'+App.globalData.url+':8808/oneDayTask/byText',
         'POST', {
           'text':text
         },
@@ -525,7 +526,7 @@ Page({
         })
 
         Http.asyncRequest(
-          'http://127.0.0.1:8808/oneDayTask/createTask/' + data,
+          'http://'+App.globalData.url+':8808/oneDayTask/createTask/' + data,
           'POST', taskLists,
           res => {
             console.log('=====createTaskResult======', res.data.msg);
