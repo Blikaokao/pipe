@@ -311,8 +311,9 @@
 }  
   
 .btn_ok{  
-  margin-bottom: 10rpx;
-  padding: 10px;  
+  
+  padding: 27rpx; 
+  width: 327rpx; 
   font: 20px "microsoft yahei";  
   text-align: center;  
   border-top: 1px solid #E8E8EA;  
@@ -424,7 +425,7 @@ radio{
 }
 .nav_centent_arr {
 
-  top: 137rpx;
+  top: 200rpx;
   right: 28rpx;
   position: fixed;
   height: 500rpx;

@@ -7,7 +7,7 @@ App({
     openid: null,
     unReadLetter: 0,
     userinfo: null,
-    url: "101.33.248.42",
+    url: "https://www.daydaypipe.top",
     authUser: false,
     nickName: ""
   },
@@ -58,8 +58,34 @@ App({
     //设置动画
     that.setData(json)
   },
+  getOpenid() {
+    let that = this;
+    wx.cloud.callFunction({
+      name: 'get',
+      complete: res => {
+        console.log('云函数获取到的openid: ', res.result.openid)
+        that.globalData.openid = res.result.openid;
+        // 这里可以添加一些函数利用openid实现一些功能
+        //this.judgeRusults(openid);
+      }
+    })
+  },
   onLaunch: function () {
+    if (!wx.cloud) {
+      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
+    } else {
+      wx.cloud.init({
+        // env 参数说明：
+        //   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源
+        //   此处请填入环境 ID, 环境 ID 可打开云控制台查看
+        //   如不填则使用默认环境（第一个创建的环境）
+        env: 'cloud1-1g8sc3r1b2f88adf',
+        traceUser: true,
+      })
+    }
     var that = this;
+    //先获取到用户的openid
+    this.getOpenid();
     if (that.globalData.authUser != true) {
       wx.showModal({
         title: '提示',
@@ -125,7 +151,7 @@ App({
     })
     // 打开信道
     wx.connectSocket({
-      url: "ws://" + this.globalData.url + ":8084",
+      url: "wss://" + "www.daydaypipe.top:8084",
     })
   },
 
@@ -155,66 +181,25 @@ App({
   login() {
     var that = this;
     console.log("======");
-
-    wx.login({
-      //成功放回
-      success: (res) => {
-        console.log(res);
-        let code = res.code
-        // 通过code换取openId
-        wx.request({
-          url: 'https://api.weixin.qq.com/sns/jscode2session?appid=wxc9c73915eeb63d6c&secret=83ac589ce417001b23c7191d3cb2fc4e&js_code=' + res.code + '&grant_type=authorization_code',
-          method: 'POST',
-          success(res) {
-            console.log("初始化时完成openid的获取", res);
-            that.globalData.openid = res.data.openid;
-
-
-            //根据openid获取用户的id
-            wx.request({
-              url: 'http://101.33.248.42:8808/fUser/getMiniusers/' + that.globalData.openid,
-              method: 'GET',
-              success(res) {
-                console.log("初始化时完成usr的获取", res.data.data);
-                if (res.data.data == null) {
-                  console.log("未注册");
-                  //如果用户没有注册
-                  wx.request({
-                    url: 'http://101.33.248.42:8808/fUser/registermini/' + that.globalData.openid + '/' + that.globalData.nickName,
-                    method: 'POST',
-                    success(resregister) {
-                      wx.request({
-                        url: 'http://101.33.248.42:8808/fUser/getMiniusers/' + that.globalData.openid,
-                        method: 'GET',
-                        success(resLogin) {
-                          that.globalData.userRelation = resLogin.data.data;
-                          var info = resLogin.data.data;
-                          for (var i = 0; i < info.length; i++) {
-                            if (info[i].type == 0)
-                              that.globalData.userinfo = info[i];
-                          }
-                          console.log("userRelation", that.globalData.userRelation);
-                          console.log("info", that.globalData.userinfo);
-
-                          var message = {};
-                          message.did = that.globalData.userinfo.id;
-                          /**
-                           * 1:连接
-                           * 2:心跳
-                           * 7:好友添加
-                           */
-                          message.type = 1;
-                          message = JSON.stringify(message)
-                          console.log("message 的值", message)
-                          that.sendMessage(message);
-                        }
-                      })
-                    }
-                  })
-                } else {
-                  that.globalData.userRelation = res.data.data;
-                  var info = res.data.data;
-
+    //根据openid获取用户的id
+    wx.request({
+      url: 'https://www.daydaypipe.top'+':8808/fUser/getMiniusers/' + that.globalData.openid,
+      method: 'GET',
+      success(res) {
+        console.log("初始化时完成usr的获取", res.data.data);
+        if (res.data.data == null) {
+          console.log("未注册");
+          //如果用户没有注册
+          wx.request({
+            url: 'https://www.daydaypipe.top'+':8808/fUser/registermini/' + that.globalData.openid + '/' + that.globalData.nickName,
+            method: 'POST',
+            success(resregister) {
+              wx.request({
+                url: 'https://www.daydaypipe.top'+':8808/fUser/getMiniusers/' + that.globalData.openid,
+                method: 'GET',
+                success(resLogin) {
+                  that.globalData.userRelation = resLogin.data.data;
+                  var info = resLogin.data.data;
                   for (var i = 0; i < info.length; i++) {
                     if (info[i].type == 0)
                       that.globalData.userinfo = info[i];
@@ -234,14 +219,37 @@ App({
                   console.log("message 的值", message)
                   that.sendMessage(message);
                 }
+              })
+            }
+          })
+        } else {
+          that.globalData.userRelation = res.data.data;
+          var info = res.data.data;
 
-              }
-            })
-
+          for (var i = 0; i < info.length; i++) {
+            if (info[i].type == 0)
+              that.globalData.userinfo = info[i];
           }
-        })
+          console.log("userRelation", that.globalData.userRelation);
+          console.log("info", that.globalData.userinfo);
+
+          var message = {};
+          message.did = that.globalData.userinfo.id;
+          /**
+           * 1:连接
+           * 2:心跳
+           * 7:好友添加
+           */
+          message.type = 1;
+          message = JSON.stringify(message)
+          console.log("message 的值", message)
+          that.sendMessage(message);
+        }
+
       }
     })
+
+
   },
 
 
