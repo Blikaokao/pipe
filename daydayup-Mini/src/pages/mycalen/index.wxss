@@ -11,10 +11,11 @@
 
 .content {
   background-color: rgb(255, 255, 255);
-  height: 50px;
-  width: 100%;
-  border-radius:50px 50px 0 0 ;
-  margin-left: -4px;
+  height: 140rpx;
+  width: 105%;
+  border-radius:100rpx 100rpx 0 0 ;
+  margin-top: -25rpx;
+  margin-left: -27rpx;
 }
 
 .nav {

@@ -45,7 +45,7 @@ Page({
             'requests': App.globalData.requests
         }) 
 
-        if(App.globalData.requests.length == 0 || App.globalData.request  == null){
+        if(App.globalData.requests.length == 0 && App.globalData.request  == null){
           wx.showToast({
             title: "暂无好友请求",
             icon: 'error',
@@ -81,7 +81,7 @@ Page({
         }
         console.log("======friendRequest====",friendRequest)
         Http.asyncRequest(
-            'http://'+App.globalData.url+':8808/fUser/addAck',
+            App.globalData.url+':8808/fUser/addAck',
             'POST', friendRequest,
             res => {
               if(res.data.code == 400){
@@ -128,7 +128,7 @@ Page({
       
       console.log("======friendRequest====",friendRequest)
       Http.asyncRequest(
-          'http://'+App.globalData.url+':8808/fUser/addAck',
+          App.globalData.url+':8808/fUser/addAck',
           'POST', friendRequest,
           res => {
             if(res.data.code == 400){

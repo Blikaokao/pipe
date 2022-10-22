@@ -70,7 +70,7 @@ Page({
         console.log("获取到的用户名", res.data);
         var data = res.data;
         Http.asyncRequest(
-          'http://'+App.globalData.url+':8808/oneDayTask/getAllTasks/' + data,
+          App.globalData.url+':8808/oneDayTask/getAllTasks/' + data,
           'POST', {},
           res => {
             console.log('=====findAllRoleTasks======', res.data.msg);

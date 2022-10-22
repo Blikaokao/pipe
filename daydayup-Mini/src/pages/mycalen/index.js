@@ -107,453 +107,416 @@ const conf = {
       key: 'nickName',
       data: localNickName
     })
-    wx.login({
-      //成功放回
-      success: (res) => {
-        console.log(res);
-        let code = res.code
-        console.log(that.data.nickName);
-        // 通过code换取openId
-        Http.asyncRequest(
-          'https://api.weixin.qq.com/sns/jscode2session?appid=wxc9c73915eeb63d6c&secret=83ac589ce417001b23c7191d3cb2fc4e&js_code=' + res.code + '&grant_type=authorization_code',
-          'POST', {},
-          res => {
-            var userInfo = {};
-            console.log(res);
-            userInfo.openid = res.data.openid;
-            that.setData({
-              'openid': userInfo.openid
-            })
-            wx.setStorage({
-              key: 'openid_usr',
-              data: userInfo.openid
-            })
-            Http.asyncRequest(
-                'http://' + App.globalData.url + ':8808/oneDayTask/getTasks/' + that.data.openid + '?' + 'nickName=' + that.data.nickName,
-                'POST', {},
-                res => {
-                  //先清空标记
-
-                  //请求成功之后，把openid放到储存里面
-
-                  wx.setStorage({
-                    key: 'openid',
-                    data: res.data.data.role
-                  })
-
-                  var oldDays = that.data.days;
-                  if (oldDays != null) {
-
-                    for (var i = 0; i < oldDays.length; i++) {
-                      oldDays[i].hasTodo = false;
-                      oldDays[i].dotColor = "";
-                    }
-                    that.setData({
-                      'days': oldDays
-                    })
-                    console.log(oldDays)
-                    for (var i = 0; i < days.length; i++) {
-                      days[i].hasTodo = false;
-                      days[i].dotColor = "";
-                    }
-                  }
-                  that.setData({
-                    'days': []
-                  })
-                  days = [];
-                  testallTasks = [];
-                  //1:在控制台打印一下返回的res.data数据
-
-                  //console.log("===============res.data=====================", res.data)
-                  //console.log("===============data.days=====================", that.data.days)
-
-                  //2:在请求接口成功之后，用setData接收数据
-                  /*that.setData({
-                    //第一个data为固定用法
-                    taskList: res.data
-                  })*/
-                  //设置days
-                  /**
-                      *  year: 2022,
-                        month: 5,
-                        day: 9,
-            
-                        "startDate": "2022-03-18 12:12:12",//任务开始时间
-                        "deadLine": "2022-03-18 13:13:13",//任务截止时间
-                    */
-                  var taskList = res.data.data.task;
-                  var k = 0;
-                  //console.log("===============taskList.length=====================",taskList.length)
-
-                  if (taskList != null) {
-                    for (var i = 0; i < taskList.length; i++) {
-                      var startDate = taskList[i].startDate;
-
-                      var endDate = taskList[i].deadLine;
-
-                      //算相差的天数
-                      var startN = new Date(startDate.replace(/-/g, "/"));
-
-                      var taskStartYear = startN.getFullYear();
-                      var taskStartMonth = startN.getMonth();
-                      var taskStartDay = startN.getDate();
-
-                      // console.log("===============taskStartMonth=====================",taskStartMonth)
-
-                      var endN = new Date(endDate.replace(/-/g, "/"));
-                      var endStartYear = endN.getFullYear();
-                      var endStartMonth = endN.getMonth();
-                      var endStartDay = endN.getDate();
-
-                      var continueDays = parseInt((endN.getTime() - startN.getTime()) / (1000 * 60 * 60 * 24));
-
-                      for (var j = 0; j <= continueDays; j++) {
-                        console.log("continuedays", continueDays);
-                        var startYear = startN.getFullYear();
-                        var startMonth = parseInt(startN.getMonth() + 1);
-                        var startDay = startN.getDate();
-
-                        //天数的设置   task存在的天数
-                        var tmpday = {
-                          year: "",
-                          month: "",
-                          day: ""
-                        }
-
-                        tmpday.year = startYear;
-                        tmpday.month = startMonth;
-                        tmpday.day = startDay;
-                        days.push(tmpday);
-
-                        //任务的设置  需要修改用户的手机号为   微信号  或者微信名称
-                        var tmptask = {
-                          id: "",
-                          taskName: "",
-                          year: "",
-                          month: "",
-                          day: "",
-                          startDate: "",
-                          deadLine: "",
-                          startTime: "",
-                          endTime: "",
-                          tskTime: "",
-                          alert: "",
-                          ifNew: ""
-                        }
-                        tmptask.id = taskList[i].id;
-                        tmptask.taskName = taskList[i].taskName;
-
-                        tmptask.year = startYear;
-                        tmptask.month = startMonth;
-                        tmptask.day = startDay;
-
-                        tmptask.startDate = taskList[i].startDate;
-
-                        tmptask.deadLine = taskList[i].deadLine;
-
-                        tmptask.startTime = tmptask.startDate.substring(11, 16);
-                        tmptask.endTime = tmptask.deadLine.substring(11, 16);
-
-                        tmptask.alert = taskList[i].alert;
-
-                        tmptask.tskTime = startYear + "-" + startMonth + "-" + startDay;
-
-                        //日期格式化
-                        var tskTime = new Date(tmptask.tskTime.replace(/-/g, "/"));
-                        var now_date = new Date();
-                        //转成毫秒数，两个日期相减
-                        var ms = now_date.getTime() - tskTime.getTime();
-                        //转换成天数
-                        var day = parseInt(ms / (1000 * 60 * 60 * 24));
-                        //do something
-                        if (day > 0)
-                          tmptask.ifNew = 1;
-                        else
-                          tmptask.ifNew = 0;
-
-                        testallTasks.push(tmptask);
-
-
-                        startN.setTime(startN.getTime() + 24 * 60 * 60 * 1000);
-                        k++;
-                      }
-                    }
-
-                    /*var tmptask = {
-                      id: "111",
-                      taskName: "test",
-                      year: 2022,
-                      month: 7,
-                      day: 8,
-                      startDate: "2022-09-08 12:00:00",
-                      deadLine: "2022-09-08 13:00:00",
-                      startTime: "12:00:00",
-                      endTime: "13:00:00",
-                      tskTime: "2022-09-08",
-                      alert: "",
-                      ifNew: 0
-                    }
-                    testallTasks.push(tmptask);*/
-
-                    that.setData({
-                      'taskList': testallTasks
-                    });
-
-                    // console.log("===========taskList========", that.data.taskList);
-
-                    var tmpday = {
-                      year: 2022,
-                      month: 9,
-                      day: 8
-                    }
-                    var timestamp = Date.parse(new Date());
-                    var date = new Date(timestamp);
-                    //获取年份  
-                    var Y = date.getFullYear();
-                    //获取月份  
-                    var M = date.getMonth() + 1;
-                    //获取当日日期 
-                    var D = date.getDate();
-                    console.log("当前时间：" + Y + '年' + M + '月' + D + '日');
-                    tmpday.year = Y;
-                    tmpday.month = M;
-                    tmpday.day = D;
-                    days.push(tmpday);
-                    that.setData({
-                      'days': days,
-                      'calendar.todoLabels': days
-                    });
-
-                    /*var tmpday = {
-                      year: 2022,
-                      month: 9,
-                      day: 8
-                    }
-                    //days.push(tmpday);
-                    that.setData({
-                      'days': days
-                    });*/
-                    // console.log("days",days);
-                    //console.log("tasks",testallTasks);
-                    initCalendar({
-                      // multi: true, // 是否开启多选,
-                      // disablePastDay: true, // 是否禁选过去日期
-                      /**
-                       * 选择日期后执行的事件
-                       * @param { object } currentSelect 当前点击的日期
-                       * @param { array } allSelectedDays 选择的所有日期（当mulit为true时，才有allSelectedDays参数）
-                       */
-                      afterTapDay: (currentSelect, allSelectedDays) => {
-                        console.log('===============================');
-                        console.log('当前点击的日期', currentSelect);
-                        console.log('当前点击的日期是否有事件标记: ', currentSelect.hasTodo || false);
-                        //console.log(tasks.length);
-                        if (currentSelect.hasTodo) {
-                          setGetAllTasks(currentSelect);
-                        } else {
-                          tasks = [];
-                          that.setData({
-                            'tasks': tasks
-                          });
-                        }
-                        //console.log('==============allTasks=================',allTasks);
-                        that.setData({
-                            'tasks': tasks
-                          }),
-                          //console.log('==============allTasks=================', that.data);
-
-
-                          allSelectedDays && console.log('选择的所有日期', allSelectedDays);
-                        //console.log('getSelectedDay方法', getSelectedDay());
-                      },
-                      /**
-                       * 日期点击事件（此事件会完全接管点击事件）
-                       * @param { object } currentSelect 当前点击的日期
-                       * @param { object } event 日期点击事件对象
-                       */
-                      // onTapDay(currentSelect, event) {
-                      //   console.log(currentSelect);
-                      //   console.log(event);
-                      // },
-                      /**
-                       * 日历初次渲染完成后触发事件，如设置事件标记
-                       */
-                      afterCalendarRender() {
-
-                        //console.log("========dayslength======",that.data.days);
-
-                        setTodoLabels({
-                          pos: 'bottom',
-                          dotColor: '#40',
-                          days: that.data.days,
-                        });
-                      }
-
-
-                    });
-                    that.setData({
-                      location: 1,
-                      backgroundcolorOne: "#0899f95c",
-                      backgroundcolorTwo: "#0899f99e"
-                    });
-                    setGetAllTasks(that.data.calendar.selectedDay[0]);
-                    //console.log("that.data.calendar.selectedDay", that.data.calendar.selectedDay[0]);
-
-                    //console.log('==============allTasks=================', that.data.taskList);
-
-                  };
-                  var tmptask = {
-                    id: "111",
-                    taskName: "test",
-                    year: 2022,
-                    month: 7,
-                    day: 8,
-                    startDate: "2022-09-04 12:00:00",
-                    deadLine: "2022-09-04 13:00:00",
-                    startTime: "12:00:00",
-                    endTime: "13:00:00",
-                    tskTime: "2022-09-04",
-                    alert: "",
-                    ifNew: 0
-                  }
-                  testallTasks.push(tmptask);
-
-                  that.setData({
-                    'taskList': testallTasks
-                  });
-
-                  //console.log("===========taskList========", that.data.taskList);
-
-                  var tmpday = {
-                    year: 2022,
-                    month: 7,
-                    day: 8
-                  }
-                  days.push(tmpday);
-                  var tmpday = {
-                    year: 2022,
-                    month: 8,
-                    day: 8
-                  }
-                  days.push(tmpday);
-                  that.setData({
-                    'days': days,
-                    'chdays': days
-                  });
-                  //console.log("===========days========", that.data.chdays);
-
-
-                  // console.log("days",days);
-                  //console.log("tasks",testallTasks);
-                  initCalendar({
-                    // multi: true, // 是否开启多选,
-                    // disablePastDay: true, // 是否禁选过去日期
-                    /**
-                     * 选择日期后执行的事件
-                     * @param { object } currentSelect 当前点击的日期
-                     * @param { array } allSelectedDays 选择的所有日期（当mulit为true时，才有allSelectedDays参数）
-                     */
-                    afterTapDay: (currentSelect, allSelectedDays) => {
-                      console.log('===============================');
-                      console.log('当前点击的日期', currentSelect);
-                      console.log('当前点击的日期是否有事件标记: ', currentSelect.hasTodo || false);
-                      //console.log(tasks.length);
-                      if (currentSelect.hasTodo) {
-                        setGetAllTasks(currentSelect);
-                      } else {
-                        tasks = [];
-                        that.setData({
-                          'onedaytasks': tasks
-                        });
-                      }
-                      //console.log('==============allTasks=================',allTasks);
-                      that.setData({
-                          'onedaytasks': tasks
-                        }),
-                        //console.log('==============allTasks=================', that.data);
-
-
-                        allSelectedDays && console.log('选择的所有日期', allSelectedDays);
-                      //console.log('getSelectedDay方法', getSelectedDay());
-                    },
-                    /**
-                     * 日期点击事件（此事件会完全接管点击事件）
-                     * @param { object } currentSelect 当前点击的日期
-                     * @param { object } event 日期点击事件对象
-                     */
-                    // onTapDay(currentSelect, event) {
-                    //   console.log(currentSelect);
-                    //   console.log(event);
-                    // },
-                    /**
-                     * 日历初次渲染完成后触发事件，如设置事件标记
-                     */
-                    afterCalendarRender() {
-
-                      console.log("========dayslength======", that.data.days);
-
-                      setTodoLabels({
-                        pos: 'bottom',
-                        dotColor: '#40',
-                        days: that.data.days,
-                      });
-                    }
-
-
-                  });
-                  that.setData({
-                    location: 1,
-                    backgroundcolorOne: "#0899f95c",
-                    backgroundcolorTwo: "#0899f99e"
-                  });
-                  setGetAllTasks(that.data.calendar.selectedDay[0]);
-                  console.log("that.data.calendar.selectedDay", that.data.calendar.selectedDay[0]);
-
-                  console.log('==============allTasks=================', that.data.taskList);
 
 
 
-                }
-              ),
-              Http.asyncRequest(
-                'http://' + App.globalData.url + ':8808/fUser/getMiniusers/' + that.data.openid,
-                'GET', {},
-                res => {
-                  var usr_centent_list = [];
-                  usr_centent_list = res.data.data;
-                  that.setData({
-                    'usr_centent_list': usr_centent_list
-                  })
-                  //请求成功之后，把openid放到储存里面
 
-                  var usr;
-                  for (var i = 0; i < usr_centent_list.length; i++) {
-                    usr_centent_list[i].isTouchMove = false;
-                    if (usr_centent_list[i].type == 0)
-                      usr = usr_centent_list[i];
-                  }
+    var userInfo = {};
 
-                  wx.setStorage({
-                    key: 'usr_centent_list',
-                    data: usr_centent_list
-                  })
-
-                  wx.setStorage({
-                    key: 'usr',
-                    data: usr
-                  })
-
-                  that.setData({
-                    'usr': usr
-                  })
-
-                  console.log("====usr_centent_list=====", usr_centent_list);
-                }
-              )
-          }
-        )
-      }
+    userInfo.openid = App.globalData.openid;
+    that.setData({
+      'openid': App.globalData.openid
     })
+    wx.setStorage({
+      key: 'openid_usr',
+      data: App.globalData.openid
+    })
+    Http.asyncRequest(
+        App.globalData.url + ':8808/oneDayTask/getTasks/' + that.data.openid + '?' + 'nickName=' + that.data.nickName,
+        'POST', {},
+        res => {
+          //先清空标记
+
+          //请求成功之后，把openid放到储存里面
+
+          wx.setStorage({
+            key: 'openid',
+            data: res.data.data.role
+          })
+
+          var oldDays = that.data.days;
+          if (oldDays != null) {
+
+            for (var i = 0; i < oldDays.length; i++) {
+              oldDays[i].hasTodo = false;
+              oldDays[i].dotColor = "";
+            }
+            that.setData({
+              'days': oldDays
+            })
+            console.log(oldDays)
+            for (var i = 0; i < days.length; i++) {
+              days[i].hasTodo = false;
+              days[i].dotColor = "";
+            }
+          }
+          that.setData({
+            'days': []
+          })
+          days = [];
+          testallTasks = [];
+          var taskList = res.data.data.task;
+          var k = 0;
+          if (taskList != null) {
+            for (var i = 0; i < taskList.length; i++) {
+              var startDate = taskList[i].startDate;
+
+              var endDate = taskList[i].deadLine;
+
+              //算相差的天数
+              var startN = new Date(startDate.replace(/-/g, "/"));
+
+              var taskStartYear = startN.getFullYear();
+              var taskStartMonth = startN.getMonth();
+              var taskStartDay = startN.getDate();
+
+              // console.log("===============taskStartMonth=====================",taskStartMonth)
+
+              var endN = new Date(endDate.replace(/-/g, "/"));
+              var endStartYear = endN.getFullYear();
+              var endStartMonth = endN.getMonth();
+              var endStartDay = endN.getDate();
+
+              var continueDays = parseInt((endN.getTime() - startN.getTime()) / (1000 * 60 * 60 * 24));
+
+              for (var j = 0; j <= continueDays; j++) {
+                console.log("continuedays", continueDays);
+                var startYear = startN.getFullYear();
+                var startMonth = parseInt(startN.getMonth() + 1);
+                var startDay = startN.getDate();
+
+                //天数的设置   task存在的天数
+                var tmpday = {
+                  year: "",
+                  month: "",
+                  day: ""
+                }
+
+                tmpday.year = startYear;
+                tmpday.month = startMonth;
+                tmpday.day = startDay;
+                days.push(tmpday);
+
+                //任务的设置  需要修改用户的手机号为   微信号  或者微信名称
+                var tmptask = {
+                  id: "",
+                  taskName: "",
+                  year: "",
+                  month: "",
+                  day: "",
+                  startDate: "",
+                  deadLine: "",
+                  startTime: "",
+                  endTime: "",
+                  tskTime: "",
+                  alert: "",
+                  ifNew: ""
+                }
+                tmptask.id = taskList[i].id;
+                tmptask.taskName = taskList[i].taskName;
+
+                tmptask.year = startYear;
+                tmptask.month = startMonth;
+                tmptask.day = startDay;
+
+                tmptask.startDate = taskList[i].startDate;
+
+                tmptask.deadLine = taskList[i].deadLine;
+
+                tmptask.startTime = tmptask.startDate.substring(11, 16);
+                tmptask.endTime = tmptask.deadLine.substring(11, 16);
+
+                tmptask.alert = taskList[i].alert;
+
+                tmptask.tskTime = startYear + "-" + startMonth + "-" + startDay;
+
+                //日期格式化
+                var tskTime = new Date(tmptask.tskTime.replace(/-/g, "/"));
+                var now_date = new Date();
+                //转成毫秒数，两个日期相减
+                var ms = now_date.getTime() - tskTime.getTime();
+                //转换成天数
+                var day = parseInt(ms / (1000 * 60 * 60 * 24));
+                //do something
+                if (day > 0)
+                  tmptask.ifNew = 1;
+                else
+                  tmptask.ifNew = 0;
+
+                testallTasks.push(tmptask);
+
+
+                startN.setTime(startN.getTime() + 24 * 60 * 60 * 1000);
+                k++;
+              }
+            }
+
+            /*var tmptask = {
+              id: "111",
+              taskName: "test",
+              year: 2022,
+              month: 7,
+              day: 8,
+              startDate: "2022-09-08 12:00:00",
+              deadLine: "2022-09-08 13:00:00",
+              startTime: "12:00:00",
+              endTime: "13:00:00",
+              tskTime: "2022-09-08",
+              alert: "",
+              ifNew: 0
+            }
+            testallTasks.push(tmptask);*/
+
+            that.setData({
+              'taskList': testallTasks
+            });
+
+            // console.log("===========taskList========", that.data.taskList);
+
+            var tmpday = {
+              year: 2022,
+              month: 9,
+              day: 8
+            }
+            var timestamp = Date.parse(new Date());
+            var date = new Date(timestamp);
+            //获取年份  
+            var Y = date.getFullYear();
+            //获取月份  
+            var M = date.getMonth() + 1;
+            //获取当日日期 
+            var D = date.getDate();
+            console.log("当前时间：" + Y + '年' + M + '月' + D + '日');
+            tmpday.year = Y;
+            tmpday.month = M;
+            tmpday.day = D;
+            days.push(tmpday);
+            that.setData({
+              'days': days,
+              'calendar.todoLabels': days
+            });
+
+            /*var tmpday = {
+              year: 2022,
+              month: 9,
+              day: 8
+            }
+            //days.push(tmpday);
+            that.setData({
+              'days': days
+            });*/
+            // console.log("days",days);
+            //console.log("tasks",testallTasks);
+            initCalendar({
+              // multi: true, // 是否开启多选,
+              // disablePastDay: true, // 是否禁选过去日期
+              /**
+               * 选择日期后执行的事件
+               * @param { object } currentSelect 当前点击的日期
+               * @param { array } allSelectedDays 选择的所有日期（当mulit为true时，才有allSelectedDays参数）
+               */
+              afterTapDay: (currentSelect, allSelectedDays) => {
+                console.log('===============================');
+                console.log('当前点击的日期', currentSelect);
+                console.log('当前点击的日期是否有事件标记: ', currentSelect.hasTodo || false);
+                //console.log(tasks.length);
+                if (currentSelect.hasTodo) {
+                  setGetAllTasks(currentSelect);
+                } else {
+                  tasks = [];
+                  that.setData({
+                    'tasks': tasks
+                  });
+                }
+                //console.log('==============allTasks=================',allTasks);
+                that.setData({
+                    'tasks': tasks
+                  }),
+                  //console.log('==============allTasks=================', that.data);
+
+
+                  allSelectedDays && console.log('选择的所有日期', allSelectedDays);
+                //console.log('getSelectedDay方法', getSelectedDay());
+              },
+              /**
+               * 日期点击事件（此事件会完全接管点击事件）
+               * @param { object } currentSelect 当前点击的日期
+               * @param { object } event 日期点击事件对象
+               */
+              // onTapDay(currentSelect, event) {
+              //   console.log(currentSelect);
+              //   console.log(event);
+              // },
+              /**
+               * 日历初次渲染完成后触发事件，如设置事件标记
+               */
+              afterCalendarRender() {
+
+                //console.log("========dayslength======",that.data.days);
+
+                setTodoLabels({
+                  pos: 'bottom',
+                  dotColor: '#40',
+                  days: that.data.days,
+                });
+              }
+
+
+            });
+            that.setData({
+              location: 1,
+              backgroundcolorOne: "#0899f95c",
+              backgroundcolorTwo: "#0899f99e"
+            });
+            setGetAllTasks(that.data.calendar.selectedDay[0]);
+            //console.log("that.data.calendar.selectedDay", that.data.calendar.selectedDay[0]);
+
+            //console.log('==============allTasks=================', that.data.taskList);
+
+          };
+          var tmptask = {
+            id: "111",
+            taskName: "test",
+            year: 2022,
+            month: 7,
+            day: 8,
+            startDate: "2022-09-04 12:00:00",
+            deadLine: "2022-09-04 13:00:00",
+            startTime: "12:00:00",
+            endTime: "13:00:00",
+            tskTime: "2022-09-04",
+            alert: "",
+            ifNew: 0
+          }
+          testallTasks.push(tmptask);
+
+          that.setData({
+            'taskList': testallTasks
+          });
+
+          var tmpday = {
+            year: 2022,
+            month: 7,
+            day: 8
+          }
+          days.push(tmpday);
+          var tmpday = {
+            year: 2022,
+            month: 8,
+            day: 8
+          }
+          days.push(tmpday);
+          that.setData({
+            'days': days,
+            'chdays': days
+          });
+
+          initCalendar({
+            // multi: true, // 是否开启多选,
+            // disablePastDay: true, // 是否禁选过去日期
+            /**
+             * 选择日期后执行的事件
+             * @param { object } currentSelect 当前点击的日期
+             * @param { array } allSelectedDays 选择的所有日期（当mulit为true时，才有allSelectedDays参数）
+             */
+            afterTapDay: (currentSelect, allSelectedDays) => {
+              console.log('===============================');
+              console.log('当前点击的日期', currentSelect);
+              console.log('当前点击的日期是否有事件标记: ', currentSelect.hasTodo || false);
+              //console.log(tasks.length);
+              if (currentSelect.hasTodo) {
+                setGetAllTasks(currentSelect);
+              } else {
+                tasks = [];
+                that.setData({
+                  'onedaytasks': tasks
+                });
+              }
+              //console.log('==============allTasks=================',allTasks);
+              that.setData({
+                  'onedaytasks': tasks
+                }),
+                //console.log('==============allTasks=================', that.data);
+
+
+                allSelectedDays && console.log('选择的所有日期', allSelectedDays);
+              //console.log('getSelectedDay方法', getSelectedDay());
+            },
+            /**
+             * 日期点击事件（此事件会完全接管点击事件）
+             * @param { object } currentSelect 当前点击的日期
+             * @param { object } event 日期点击事件对象
+             */
+            // onTapDay(currentSelect, event) {
+            //   console.log(currentSelect);
+            //   console.log(event);
+            // },
+            /**
+             * 日历初次渲染完成后触发事件，如设置事件标记
+             */
+            afterCalendarRender() {
+
+              console.log("========dayslength======", that.data.days);
+
+              setTodoLabels({
+                pos: 'bottom',
+                dotColor: '#40',
+                days: that.data.days,
+              });
+            }
+
+
+          });
+          that.setData({
+            location: 1,
+            backgroundcolorOne: "#0899f95c",
+            backgroundcolorTwo: "#0899f99e"
+          });
+          setGetAllTasks(that.data.calendar.selectedDay[0]);
+          console.log("that.data.calendar.selectedDay", that.data.calendar.selectedDay[0]);
+          console.log('==============allTasks=================', that.data.taskList);
+        }
+      ),
+      Http.asyncRequest(
+        App.globalData.url + ':8808/fUser/getMiniusers/' + that.data.openid,
+        'GET', {},
+        res => {
+          var usr_centent_list = [];
+          usr_centent_list = res.data.data;
+          that.setData({
+            'usr_centent_list': usr_centent_list
+          })
+          //请求成功之后，把openid放到储存里面
+
+          var usr;
+          for (var i = 0; i < usr_centent_list.length; i++) {
+            usr_centent_list[i].isTouchMove = false;
+            if (usr_centent_list[i].type == 0)
+              usr = usr_centent_list[i];
+          }
+
+          wx.setStorage({
+            key: 'usr_centent_list',
+            data: usr_centent_list
+          })
+
+          wx.setStorage({
+            key: 'usr',
+            data: usr
+          })
+
+          that.setData({
+            'usr': usr
+          })
+
+          console.log("====usr_centent_list=====", usr_centent_list);
+        }
+      )
+
+
+
+
+
   },
 
   //请求获取到task
@@ -564,7 +527,7 @@ const conf = {
     that.setData({
       'authUser': App.globalData.authUser
     })
-    console.log("that.data.authUser",that.data.authUser)
+    console.log("that.data.authUser", that.data.authUser)
     if (that.data.authUser == false) {
       wx.showModal({
         title: '提示',
@@ -763,7 +726,7 @@ const conf = {
       addMsg.tname = e.detail.value.phone;
       console.log("====addMsg====发送好友添加请求=====", addMsg);
       Http.asyncRequest(
-        'http://' + App.globalData.url + ':8808/fUser/add',
+        App.globalData.url + ':8808/fUser/add',
         'POST', addMsg,
         res => {
           //console.log('=====nameusr======', nameusr);
@@ -783,7 +746,7 @@ const conf = {
       )
     } else if (that.data.location == 2) {
       Http.asyncRequest(
-        'http://' + App.globalData.url + ':8808/fUser/createMiniChild/' + that.data.openid + '/' + nameusr,
+        App.globalData.url + ':8808/fUser/createMiniChild/' + that.data.openid + '/' + nameusr,
         'POST', {},
         res => {
           console.log('=====nameusr======', nameusr);
@@ -843,10 +806,15 @@ const conf = {
     console.log("testestest======================powerDrawer", e.currentTarget.dataset.statu);
     var currentStatu = e.currentTarget.dataset.statu;
     that.util(currentStatu);
-    console.log("testestest======================powerDrawer", that);
+    //console.log("testestest======================powerDrawer", that);
 
   },
 
+  closefrom: function(e){
+    this.setData({
+      showModalStatus: false
+    });
+  },
 
   util: function (currentStatu) {
     console.log("=================被调用了=================");
@@ -958,7 +926,7 @@ const conf = {
     var openid = this.data.openid;
     console.log("===要删除的好友===", goalUser)
     Http.asyncRequest(
-      'http://' + App.globalData.url + ':8808/fUser/deleteMiniUser/' + openid,
+      App.globalData.url + ':8808/fUser/deleteMiniUser/' + openid,
       'DELETE', goalUser,
       res => {
         // console.log('=====deleteResult======', res.data.data);
@@ -1003,7 +971,7 @@ const conf = {
     console.log("调用了add方法，点击清空未读信件");
     App.globalData.unReadLetter = 0;
     Http.asyncRequest(
-      'http://' + App.globalData.url + ':8808/fUser/getAllRequest',
+      App.globalData.url + ':8808/fUser/getAllRequest',
       'GET', {
         'tId': App.globalData.userinfo.id
       },
@@ -1017,7 +985,14 @@ const conf = {
         })
       }
     )
+  },
+  mangeRole: function(e){
+    //显示好友列表 分为角色和好友两栏
+    //跳转
+    let dataList = JSON.stringify(this.data.usr_centent_list)
+    wx.navigateTo({
+      url: '../mangerole/index?dataList='+dataList+'&openid=' +this.data.openid,
+    })
   }
-
 };
 Page(conf);

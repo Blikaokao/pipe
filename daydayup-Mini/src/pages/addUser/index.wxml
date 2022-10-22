@@ -10,7 +10,7 @@
 
     <form  bindsubmit="formSubmit" bindreset="formReset">
         <!--drawer content-->
-        <view style="display:flex;width: 250px;margin-left: 72px;margin-top: 10px;margin-bottom: 10px;" class="title-style">
+        <view style="display:flex;margin-left: 172rpx;margin-top: 26rpx;margin-bottom: 26rpx;" class="title-style">
             <view class="drawer_title drawer_title_1" bindtap="changeLocationToOne"  style="background-color:{{backgroundcolorOne}}">添加好友</view>
             <view class="drawer_title drawer_title_2" bindtap="changeLocationToTwo"  style="background-color:{{backgroundcolorTwo}}">创建角色</view>
         </view>

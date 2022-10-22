@@ -1,0 +1,18 @@
+spring:
+  redis:
+    database: 0
+    host: 101.33.248.42
+    port: 6331
+    password: dt7tWNP7t
+  rabbitmq:
+    listener:
+      direct:
+        acknowledge-mode: none
+      simple:
+        acknowledge-mode: none
+    host: 101.33.248.42 #ip
+    port: 5663      #端口
+    username: lina #账号
+    password: binv123456 #密码
+netty:
+  port: 8084

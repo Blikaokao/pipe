@@ -8,7 +8,7 @@
 
 <image src='http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyxqAYQfgAAAfC4Vag08840.png'
     style="margin-left: {{tel_width}}rpx;margin-top: {{tel_height}}rpx;" class='voice-button'
-    bindtouchstart="startRecording" bindtouchend="stopRecording" bindtouchmove="moveToCancle">
+    bindtouchstart="startRecording" bindtouchend="stopRecording" bindtouchmove="stopRecording">
 </image>
 
 <!--<view class='voice-note' wx:if="{{showVoiceMask && startRecording}}"></view>-->
