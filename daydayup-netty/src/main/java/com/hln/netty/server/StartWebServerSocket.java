@@ -1,5 +1,6 @@
 package com.hln.netty.server;
 
+import com.hln.config.SslUtil;
 import com.hln.netty.handler.*;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.*;
@@ -8,12 +9,15 @@ import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.codec.http.websocketx.WebSocketServerProtocolHandler;
+import io.netty.handler.ssl.SslHandler;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Component;
+
+import javax.net.ssl.SSLEngine;
 
 @Component
 public class StartWebServerSocket implements CommandLineRunner {
@@ -45,8 +49,11 @@ public class StartWebServerSocket implements CommandLineRunner {
                 @Override
                 protected void initChannel(Channel channel) throws Exception {
                     ChannelPipeline pipeline = channel.pipeline();
-
+                    SSLEngine engine = SslUtil.createSSLContext("1ebSr7S5").createSSLEngine();
+                    engine.setUseClientMode(false);
+                    engine.setNeedClientAuth(false);
                     //http
+                    pipeline.addLast(new SslHandler(engine));
                     pipeline.addLast(new HttpServerCodec());
                     //http
                     pipeline.addLast(new HttpObjectAggregator(1024*10));

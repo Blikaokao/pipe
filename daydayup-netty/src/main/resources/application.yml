@@ -10,9 +10,9 @@ spring:
         acknowledge-mode: none
       simple:
         acknowledge-mode: none
-    host: 101.33.248.42 #ip
-    port: 5663      #端口
-    username: lina #账号
-    password: binv123456 #密码
+    host: 101.33.248.42
+    port: 5663
+    username: lina
+    password: binv123456
 netty:
   port: 8084

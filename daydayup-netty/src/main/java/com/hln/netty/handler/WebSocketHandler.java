@@ -38,6 +38,9 @@ public class WebSocketHandler extends SimpleChannelInboundHandler<TextWebSocketF
     @Override
     public void channelRegistered(ChannelHandlerContext ctx) throws Exception {
         System.out.println("新客户端连接");
+        TextWebSocketFrame resp = new TextWebSocketFrame("heart");
+        ctx.writeAndFlush(resp);
+        System.out.println("发送心跳");
     }
 
     @Override
