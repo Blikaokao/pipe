@@ -16,6 +16,7 @@ import com.hln.daydayup.service.impl.TaskServiceImpl;
 import com.hln.daydayup.service.impl.UserServiceImpl;
 import com.hln.daydayup.transferDate.input.*;
 import com.hln.daydayup.transferDate.util.Base64Util;
+import com.hln.daydayup.utils.EncodeFile;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,9 +145,28 @@ public class TaskController {
     @PostMapping("/byVoice")
     public Response byVoice(@RequestBody InputMedia voice) {
 
+        log.info("voice{}",voice);
         List<DateEventDto> dateEventDtos;
         dateEventDtos = VoiceInput.getVoiceEvent(voice.getLen(),voice.getSpeech());
 
+        if (dateEventDtos==null || dateEventDtos.size()==0)
+            return Response.fail("noEvents");
+        System.out.println("传入对象为："+voice+"长度："+voice.getLen()+"字节码："+voice.getSpeech());
+
+        System.out.println("date:"+dateEventDtos);
+        return Response.success(dateEventDtos);
+    }
+
+    @PostMapping("/byVoiceMini")
+    public Response byVoiceMini(@RequestBody MultipartFile voiceFile) throws Exception {
+
+        System.out.println(voiceFile);
+        InputMedia voice = new InputMedia();
+        voice.setSpeech(Base64Util.encode(voiceFile.getBytes()));
+        voice.setLen(voiceFile.getBytes().length);
+        log.info("voice{}",voice);
+        List<DateEventDto> dateEventDtos;
+        dateEventDtos = VoiceInput.getVoiceEvent(voice.getLen(),voice.getSpeech());
         if (dateEventDtos==null || dateEventDtos.size()==0)
             return Response.fail("noEvents");
         System.out.println("传入对象为："+voice+"长度："+voice.getLen()+"字节码："+voice.getSpeech());
@@ -168,6 +188,7 @@ public class TaskController {
 
         return  Response.success(dateEventDtos);
     }
+
 
 
     @PostMapping("/byTextWeb")

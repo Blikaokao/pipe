@@ -23,7 +23,7 @@ import java.util.UUID;
 @SpringBootTest
 class DaydayupApplicationTests {
 
-    @Autowired
+    /*@Autowired
     private ElasticsearchClient client;
 
     @Test
@@ -39,7 +39,7 @@ class DaydayupApplicationTests {
         //写法比RestHighLevelClient更加简洁
         CreateIndexResponse indexResponse = client.indices().create(c -> c.index("user"));
     }*/
-    @Test
+    /*@Test
     public void addDocumentTest() throws IOException {
 
         User tmp = new User("juicy", 10);
@@ -49,6 +49,6 @@ class DaydayupApplicationTests {
                 .id("1")
                 //传入user对象
                 .document(tmp));
-    }
+    }*/
 
 }

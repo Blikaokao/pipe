@@ -55,7 +55,7 @@ Page({
       userList: userList,
       roleList: roleList
     })
-    console.log("userList:",this.data.userList[0].names,"roleList:",roleList)
+    console.log("userList:",this.data.userList,"roleList:",roleList)
 
   },
   navbarTap: function(e){

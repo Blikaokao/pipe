@@ -11,7 +11,7 @@
 
 .content {
   background-color: rgb(255, 255, 255);
-  height: 140rpx;
+  height: 240rpx;
   width: 105%;
   border-radius:100rpx 100rpx 0 0 ;
   margin-top: -25rpx;

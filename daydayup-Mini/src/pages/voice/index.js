@@ -27,6 +27,7 @@ class Http {
   }
 };
 var App = getApp();
+const recorderManager = wx.getRecorderManager();
 // pages/voice/index.js
 Page({
 
@@ -94,11 +95,11 @@ Page({
 
     this.startVoiceRecordAnimation();
     var that = this;
-    const recorderManager = wx.getRecorderManager();
-    recorderManager.start({
+    //const recorderManager = wx.getRecorderManager();
+    /*recorderManager.start({
       sampleRate: 16000,
       numberOfChannels: 1
-    });
+    });*/
 
     wx.getRecorderManager().onStart(() => {
       console.log('recorder start')
@@ -113,7 +114,8 @@ Page({
     console.log('结束录音');
     var that = this;
 
-    const recorderManager = wx.getRecorderManager();
+   // const recorderManager = wx.getRecorderManager();
+   //const recorderManager = that.recorderManager
     recorderManager.stop();
     /*that.setData({
       selectResource: false,
@@ -180,20 +182,32 @@ Page({
           var tempImagePath = res.tempFilePath;
           var fsm = wx.getFileSystemManager()
           var base64code = fsm.readFileSync(tempImagePath, 'base64');
+          console.log(base64code);
           var voice = {};
           voice.len = res.fileSize;
           voice.speech = base64code;
           //console.log("voice",voiceInput);
-          Http.asyncRequest(
-            App.globalData.url + ':8808/oneDayTask/byVoice',
-            'POST', voice,
+          wx.uploadFile({
+            filePath: tempFilePath, //录音文件
+            name: 'voiceFile',
+            url: App.globalData.url + ':8808/oneDayTask/byVoiceMini',
+            success:function(e){
+              console.log('=====res.data======', res.data);
+              wx.showToast({
+                title: res.data.msg+"1111",
+              })
+            }
+          })
+          /*Http.asyncRequest(
+            App.globalData.url + ':8808/oneDayTask/byVoiceMini',
+            'POST', tempImagePath,
             res => {
               console.log('=====res.data======', res.data);
               wx.showToast({
                 title: res.data.msg+"1111",
               })
             }
-          )
+          )*/
         }
       } else {
         that.setData({
@@ -205,9 +219,9 @@ Page({
         that.stopVoiceRecordAnimation();
 
         console.log("暂停2", res);
-        var tempImagePath = res.tempFilePath;
+        var tempvoicePath = res.tempFilePath;
         var fsm = wx.getFileSystemManager()
-        var base64code = fsm.readFileSync(tempImagePath, 'base64');
+        var base64code = fsm.readFileSync(tempvoicePath, 'base64');
         console.log(base64code);
         var voice = {};
         //console.log("voice",res.fileSize);
@@ -317,6 +331,14 @@ Page({
 
     var that = this;
     var key = '';
+
+    //录音文件
+    
+    recorderManager.start({
+      sampleRate: 16000,
+      numberOfChannels: 1,
+      format: "acc"
+    });
     wx.getStorage({
       key: 'usr_centent_list',
       success(res) {

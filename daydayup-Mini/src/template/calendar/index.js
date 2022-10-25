@@ -762,10 +762,23 @@ export const getSelectedDay = () => {
 /**
  * 跳转至今天
  */
+
 export const jumpToToday = () => {
+  var that = this;
   console.log("jumpToToday");
   const self = _getCurrentPage();
   conf.jumpToToday.call(self);
+  console.log("self",self.data.calendar)
+  var e = {}
+  var currentTarget = {}
+  var dataset = {}
+  dataset.idx = self.data.calendar.selectedDay[0].day - 1
+  dataset.disable = false
+  currentTarget.dataset = dataset
+  e.currentTarget = currentTarget
+  
+  self.tapDayItem(e);
+
 };
 
 /**

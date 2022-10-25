@@ -34,6 +34,7 @@ public class PhotoInput {
             OcrClient client = new OcrClient(cred, "ap-guangzhou", clientProfile);// 实例化一个请求对象,每个接口都会对应一个request对象
             GeneralAccurateOCRRequest req = new GeneralAccurateOCRRequest();
             req.setImageBase64(photoUrl);
+            System.out.println(photoUrl);
             // 返回的resp是一个GeneralAccurateOCRResponse的实例，与请求对象对应
             GeneralAccurateOCRResponse resp = client.GeneralAccurateOCR(req);
             // 输出json格式的字符串回包

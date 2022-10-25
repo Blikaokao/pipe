@@ -100,7 +100,7 @@ public class MiniuserServiceImpl extends ServiceImpl<MiniuserMapper, Miniuser> i
         if(relations != null || relations.size()!=0)
             for (Relation relation : relations) {
                 Miniuser id = query().eq("id", relation.getFriends().toString()).one();
-                RelationDto relationDto = new RelationDto(id.getOpenid(),relation.getName(),2,id.getId());
+                RelationDto relationDto = new RelationDto(id.getOpenid(),relation.getName(),2,id.getId(),id.getMiniHead());
                 users.add(relationDto);
             }
 

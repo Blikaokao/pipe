@@ -26,6 +26,9 @@ public class RelationDto {
     * */
     private String phone;
 
+    //好友头像
+    private String miniHead;
+
     private Integer id;
 
     public RelationDto(String id,String name,Integer type){
@@ -46,5 +49,13 @@ public class RelationDto {
         this.userId = userId;
         this.type = type;
         this.id = id;
+    }
+
+    public RelationDto(String userId,String name,Integer type,Integer id,String miniHead){
+        this.names = name;
+        this.userId = userId;
+        this.type = type;
+        this.id = id;
+        this.miniHead = miniHead;
     }
 }

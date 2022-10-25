@@ -37,9 +37,17 @@ public class Miniuser implements Serializable {
 
     private Integer parentId;
 
+    private String miniHead;
+
     public Miniuser(String openid,String nickName){
         this.openid = openid;
         this.nickName = nickName;
+    }
+
+    public Miniuser(String openid,String nickName,String miniHead){
+        this.openid = openid;
+        this.nickName = nickName;
+        this.miniHead = miniHead;
     }
 
     public RelationDto convertToRelationDto(Integer type,Integer id){

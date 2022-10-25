@@ -8,7 +8,8 @@
 		data="{{...calendar,location,showModalStatus,isSubmit,phone,warn,name,backgroundcolorOne,backgroundcolorTwo,nickName,showMenu,nav_centent,nameusr,unReadLetter}}" />
 	<view class="content">
 	</view>
-	<scroll-view scroll-y="true" style="height: {{clientHeight}}px;position: absolute;top: 352px;" enable-flex="true"
+	<!--height: {{clientHeight}}px-->
+	<scroll-view scroll-y="true" style="position: absolute;top: 660rpx;" enable-flex="true"
 		scroll-with-animation="true" bindscroll="onScroll" bindscrolltoupper="onTopRefresh"
 		bindscrolltolower="onBottomRefresh">
 

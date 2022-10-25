@@ -28,7 +28,7 @@
                 </scroll-view>
             </view>
             <swiper current='{{page}}' bindchange="changepage"
-                style="height: 494rpx; background-image: linear-gradient(white, rgba(0, 154, 255, 0.42),white);">
+                style="height: 545rpx; background-image: linear-gradient(white, rgba(0, 154, 255, 0.42),white);">
                 <swiper-item wx:for="{{taskLists}}" class="everycard">
                     <view class="top grid">
                         <label class="title col-0">角色</label>

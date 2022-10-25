@@ -20,6 +20,7 @@ public class DateEvent {
             String[] args1 = new String[] {"python","/distinguish2.0.py",schedule};
             proc = Runtime.getRuntime().exec(args1);
             BufferedReader in = new BufferedReader(new InputStreamReader(proc.getInputStream()));
+            //System.out.println("in.readline"+in.readLine());
             String line = null;
 
             // 获取日程数量

@@ -58,11 +58,14 @@ public class UserController {
     private RabbitTemplate rabbitTemplate;
 
     //微信小程序的注册
-    @PostMapping("/registermini/{openid}/{nickName}")
-    public Response registermini(@PathVariable("openid")String openid,@PathVariable("nickName")String nickName){
-
+    @PostMapping("/registermini")
+    public Response registermini(@RequestBody Miniuser miniuser){
+        System.out.println("miniuser"+miniuser);
+        String nickName = miniuser.getNickName();
+        String openid = miniuser.getOpenid();
+        String miniHead = miniuser.getMiniHead();
         try {
-            miniuserService.save(new Miniuser(openid,nickName));
+            miniuserService.save(new Miniuser(openid,nickName,miniHead));
             return Response.success("success");
         } catch (Exception e) {
             log.info(e.getMessage());

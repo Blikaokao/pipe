@@ -474,6 +474,14 @@ const conf = {
           });
           setGetAllTasks(that.data.calendar.selectedDay[0]);
           console.log("that.data.calendar.selectedDay", that.data.calendar.selectedDay[0]);
+          var e = {}
+          var currentTarget = {}
+          var dataset = {}
+          dataset.idx = that.data.calendar.selectedDay[0].day - 1
+          dataset.disable = false
+          currentTarget.dataset = dataset
+          e.currentTarget = currentTarget
+          that.tapDayItem(e);
           console.log('==============allTasks=================', that.data.taskList);
         }
       ),
@@ -551,7 +559,8 @@ const conf = {
 
                 //不是改变的话就去获取用户名字
                 that.info();
-
+                //这里初始化最开始每天的日程
+                //console.log("=======that======",that)
                 //console.log("字符串转日期", new Date("2022-03-18 12:12:12".replace(/-/g,"/")).getDate());
                 //console.log("=========days=========",that.days);
 
@@ -667,7 +676,9 @@ const conf = {
    * 跳转至今天
    */
   jump() {
+    var that = this;
     jumpToToday();
+    
   },
 
   searchTask: function () {
