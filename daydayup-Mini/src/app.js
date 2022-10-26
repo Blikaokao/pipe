@@ -7,7 +7,7 @@ App({
     openid: null,
     unReadLetter: 0,
     userinfo: null,
-    url:"http://100.67.78.126",
+    url:"http://127.0.0.1",
     //url: "https://www.daydaypipe.top",
     authUser: false,
     nickName: ""
@@ -185,7 +185,7 @@ App({
     console.log("======");
     //根据openid获取用户的id
     wx.request({
-      url: 'http://100.67.78.126'+':8808/fUser/getMiniusers/' + that.globalData.openid,
+      url:that.globalData.url+':8808/fUser/getMiniusers/' + that.globalData.openid,
       method: 'GET',
       success(res) {
         console.log("初始化时完成usr的获取", res.data.data);
@@ -193,7 +193,7 @@ App({
           console.log("未注册");
           //如果用户没有注册
           wx.request({
-            url: 'http://100.67.78.126'+':8808/fUser/registermini',
+            url: that.globalData.url+':8808/fUser/registermini',
             method: 'POST',data:{
               'openid':that.globalData.openid,
               'nickName':that.globalData.nickName,
@@ -201,7 +201,7 @@ App({
             },
             success(resregister) {
               wx.request({
-                url: 'http://100.67.78.126'+':8808/fUser/getMiniusers/' + that.globalData.openid,
+                url: that.globalData.url+':8808/fUser/getMiniusers/' + that.globalData.openid,
                 method: 'GET',
                 success(resLogin) {
                   that.globalData.userRelation = resLogin.data.data;

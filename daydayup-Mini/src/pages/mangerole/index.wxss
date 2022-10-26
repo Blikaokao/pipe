@@ -71,3 +71,8 @@ page{
   border-color: transparent;
   border-style: solid;
 }
+
+.nouserask {
+  color: gray;
+  margin-top: auto;
+}

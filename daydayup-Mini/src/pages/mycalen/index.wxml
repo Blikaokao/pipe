@@ -33,7 +33,7 @@
 								mode="widthFix"></image>
 							<image wx:if="{{onedaytasks.length > 0 && task.ifNew == 0}}"
 								src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvxgKAAjrtAAAhCnjxy0M369.png"
-								mode="widthFix"></image>
+								mode="widthFix" ></image>
 						</view>
 						<!-- 右侧文本区域 -->
 						<view class=" card card-text">

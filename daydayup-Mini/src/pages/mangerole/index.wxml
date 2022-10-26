@@ -6,7 +6,7 @@
 
 <!--好友-->
 <view hidden="{{currentTab!==0}}">
-  <view wx:if="{{userList.length==0}}">暂时没有角色</view>
+  <view wx:if="{{userList.length==0}}"><image src="../../images/nofriend.png" mode="widthFix" class="nouserask">暂无好友请求 </image></view>
   <view wx:if="{{userList}}" wx:for="{{userList}}" wx:for-item="user" wx:for-index="index" data-idx="{{user.userId}}">
     <view style="display: flex;width: 690rpx;height: 130rpx;" class="list" animation="{{slide_up1}}">
       <view style="flex: 1; background-color: transparent;height: 300rpx;margin-top: 11rpx;text-align: center;">

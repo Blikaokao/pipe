@@ -8,7 +8,7 @@
 
 <cover-view class="big-circle">
   <cover-view class="small-circle">
-    <cover-image class="img-plus-style" animation="{{animPlus}}" bindtap="plus" src="../../images/add.png">
+    <cover-image class="img-plus-style" animation="{{animPlus}}" bindtap="plus" src="../../images/addwhite.png">
     </cover-image>
   </cover-view>
 </cover-view>
