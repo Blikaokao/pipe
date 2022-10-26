@@ -15,7 +15,7 @@
                     <view wx:if="{{request.status == 2}}" class="status refuseStatus">已拒绝</view>
                     <view wx:if="{{request.status == 3}}" class="status agreeStatus">已同意</view>
                 </view>
-                <view class="requestId">{{request.fid}}</view>
+                <!--<view class="requestId">{{request.fid}}</view>-->
             </view>
             <view class="opera">
                 <view style="flex: 1;"></view>

@@ -73,6 +73,22 @@ page{
 }
 
 .nouserask {
-  color: gray;
+  
   margin-top: auto;
+  width: 100rpx;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.nouserlist {
+  margin-top: 50%;
+  width: 50%;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+}
+
+.nousertext {
+  color: gray;
+  margin-top: 10rpx;
 }

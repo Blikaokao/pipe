@@ -15,7 +15,8 @@
             <view style="text-align: center;height: 150rpx;line-height: 150rpx;font-size: larger;font-weight: bolder;">
                 图片输入</view>
             <text space="ensp"> 自动提取、多任务一次性导入，释放双手</text>
-            <view bindtap="" style="text-align: right;color: #55559c;margin-right: 60rpx;">点击体验</view>
+            <view bindtap="" style="text-align: right;color: #55559c;margin-right: 60rpx;"
+            bindtap="inputphoto">点击体验</view>
         </view>
     </view>
     <view style="width: 750rpx;height: 50rpx;"  animation="{{slide_up1}}"></view>
@@ -29,7 +30,8 @@
             <view style="text-align: center;height: 150rpx;line-height: 150rpx;font-size: larger;font-weight: bolder;">
                 文本输入</view>
             <text space="ensp"> 海量文本、精准提取、便捷智能</text>
-            <view bindtap="" style="text-align: right;color: #55559c;margin-right: 60rpx;">点击体验</view>
+            <view bindtap="" style="text-align: right;color: #55559c;margin-right: 60rpx;"
+            bindtap="inputtext">点击体验</view>
         </view>
     </view>
     <view style="width: 750rpx;height: 70rpx;"  animation="{{slide_up2}}"></view>
@@ -43,7 +45,7 @@
             <view style="text-align: center;height: 150rpx;line-height: 150rpx;font-size: larger;font-weight: bolder;">
                 语音输入</view>
             <text space="ensp"> 打字不便？语音输入、解放双手、快速便捷</text>
-            <view bindtap="" style="text-align: right;color: blue;margin-right: 60rpx;color: #55559c;">点击体验</view>
+            <view bindtap="inputvoice" style="text-align: right;color: blue;margin-right: 60rpx;color: #55559c;">点击体验</view>
         </view>
     </view>
     <view space="ensp" style="margin-top: 50rpx; width: 750rpx;font-size: small;height: auto;text-align: center;color: gray;" 

@@ -52,5 +52,21 @@ Page({
         setTimeout(function () {
         app.slideupshow(this, 'slide_up2', 200, 0)
         }.bind(this), 200);
-    }
+    },
+    inputphoto: function () {
+      wx.navigateTo({
+        url: '/pages/photo/index',
+      })
+  
+    },
+    inputtext: function () {
+      wx.navigateTo({
+        url: '/pages/text/index',
+      })
+    },
+    inputvoice: function () {
+      wx.navigateTo({
+        url: '/pages/voice/index',
+      })
+    },
 })

@@ -95,6 +95,19 @@ const conf = {
     let nickName = App.globalData.nickName
     //console.log("========nickName========", nickName)
     var localNickName = that.data.nickName;
+    var choseUsr = {}
+    if(that.data.usr_centent_list!=null)
+    for(var i =0 ;i<that.data.usr_centent_list.length;i++){
+      if(that.data.usr_centent_list[i].names == localNickName){
+        wx.setStorage({
+          key: 'choseUsr',
+          data: that.data.usr_centent_list[i]
+        })
+        choseUsr = that.data.usr_centent_list[i]
+        
+        console.log("当前选择的是：",choseUsr)
+      }
+    }
     if (that.data.nickName == null) {
       //console.log("========nickName========", nickName)
       that.setData({
@@ -113,6 +126,7 @@ const conf = {
 
     var userInfo = {};
 
+    
     userInfo.openid = App.globalData.openid;
     that.setData({
       'openid': App.globalData.openid
@@ -121,6 +135,12 @@ const conf = {
       key: 'openid_usr',
       data: App.globalData.openid
     })
+    if(choseUsr!=null){
+      if(choseUsr.type==2)
+        that.setData({
+          'openid': choseUsr.userId
+        })
+    }
     Http.asyncRequest(
         App.globalData.url + ':8808/oneDayTask/getTasks/' + that.data.openid + '?' + 'nickName=' + that.data.nickName,
         'POST', {},
@@ -484,7 +504,8 @@ const conf = {
           that.tapDayItem(e);
           console.log('==============allTasks=================', that.data.taskList);
         }
-      ),
+      )
+      if(that.data.openid == App.globalData.openid){
       Http.asyncRequest(
         App.globalData.url + ':8808/fUser/getMiniusers/' + that.data.openid,
         'GET', {},
@@ -520,7 +541,7 @@ const conf = {
           console.log("====usr_centent_list=====", usr_centent_list);
         }
       )
-
+  }
 
 
 

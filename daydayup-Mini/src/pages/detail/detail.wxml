@@ -24,7 +24,7 @@
           <view class="item-title-time" style="text-align: center;">开始时间</view>
      </view>-->
      <view class="timepicker" style="display: flex;">
-          <image style="flex-grow: 2;max-width:100%;max-height: 40%; width: auto; margin-bottom: auto;margin-top: auto;" src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvybiAXtv3AAAVstCM0l8970.png" role="img" ></image>
+          <image style="flex-grow: 2;max-width:100%;max-height: 56%; width: auto; margin-bottom: auto;margin-top: auto;" src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvybiAXtv3AAAVstCM0l8970.png" role="img" ></image>
           <picker mode="multiSelector" style="flex-grow: 1;" value="{{dateTime1}}" bindchange="changeStartDateTime"
                bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray1}}">
                <text class="picker" style="font-size: 0.4em;">{{task.startDate}} </text>
@@ -32,7 +32,7 @@
      </view>
 
      <view class="timepicker" style="display: flex;">
-          <image style="flex-grow: 2;max-width:100%;max-height: 40%; width: auto; margin-bottom: auto;margin-top: auto;" src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvycqAL7yCAAAVtMNrEqw185.png" role="img" ></image>
+          <image style="flex-grow: 2;max-width:100%;max-height: 56%; width: auto; margin-bottom: auto;margin-top: auto;" src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvycqAL7yCAAAVtMNrEqw185.png" role="img" ></image>
           <picker mode="multiSelector" style="flex-grow: 1;" value="{{dateTime1}}" bindchange="changeEndDateTime"
                bindcolumnchange="changeEndDateTimeColumn1" range="{{dateTimeArray1}}">
                <text class="picker" style="font-size: 0.4em;">{{task.deadLine}}</text>
@@ -57,13 +57,13 @@
 <view class="bgTime" style="display: flex;">
 
      <view class="timepicker" style="display: flex;">
-          <image style="flex-grow: 2;max-width:20%;max-height: 40%; width: auto; margin-bottom: auto;margin-top: auto;" src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyeiAWOAeAAAlUP9EzfU883.png" role="img" ></image>
+          <image style="flex-grow: 2;max-width:20%;max-height: 46%; width: auto; margin-bottom: auto;margin-top: auto;" src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyeiAWOAeAAAlUP9EzfU883.png" role="img" ></image>
           <view class='account-picker'>{{task.account}}</view>
          
      </view>
 
      <view class="timepicker" style="display: flex;">
-          <image style="flex-grow: 2;max-width:20%;max-height: 40%; width: auto; margin-bottom: auto;margin-top: auto;" src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyf2AX_4UAAAVw9up0uQ785.png" role="img" ></image>
+          <image style="flex-grow: 2;max-width:20%;max-height: 49%; width: auto; margin-bottom: auto;margin-top: auto;" src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyf2AX_4UAAAVw9up0uQ785.png" role="img" ></image>
           <picker bindchange="bindPickerChange" style="flex-grow: 1;" value="{{setIndex}}" range="{{activityArr}}" range-key="label">
                <view class='account-picker' wx:if="{{task.alert}}">提前{{task.alert}}分钟</view>
 
