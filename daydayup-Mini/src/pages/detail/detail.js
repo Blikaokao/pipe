@@ -152,7 +152,7 @@ Page({
 
     //要延时执行的代码
     Http.asyncRequest(
-      App.globalData.url + ':8808/oneDayTask/getDetailTask/' + options.taskId,
+      App.globalData.url + ':8074/oneDayTask/getDetailTask/' + options.taskId,
       'POST', {},
       res => {
         var task = res.data.data;
@@ -296,7 +296,7 @@ Page({
     //要延时执行的代码
     var task = this.data.task;
     Http.asyncRequest(
-      App.globalData.url + ':8808/oneDayTask/updateTask',
+      App.globalData.url + ':8074/oneDayTask/updateTask',
       'POST', task,
       res => {
         console.log("修改结果：", res.data);

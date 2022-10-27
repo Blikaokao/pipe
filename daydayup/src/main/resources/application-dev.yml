@@ -26,7 +26,12 @@ spring:
     username: lina #账号
     password: binv123456 #密码
 server:
-  port: 8808
+  port: 8074
+  ssl:
+    key-store: classpath:8570726_daydaypipe.top.jks
+    key-store-password: 8YUEwwGu
+    key-store-type: JKS
+
 logging:
   config: classpath:loggingdev-config.xml
 mybatis-plus:

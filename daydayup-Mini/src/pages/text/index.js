@@ -101,7 +101,7 @@ Page({
     byText: function(options){
       var text = this.data.taskText;
       Http.asyncRequest(
-        App.globalData.url+':8808/oneDayTask/byText',
+        App.globalData.url+':8074/oneDayTask/byText',
         'POST', {
           'text':text
         },
@@ -526,7 +526,7 @@ Page({
         })
 
         Http.asyncRequest(
-          App.globalData.url+':8808/oneDayTask/createTask/' + data,
+          App.globalData.url+':8074/oneDayTask/createTask/' + data,
           'POST', taskLists,
           res => {
             console.log('=====createTaskResult======', res.data.msg);

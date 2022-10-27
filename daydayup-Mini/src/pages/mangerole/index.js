@@ -63,6 +63,13 @@ Page({
       currentTab: e.currentTarget.dataset.idx
     })
   },
+  sendusrmsg: function(e){
+    wx.showToast({
+      title: '尽请期待',
+      icon: 'success',
+      duration: 1000, //持续的时间
+    })
+  },
   touchdelete: function (e) {
     console.log("要删除的id", e.currentTarget.dataset.idx);
     var deleteId = e.currentTarget.dataset.idx;
@@ -99,7 +106,7 @@ Page({
     var openid = this.data.openid;
     console.log("===要删除的好友===", goalUser)
     Http.asyncRequest(
-      App.globalData.url + ':8808/fUser/deleteMiniUser/' + openid,
+      App.globalData.url + ':8074/fUser/deleteMiniUser/' + openid,
       'DELETE', goalUser,
       res => {
          console.log('=====deleteResult======', res.data.data);

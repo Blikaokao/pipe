@@ -81,7 +81,7 @@ Page({
         }
         console.log("======friendRequest====",friendRequest)
         Http.asyncRequest(
-            App.globalData.url+':8808/fUser/addAck',
+            App.globalData.url+':8074/fUser/addAck',
             'POST', friendRequest,
             res => {
               if(res.data.code == 400){
@@ -128,7 +128,7 @@ Page({
       
       console.log("======friendRequest====",friendRequest)
       Http.asyncRequest(
-          App.globalData.url+':8808/fUser/addAck',
+          App.globalData.url+':8074/fUser/addAck',
           'POST', friendRequest,
           res => {
             if(res.data.code == 400){

@@ -19,9 +19,9 @@
 				mode="widthFix" class="empty-fill"></image>
 
 			<view class="list-itemTask {{task.isTouchMove?'list-item-touch-activeTask':''}}" wx:for="{{onedaytasks}}"
-				bindtouchstart="touchstartTask" bindtouchmove="touchmoveTask" wx:for-item="task" wx:for-index="index"
+				 wx:for-item="task" wx:for-index="index"
 				wx:key="task.id" data-id="{{task.id}}">
-				<view class='item-contentTask'>
+				<view class='item-contentTask' bindlongpress="touchdeletetask" data-chosedelete="{{task.id}}">
 					<!-- pageA传递参数 -->
 					<!--<view > 12333 {{task.isTouchMove}}</view>-->
 					<navigator url="../../pages/detail/detail?taskId={{task.id}}" class="nav" data-id="{{task.id}}">
@@ -43,8 +43,7 @@
 						</view>
 					</navigator>
 				</view>
-				<view class="item-deleteTask" bindtap="touchdelete" data-chosedelete="{{task.id}}">删除</view>
-
+			
 			</view>
 		</view>
 

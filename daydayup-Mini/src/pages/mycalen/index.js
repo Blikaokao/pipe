@@ -142,7 +142,7 @@ const conf = {
         })
     }
     Http.asyncRequest(
-        App.globalData.url + ':8808/oneDayTask/getTasks/' + that.data.openid + '?' + 'nickName=' + that.data.nickName,
+        App.globalData.url + ':8074/oneDayTask/getTasks/' + that.data.openid + '?' + 'nickName=' + that.data.nickName,
         'POST', {},
         res => {
           //先清空标记
@@ -507,7 +507,7 @@ const conf = {
       )
       if(that.data.openid == App.globalData.openid){
       Http.asyncRequest(
-        App.globalData.url + ':8808/fUser/getMiniusers/' + that.data.openid,
+        App.globalData.url + ':8074/fUser/getMiniusers/' + that.data.openid,
         'GET', {},
         res => {
           var usr_centent_list = [];
@@ -758,7 +758,7 @@ const conf = {
       addMsg.tname = e.detail.value.phone;
       console.log("====addMsg====发送好友添加请求=====", addMsg);
       Http.asyncRequest(
-        App.globalData.url + ':8808/fUser/add',
+        App.globalData.url + ':8074/fUser/add',
         'POST', addMsg,
         res => {
           //console.log('=====nameusr======', nameusr);
@@ -778,7 +778,7 @@ const conf = {
       )
     } else if (that.data.location == 2) {
       Http.asyncRequest(
-        App.globalData.url + ':8808/fUser/createMiniChild/' + that.data.openid + '/' + nameusr,
+        App.globalData.url + ':8074/fUser/createMiniChild/' + that.data.openid + '/' + nameusr,
         'POST', {},
         res => {
           console.log('=====nameusr======', nameusr);
@@ -934,7 +934,57 @@ const conf = {
       nav_centent: data
     })
   },
-
+  touchdeletetask:function (e) {
+    console.log("要删除的id", e.currentTarget.dataset.chosedelete);
+    var deleteId = e.currentTarget.dataset.chosedelete;
+    var that = this
+    console.log(deleteId)
+   
+    wx.showModal({
+      title: '提示',
+      content: '确定要删除此日程吗？',
+      success: function (res) {
+        if (res.confirm) {
+          console.log('点击确定了');
+          Http.asyncRequest(
+            App.globalData.url+":8074/oneDayTask/deleteTask/"+deleteId,
+            'POST',{},
+            res => {
+               console.log('=====deleteResult======', res.data);
+              if (res.data.code == 200){
+                wx.showToast({
+                  title: '成功删除',
+                  icon: 'success',
+                  duration: 2000, //持续的时间
+                })
+                var oneDayTasks = that.data.onedaytasks
+                var tasks = []
+                for(var i = 0;i<oneDayTasks.length;i++){
+                  if(oneDayTasks[i].id != deleteId)
+                     tasks.push(oneDayTasks[i])
+                }
+                that.setData({
+                  "onedaytasks": tasks
+                })
+              }
+              else if (res.data.code == 400)
+                wx.showToast({
+                  title: res.data.msg,
+                  icon: 'error',
+                  duration: 2000, //持续的时间
+      
+                })
+            }
+          )
+        
+        } else if (res.cancel) {
+          console.log('点击取消了');
+          return false;
+        }
+      }
+    })
+    console.log(deleteId)
+  },
   //删除用户
   touchdelete: function (e) {
     console.log("要删除的id", e.currentTarget.dataset.chosedelete);
@@ -958,7 +1008,7 @@ const conf = {
     var openid = this.data.openid;
     console.log("===要删除的好友===", goalUser)
     Http.asyncRequest(
-      App.globalData.url + ':8808/fUser/deleteMiniUser/' + openid,
+      App.globalData.url + ':8074/fUser/deleteMiniUser/' + openid,
       'DELETE', goalUser,
       res => {
         // console.log('=====deleteResult======', res.data.data);
@@ -1003,7 +1053,7 @@ const conf = {
     console.log("调用了add方法，点击清空未读信件");
     App.globalData.unReadLetter = 0;
     Http.asyncRequest(
-      App.globalData.url + ':8808/fUser/getAllRequest',
+      App.globalData.url + ':8074/fUser/getAllRequest',
       'GET', {
         'tId': App.globalData.userinfo.id
       },

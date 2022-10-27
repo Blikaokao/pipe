@@ -190,7 +190,7 @@ Page({
           wx.uploadFile({
             filePath: tempFilePath, //录音文件
             name: 'voiceFile',
-            url: App.globalData.url + ':8808/oneDayTask/byVoiceMini',
+            url: App.globalData.url + ':8074/oneDayTask/byVoiceMini',
             success:function(e){
               console.log('=====res.data======', res.data);
               wx.showToast({
@@ -199,7 +199,7 @@ Page({
             }
           })
           /*Http.asyncRequest(
-            App.globalData.url + ':8808/oneDayTask/byVoiceMini',
+            App.globalData.url + ':8074/oneDayTask/byVoiceMini',
             'POST', tempImagePath,
             res => {
               console.log('=====res.data======', res.data);
@@ -229,7 +229,7 @@ Page({
         voice.speech = base64code;
         //console.log("voice",voiceInput);
         Http.asyncRequest(
-          App.globalData.url + ':8808/oneDayTask/byVoice',
+          App.globalData.url + ':8074/oneDayTask/byVoice',
           'POST', voice,
           res => {
             console.log('=====res.data======', res.data);

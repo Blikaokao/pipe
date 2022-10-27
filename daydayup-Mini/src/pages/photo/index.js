@@ -161,7 +161,7 @@ Page({
 
     var tempFilePaths = this.data.base64code;
     Http.asyncRequest(
-      app.globalData.url+':8808/oneDayTask/byPhoto',
+      app.globalData.url+':8074/oneDayTask/byPhoto',
       'POST', {
         'img': tempFilePaths
       },
@@ -401,7 +401,7 @@ Page({
       image.img = base64code.toString();
 
       wx.request({
-        url: app.globalData.url+':8808/oneDayTask/byPhoto',
+        url: app.globalData.url+':8074/oneDayTask/byPhoto',
         method: 'POST',
         data: image,
         header: {
@@ -577,7 +577,7 @@ Page({
         })
 
         Http.asyncRequest(
-          app.globalData.url+':8808/oneDayTask/createTask/' + data,
+          app.globalData.url+':8074/oneDayTask/createTask/' + data,
           'POST', taskLists,
           res => {
             console.log('=====createTaskResult======', res.data.msg);
