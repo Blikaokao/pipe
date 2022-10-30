@@ -2,7 +2,7 @@
 
 
 
-<view class="calendar-wrap background" style="width:100%;height:352px;position:fixed;">
+<view bindtap="showComponent" class="calendar-wrap background" style="width:100%;height:352px;position:fixed;">
 
 	<template is="calendar"
 		data="{{...calendar,location,showModalStatus,isSubmit,phone,warn,name,backgroundcolorOne,backgroundcolorTwo,nickName,showMenu,nav_centent,nameusr,unReadLetter}}" />
@@ -55,4 +55,4 @@
 
 
 
-<tab-bar id="tab-bar"></tab-bar>
+<tabbar id="tabbar"></tabbar>

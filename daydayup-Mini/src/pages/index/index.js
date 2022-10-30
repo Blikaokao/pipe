@@ -20,43 +20,22 @@ Page({
         selected: 0 //0,1，2 0-导航一  1-导航二  2-个人中心
       })
     }
+    
   },
   info() {
     var that = this;
 
   },
   onLoad: function () {
+    
     this.setData({
       'openid': App.globalData.openid
     })
     var self = this
   /////////////////////////////////////////////
-    
+     this.showComponent();
   },
-  delete(){
-    wx.showModal({
-      title: '提示',
-      content: '需要用户授予昵称',
-      success (res) {
-        if (res.confirm) {
-          wx.getUserProfile({
-            desc: '用于完善用户资料',
-            //成功后会返回
-            success: (resdata) => {
-              console.log("======", resdata);
-              wx.setStorage({
-                data: authUser,
-                key: true,
-              })
-            }
-          })
-        } else if (res.cancel) {
-          console.log('用户点击拒绝')
-        }
-      }
-    })
-  },
-  
+ 
   redirectToPhoto: function () {
     wx.navigateTo({
       url: '/pages/photo/index',
@@ -89,6 +68,12 @@ Page({
       url: '/pages/introInput/introinput',
     })
   },
-
+  showComponent: function () {
+    this.myComponent = this.selectComponent('#tabbar')
+    console.log("111111111")
+    let myComponent = this.myComponent
+    
+    myComponent.takeback()  // 调用自定义组件中的方法
+ },
 
 });

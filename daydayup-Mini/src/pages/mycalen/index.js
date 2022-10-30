@@ -2,7 +2,8 @@ import initCalendar, {
   getSelectedDay,
   jumpToToday,
   setTodoLabels,
-  clearTodoLabels
+  clearTodoLabels,
+  tapDayItem
 } from '../../template/calendar/index';
 
 // pages/list/list.js
@@ -551,7 +552,7 @@ const conf = {
   //请求获取到task
 
   onLoad: function () {
-
+    this.showComponent();
     var that = this;
     that.setData({
       'authUser': App.globalData.authUser
@@ -1075,6 +1076,21 @@ const conf = {
     wx.navigateTo({
       url: '../mangerole/index?dataList='+dataList+'&openid=' +this.data.openid,
     })
-  }
+  },
+  onReady: function () {
+    //  页面初次渲染完成后，使用选择器选择组件实例节点，返回匹配到组件实例对象  
+    
+    //console.log("myComponent")
+  },
+  //实现点击任何地方 收回底部组件的方法
+  showComponent: function () {
+    this.myComponent = this.selectComponent('#tabbar')
+    console.log("111111111")
+    let myComponent = this.myComponent
+    
+    myComponent.takeback()  // 调用自定义组件中的方法
+ },
+ 
+
 };
 Page(conf);

@@ -1,4 +1,4 @@
-<swiper indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="true">
+<swiper bindtap="showComponent" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="true">
   <block wx:for="{{imgUrls}}">
     <swiper-item>
 
@@ -8,12 +8,12 @@
 
   </block>
 </swiper>
-<view style="display: flex;margin: 15px 0 20px 0;">
+<view bindtap="showComponent" style="display: flex;margin: 15px 0 20px 0;">
   <view class="introduce-title"></view>
   <view class="introduce-intro">功能介绍</view>
   <view class="introduce-triangle"></view>
 </view>
-<view style="display: flex;">
+<view bindtap="showComponent" style="display: flex;">
   <view class="total-introduce" bindtap="introinput">
     <image class="total-introduce-image"
       src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvx_eAIOarAFMrxuim8LM956.png">
@@ -36,7 +36,7 @@
   </view>
 </view>
 
-<view style="display: flex;flex-wrap: wrap;">
+<view bindtap="showComponent" style="display: flex;flex-wrap: wrap;">
   <image class="introduce-show_content" bindtap="redirectToPhoto"
     src="http://101.33.248.42:8051/group1/M00/00/00/rBEACmMvyQyAc5ipAABZcaYQ62M603.jpg"></image>
   <image class="introduce-show_content" bindtap="redirectToVoice"
@@ -50,4 +50,4 @@
 
 
 <!--底部导航栏-->
-<tab-bar id="tab-bar "></tab-bar>
+<tabbar id="tabbar"></tabbar>
