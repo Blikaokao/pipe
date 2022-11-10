@@ -26,7 +26,7 @@ true -->
 			<File>/home/log/stdout.log</File>
 			日志文件输出位置
 		-->
-        <File>F:/log/spring.log</File>
+        <File>D:/log/spring.log</File>
         <encoder>
             <!--[%X{requestId}] 线程id,方便排查日志-->
             <pattern>%date %level [%thread] [%X{requestId}] [%logger{36}.%method\(\):%line] %msg%n</pattern>
@@ -34,7 +34,7 @@ true -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 添加.gz 历史日志会启用压缩 大大缩小日志文件所占空间 -->
             <!--<fileNamePattern>/home/log/stdout.log.%d{yyyy-MM-dd}.log</fileNamePattern>-->
-            <fileNamePattern>F:/log/spring.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>D:/log/spring.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory><!-- 保留 30 天日志 -->
         </rollingPolicy>
     </appender>
@@ -44,7 +44,7 @@ true -->
 			<File>/home/log/stdout.log</File>
 			日志文件输出位置
 		-->
-        <File>F:/log/spring-error.log</File>
+        <File>D:/log/spring-error.log</File>
         <filter class="ch.qos.logback.classic.filter.LevelFilter">
             <level>ERROR</level>
             <onMatch>ACCEPT</onMatch>
@@ -57,7 +57,7 @@ true -->
         <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
             <!-- 添加.gz 历史日志会启用压缩 大大缩小日志文件所占空间 -->
             <!--<fileNamePattern>/home/log/stdout.log.%d{yyyy-MM-dd}.log</fileNamePattern>-->
-            <fileNamePattern>F:/log/spring-error.%d{yyyy-MM-dd}.log</fileNamePattern>
+            <fileNamePattern>D:/log/spring-error.%d{yyyy-MM-dd}.log</fileNamePattern>
             <maxHistory>30</maxHistory><!-- 保留 30 天日志 -->
         </rollingPolicy>
     </appender>

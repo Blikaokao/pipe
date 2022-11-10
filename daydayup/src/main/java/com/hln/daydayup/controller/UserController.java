@@ -1,7 +1,9 @@
 package com.hln.daydayup.controller;
 
 
+import cn.hutool.http.HttpRequest;
 import cn.hutool.json.JSONUtil;
+import com.alibaba.fastjson.JSONObject;
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
@@ -25,10 +27,9 @@ import org.springframework.web.bind.annotation.*;
 
 import org.springframework.stereotype.Controller;
 
+import javax.servlet.http.HttpServletResponse;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * <p>
@@ -56,6 +57,54 @@ public class UserController {
     private FriendRequestService friendRequestService;
     @Autowired
     private RabbitTemplate rabbitTemplate;
+    /*
+     * code=041nJpFa1vVEcE0MiYHa18iSGi1nJpFf
+     * */
+    @PostMapping("/wxapi/decryptCode")
+    public Response decodeOpenid(HttpServletResponse response, @RequestParam String code){
+        //response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setContentType("text/html;charset=UTF-8");
+        response.setCharacterEncoding("utf-8");
+
+        String wxspAppid = "wxc9c73915eeb63d6c";
+        String wxspSecret = "a6210fa9a70fcd16efdb83417f872d62";
+
+        try {
+            Map<String, String> map = new HashMap<>();
+            // 授权（必填）
+            String grant_type = "authorization_code";
+            // 请求参数
+            map.put("appid",wxspAppid);
+            map.put("secret",wxspSecret);
+            map.put("js_code",code);
+            map.put("grant_type",grant_type);
+
+            /*String params = "appid=" + wxspAppid + "&secret=" + wxspSecret + "&js_code=" + code + "&grant_type="
+                    + grant_type;*/
+            log.info("解析code请求参数："+map.toString());
+            // 发送请求
+
+            String sr = HttpRequest.post("https://api.weixin.qq.com/sns/jscode2session")
+                    .form("appid",wxspAppid)
+                    .form("secret",wxspSecret)
+                    .form("js_code",code)
+                    .form("grant_type",grant_type)
+                    .execute().body();
+
+            // 解析相应内容（转换成json对象）
+            JSONObject json = JSONObject.parseObject(sr);
+            log.info("解析code请求结果:"+json.toString());
+            // 获取会话密钥（session_key）
+            String session_key = json.getString("session_key");
+            String openid = json.getString("openid");
+
+            log.info("openid:"+openid);
+            return Response.success(openid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return Response.fail("openId生成失败");
+        }
+    }
 
     //微信小程序的注册
     @PostMapping("/registermini")

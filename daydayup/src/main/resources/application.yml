@@ -1,6 +1,6 @@
 spring:
   profiles:
-    active: dev
+    active: prod
 #配置https的端口
 
 netty:

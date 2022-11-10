@@ -9,6 +9,7 @@ App({
     userinfo: null,
     //url:"https://127.0.0.1",
     url: "https://www.daydaypipe.top",
+    //url:"http://127.0.0.1",
     authUser: false,
     nickName: ""
   },
@@ -59,15 +60,36 @@ App({
     //设置动画
     that.setData(json)
   },
-  getOpenid() {
-    let that = this;
-    wx.cloud.callFunction({
-      name: 'get',
-      complete: res => {
-        console.log('云函数获取到的openid: ', res.result.openid)
-        that.globalData.openid = res.result.openid;
-        // 这里可以添加一些函数利用openid实现一些功能
-        //this.judgeRusults(openid);
+  getOpenid: function() {
+    var that = this;
+    console.log("11112222222")
+    wx.login({
+      success(res) {
+        if (res.code) {
+          //发起网络请求
+          wx.request({
+            url: that.globalData.url+':8074/fUser/wxapi/decryptCode?code='+res.code,
+            method: "POST",
+            success(res){
+              console.log(res.data)
+              that.globalData.openid = res.data.data;
+              console.log(that.globalData.openid)
+            },fail(data){
+              wx.showToast({
+                title: '获取openid失败',
+                icon: 'fail',
+                duration: 2000
+              })
+            }
+          })
+        } else {
+          wx.showToast({
+            title: '登录失败',
+            icon: 'fail',
+            duration: 2000
+          })
+          console.log('登录失败！' + res.errMsg)
+        }
       }
     })
   },
