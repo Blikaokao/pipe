@@ -519,11 +519,12 @@ const conf = {
           //请求成功之后，把openid放到储存里面
 
           var usr;
-          for (var i = 0; i < usr_centent_list.length; i++) {
-            usr_centent_list[i].isTouchMove = false;
-            if (usr_centent_list[i].type == 0)
-              usr = usr_centent_list[i];
-          }
+          if(usr_centent_list!=null)
+            for (var i = 0; i < usr_centent_list.length; i++) {
+              usr_centent_list[i].isTouchMove = false;
+              if (usr_centent_list[i].type == 0)
+                usr = usr_centent_list[i];
+            }
 
           wx.setStorage({
             key: 'usr_centent_list',

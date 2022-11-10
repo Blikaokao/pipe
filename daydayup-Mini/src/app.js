@@ -94,18 +94,6 @@ App({
     })
   },
   onLaunch: function () {
-    if (!wx.cloud) {
-      console.error('请使用 2.2.3 或以上的基础库以使用云能力')
-    } else {
-      wx.cloud.init({
-        // env 参数说明：
-        //   env 参数决定接下来小程序发起的云开发调用（wx.cloud.xxx）会默认请求到哪个云环境的资源
-        //   此处请填入环境 ID, 环境 ID 可打开云控制台查看
-        //   如不填则使用默认环境（第一个创建的环境）
-        env: 'cloud1-1g8sc3r1b2f88adf',
-        traceUser: true,
-      })
-    }
     var that = this;
     //先获取到用户的openid
     this.getOpenid();
@@ -204,7 +192,7 @@ App({
   //暂时不做心跳
   login() {
     var that = this;
-    console.log("======");
+    console.log("===that.globalData.openid===",that.globalData.openid);
     //根据openid获取用户的id
     wx.request({
       url:that.globalData.url+':8074/fUser/getMiniusers/' + that.globalData.openid,
@@ -228,10 +216,11 @@ App({
                 success(resLogin) {
                   that.globalData.userRelation = resLogin.data.data;
                   var info = resLogin.data.data;
-                  for (var i = 0; i < info.length; i++) {
-                    if (info[i].type == 0)
-                      that.globalData.userinfo = info[i];
-                  }
+                  if(info!=null)
+                    for (var i = 0; i < info.length; i++) {
+                      if (info[i].type == 0)
+                        that.globalData.userinfo = info[i];
+                    }
                   console.log("userRelation", that.globalData.userRelation);
                   console.log("info", that.globalData.userinfo);
 
