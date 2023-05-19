@@ -1,0 +1,6 @@
+{
+    "navigationBarTitleText": "掌舵者",
+    "usingComponents": {
+        "tabbar":"../../components/custom-tab-bar"
+    }
+}

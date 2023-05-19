@@ -1,0 +1,17 @@
+<view class="tasks_photo">
+    <view class="photo">
+        <view class="photo_border">
+            <image wx:if="{{tempFilePaths == ''}}" src="../../images/loginusr.png" class="photo_area"
+                bindtap="chooseimage" />
+            <image wx:if="{{tempFilePaths!=''}}" src="{{tempFilePaths}} " class="photo_area" bindtap="chooseimage" />
+        </view>
+        <input type="text" class="usernm" bind:change="inputUsrName" 
+        data-current="usernm" value="{{usernm}}" placeholder="请输入用户名"/>
+            
+        <view style="display: flex;width: 20%;margin-right: auto;margin-left: auto;">
+            <button class="button_upload" bindtap="submitphoto" style="flex-grow: 2;" bindtap="login"
+                hover-class="btn-hover">登录</button>
+        </view>
+    </view>
+
+</view>

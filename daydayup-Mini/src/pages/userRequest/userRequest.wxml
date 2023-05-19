@@ -1,0 +1,36 @@
+<!--pages/userRequest/userRequest.wxml-->
+<view wx:for="{{requests}}" wx:for-item="request" wx:for-index="index" data-idx="{{request.id}}">
+    <!--pages/introInput/introinput.wxml-->
+
+    <view style="display: flex;width: 750rpx;margin-right: 20rpx;margin-bottom: 30rpx;" class="photoinput">
+        <view style="flex: 1; background-color: transparent;height: 50rpx;margin-top: 48rpx;text-align: center;">
+            <image src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2SqOAWSBKAAAcvwha0ug171.png"
+                style="height: 80rpx;width: 80rpx;"></image>
+        </view>
+        <view style="flex: 2; background-color: transparent;">
+            <view class="requestItem">
+                <view class="requestName">
+                    <view>{{request.fname}} </view>
+                    <view wx:if="{{request.status == 1}}" class="status todoStatus">待处理</view>
+                    <view wx:if="{{request.status == 2}}" class="status refuseStatus">已拒绝</view>
+                    <view wx:if="{{request.status == 3}}" class="status agreeStatus">已同意</view>
+                </view>
+                <!--<view class="requestId">{{request.fid}}</view>-->
+            </view>
+            <view class="opera">
+                <view style="flex: 1;"></view>
+                <view bindtap="agreeTap" class="agree buttont" data-idx="{{request.id}}"
+                    wx:if="{{request.status != 1}}">同意</view>
+                <view bindtap="agreeTap" class="agree buttont" data-idx="{{request.id}}"
+                    wx:if="{{request.status == 1}}">同意</view>
+                <view style="flex: 1;"></view>
+                <view bindtap="refuseTap" class="refuse buttont" data-idx="{{request.id}}"
+                    wx:if="{{request.status != 1}}">拒绝</view>
+                <view bindtap="refuseTap" class="refuse buttont" data-idx="{{request.id}}"
+                    wx:if="{{request.status == 1}}">拒绝</view>
+                <view style="flex: 1;"></view>
+            </view>
+        </view>
+    </view>
+
+</view>

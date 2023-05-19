@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title>USERDATA</title>
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+  <!-- Bootstrap core CSS -->
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+  <!-- Material Design Bootstrap -->
+  <link href="css/mdb.min.css" rel="stylesheet">
+  <!-- Your custom styles (optional) -->
+  <link href="css/style.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+
+  <script>
+
+
+    var admin = JSON.parse(localStorage.getItem("adminUser"));
+
+    if (admin == null) {
+      location.replace("../userlogin/index3.html");
+      alert("请先登录！");
+    }
+  </script>
+  <style>
+    .card {
+      background-color: rgb(255, 255, 255, 0.80);
+    }
+
+    .list-group-item {
+      background-color: rgb(255, 255, 255, 0);
+      color: black;
+      font-weight: bolder;
+    }
+
+
+
+    .list-group-item.active {
+      background-color: rgba(18, 113, 238, 0.6);
+      border-color: rgba(18, 113, 238, 0.6);
+      color: aliceblue;
+      font-weight: bolder;
+    }
+
+    .map-container {
+      overflow: hidden;
+      padding-bottom: 56.25%;
+      position: relative;
+      height: 0;
+    }
+
+    .map-container iframe {
+      left: 0;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      position: absolute;
+    }
+  </style>
+</head>
+
+<body style="
+  background-image: url(images/astro_6.jpg);background-repeat: no-repeat;background-size: cover;">
+
+  <!--Main Navigation-->
+  <header>
+
+    <!-- Navbar -->
+    <nav class="navbar fixed-top navbar-expand-lg navbar-light scrolling-navbar"
+      style="background-color: rgba(63, 67, 71,0.7);z-index: 2;height: 70px;">
+      <div class="container-fluid">
+
+        <!-- Links -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+          <!-- Left -->
+
+          <ul class="navbar-nav mr-auto" style="font-size: 19px;">
+
+
+
+
+
+
+
+            <li class="nav-item ">
+              <a class="nav-link waves-effect" href="../index.html" style="color: aliceblue;padding-right: 2.5rem;">
+                <i class="fa fa-home" aria-hidden="true"></i>&nbsp;&nbsp;Home
+              </a>
+            </li>
+
+            <li>
+              <a href="#" class="nav-link waves-effect" style="color: aliceblue;padding-right: 2.5rem;">
+                <i class="fas fa-bar-chart mr-3"></i>统计监测
+              </a>
+            </li>
+
+
+            <li>
+              <a href="Calender.html" class="nav-link waves-effect" style="color: aliceblue;">
+                <i class="fas fa-calendar-o mr-3"></i>我的日程</a>
+
+            </li>
+
+
+
+          </ul>
+
+          <!-- Right -->
+          <ul class="navbar-nav nav-flex-icons" style="font-size: 19px;">
+            <li class="nav-item">
+              <a href="#" class="nav-link waves-effect" target="_blank" style="color: aliceblue;">
+                <i class="fab fa-facebook-f"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link waves-effect" target="_blank" style="color: aliceblue;">
+                <i class="fab fa-twitter"></i>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link rounded waves-effect" target="_blank" style="color: aliceblue;">
+                <i class="fab fa-github mr-2"></i>DDU GitHub
+              </a>
+            </li>
+            <li class="nav-item">
+              <a href="#" class="nav-link rounded waves-effect" target="_blank" style="color: aliceblue;" id="exit">
+                <i class="fas fa-circle mr-3"></i>退出</a>
+            </li>
+          </ul>
+
+        </div>
+
+      </div>
+    </nav>
+    <!-- Navbar -->
+
+    <!-- Sidebar -->
+    <!--<div class="sidebar-fixed position-fixed">
+
+      <a class="logo-wrapper waves-effect">
+        <img src="images/logo.png" style="width:100px;height:100px;object-fit:contain;" class="img-fluid" alt="">
+      </a>
+
+      <div class="list-group list-group-flush">
+        <a href="#" class="list-group-item active waves-effect">
+          <i class="fas fa-bar-chart mr-3"></i>统计监测
+        </a>
+        <a href="Calender.html" class="list-group-item list-group-item-action waves-effect">
+          <i class="fas fa-calendar-o mr-3"></i>用户日程</a>
+        <a href="../index.html" class="list-group-item list-group-item-action waves-effect" id="exit">
+          <i class="fas fa-circle mr-3"></i>退出</a>
+      </div>
+    </div>-->
+    <!-- Sidebar -->
+
+  </header>
+  <!--Main Navigation-->
+
+  <!--Main layout-->
+  <main class="pt-5 mx-lg-5">
+    <div class="container-fluid mt-5" style="height: 70px;">
+
+
+
+    </div>
+    <!-- Heading -->
+
+    <!--Grid row-->
+    <div class="row wow fadeIn">
+
+      <!--Grid column-->
+      <!--柱状图-->
+      <div class="col-md-9 mb-4">
+
+        <!--Card-->
+        <div class="card">
+
+          <!--Card content-->
+          <div class="card-body">
+
+            <canvas id="myChart"></canvas>
+
+          </div>
+
+        </div>
+        <!--/.Card-->
+
+      </div>
+
+      <!--Grid column-->
+      <div class="col-md-3 mb-4">
+
+        <!--Card-->
+        <div class="card mb-4">
+
+          <!-- Card header -->
+          <div class="card-header text-center">
+            录入方式统计
+          </div>
+
+          <!--Card content-->
+          <div class="card-body">
+
+            <canvas id="pieChart"></canvas>
+
+          </div>
+
+        </div>
+        <!--/.Card-->
+
+        <!--Card-->
+        <div class="card mb-4">
+
+          <!--Card content-->
+          <div class="card-body">
+
+            <!-- List group links -->
+            <div class="list-group list-group-flush">
+              <a class="list-group-item list-group-item-action waves-effect">Todo
+                <span class="badge badge-primary badge-pill pull-right" id="todo">0
+                  <!--<i class="fas fa-arrow-up ml-1"></i>-->
+                </span>
+              </a>
+              <a class="list-group-item list-group-item-action waves-effect">Done
+                <span class="badge badge-primary badge-pill pull-right" id="done">0
+                  <!--<i class="fas fa-arrow-down ml-1"></i>-->
+                </span>
+              </a>
+              <a class="list-group-item list-group-item-action waves-effect">OutOfTime
+                <span class="badge badge-primary badge-pill pull-right" id="outTime">0</span>
+              </a>
+            </div>
+            <!-- List group links -->
+
+          </div>
+
+        </div>
+        <!--/.Card-->
+
+      </div>
+      <!--Grid column-->
+
+    </div>
+    <!--Grid row-->
+
+
+    <!--/.Call to action-->
+
+
+
+
+
+    </footer>
+    <!--/.Footer-->
+
+    <!-- SCRIPTS -->
+    <!-- JQuery -->
+    <script type="text/javascript" src="js/jquery-3.4.1.min.js"></script>
+    <!-- Bootstrap tooltips -->
+    <script type="text/javascript" src="js/popper.min.js"></script>
+    <!-- Bootstrap core JavaScript -->
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <!-- MDB core JavaScript -->
+    <script type="text/javascript" src="js/mdb.min.js"></script>
+    <!-- Initializations -->
+    <script type="text/javascript">
+      // Animations initialization
+      new WOW().init();
+
+    </script>
+
+    <!-- Charts -->
+    <script>
+      // Line
+      var userList;
+      var userName = [];
+      var userids = [];
+      var userTypes = [];
+      var userCounts = [];
+      var userDetailCount = [];
+      var todo;
+      var done;
+      var outTime;
+      var typeInfo = ["text", "photo", "voice"];
+      var typeCount = [];
+      var admin = JSON.parse(localStorage.getItem("adminUser"));
+
+      $("#exit").click(function () {
+
+        localStorage.clear();
+
+      });
+      $.ajax({
+        traditional: true,
+        url: 'https://www.daydaypipe.top:8874/fUser/getAllUsers/' + admin.userId,
+        type: 'GET',
+        contentType: 'application/json;charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+
+          userList = JSON.stringify(data.data);
+          localStorage.setItem("userList", userList);
+          userList = JSON.parse(localStorage.getItem("userList"));
+
+          for (var i = 0; i < userList.length; i++) {
+
+            userName.push(userList[i].names);
+            userids.push(userList[i].userId);
+            userTypes.push(userList[i].type);
+          }
+        }
+      })
+
+
+      $("#exit").click(function () {
+
+        localStorage.clear();
+        window.location.replace("../userlogin/index3.html");
+
+      });
+
+
+
+      $.ajax({
+        traditional: true,
+        url: 'https://www.daydaypipe.top:8874/oneDayTask/getTasksCount',
+        type: 'POST',
+        contentType: 'application/json;charset=utf-8',
+        data: JSON.stringify(userids),
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+          var tmp = data.data;
+          for (var i = 0; i < tmp.length; i++) {
+            userCounts.push(tmp[i]);
+          }
+          console.log(userCounts);
+        },
+      })
+      $.ajax({
+        traditional: true,
+        url: 'https://www.daydaypipe.top:8874/oneDayTask/getDetailCount',
+        type: 'POST',
+        contentType: 'application/json;charset=utf-8',
+        data: JSON.stringify(userids),
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+          var tmp = data.data;
+          for (var i = 0; i < tmp.length; i++) {
+            userDetailCount.push(tmp[i]);
+          }
+          console.log(userDetailCount);
+        },
+      })
+      $.ajax({
+        traditional: true,
+        url: 'https://www.daydaypipe.top:8874/oneDayTask/getAllType/' + admin.userId,
+        type: 'POST',
+        contentType: 'application/json;charset=utf-8',
+        data: JSON.stringify(userids),
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+          typeCount.push(data.data.text);
+          typeCount.push(data.data.photo);
+          typeCount.push(data.data.voice);
+
+          console.log(typeCount);
+        },
+      })
+      $.ajax({
+        traditional: true,
+        url: 'https://www.daydaypipe.top:8874/oneDayTask/allStatus/' + admin.userId,
+        type: 'POST',
+        contentType: 'application/json;charset=utf-8',
+        dataType: 'json',
+        async: false,
+        success: function (data) {
+          todo = data.data.todo;
+          done = data.data.done;
+          outTime = data.data.outTime;
+
+          document.getElementById("todo").innerText = todo;
+          document.getElementById("done").innerText = done;
+          document.getElementById("outTime").innerText = outTime;
+          console.log(todo, done, outTime);
+        },
+      })
+      var ctx = document.getElementById("myChart").getContext('2d');
+
+      var myChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: userName,
+          datasets: [{
+            label: "总任务",
+            data: userCounts,
+            backgroundColor: [
+              'rgba(255, 99, 132, 0.7)',
+              'rgba(54, 162, 235, 0.7)',
+              'rgba(255, 206, 86, 0.7)',
+              'rgba(75, 192, 192, 0.7)',
+              'rgba(221,160,221,0.7)',
+              'rgba(0,255,255,0.7)'
+            ],
+            borderColor: [
+              'rgba(255,99,132,1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(238,130,238,1)',
+              'rgba(0,206,209,1.000)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          scales: {
+            yAxes: [{
+              ticks: {
+                beginAtZero: true
+              }
+            }]
+          }
+        }
+      });
+
+      //pie
+      var ctxP = document.getElementById("pieChart").getContext('2d');
+      var myPieChart = new Chart(ctxP, {
+        type: 'pie',
+        data: {
+          labels: typeInfo,
+          datasets: [{
+            data: typeCount,
+            backgroundColor: ['rgba(255, 99, 132, 0.8)',
+              'rgba(54, 162, 235, 0.8)',
+              'rgba(255, 206, 86, 0.8)',
+              'rgba(75, 192, 192, 0.8)',
+              'rgba(221,160,221,0.8)',
+              'rgba(0,255,255,0.8)'],
+            hoverBackgroundColor: ['rgba(255,99,132,1)',
+              'rgba(54, 162, 235, 1)',
+              'rgba(255, 206, 86, 1)',
+              'rgba(75, 192, 192, 1)',
+              'rgba(238,130,238,1)',
+              'rgba(0,206,209,1.000)']
+          }]
+        },
+        options: {
+          responsive: true,
+          legend: false
+        }
+      });
+    </script>
+
+
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+<!--pages/detail/detail.wxml-->
+<!--按照id去向后端发起请求 然后得到日程的详细信息 保存到data  之后取出  放在页面
+     但是需要注意的是这个需要  可以编辑的 一旦检测到用户编辑  出现确定  取消按钮
+     一些出现的是 弹框  一些出现的是 可以直接编辑的框-->
+
+<view class="listItem-div" >
+     <view class="item-title">
+          <input type="text" name="" bindblur='changeTaskName' bindconfirm='changeTaskName' bindinput='changeTaskName'
+                value="{{task.taskName}}" id="" placeholder="{{task.taskName}}"></input>
+     </view>
+</view>
+<image class="more" src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2RWyADWG6AAAOedMIw44673.png"  wx:if='{{!zhankai && detailNum}}' bindtap="zhankai"></image>
+<image class="more" src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2RU6Aa95mAAASsFGD8K0705.png"  wx:if='{{zhankai && detailNum}}' bindtap="shouqi"></image>
+
+<view class="more_content " wx:if='{{zhankai}}'>
+     <view wx:for="{{task.detailtaskList}}" wx:for-item="item" wx:key="item">
+          <view class="grade ">
+               <input type="text" id="" placeholder="{{item.taskDetailName}}"></input>
+          </view>
+     </view>
+</view>
+<view class="bgTime" style="display: flex;width: 100%;">
+     <!--<view class="startTime" >
+          <view class="item-title-time" style="text-align: center;">开始时间</view>
+     </view>-->
+     <view class="timepicker" style="display: flex;">
+          <image style="flex-grow: 2;max-width:100%;max-height: 56%; width: auto; margin-bottom: auto;margin-top: auto;" src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2RaiAc2w5AAAVstCM0l8139.png" role="img" ></image>
+          <picker mode="multiSelector" style="flex-grow: 1;" value="{{dateTime1}}" bindchange="changeStartDateTime"
+               bindcolumnchange="changeDateTimeColumn1" range="{{dateTimeArray1}}">
+               <text class="picker" style="font-size: 0.4em;">{{task.startDate}} </text>
+          </picker>
+     </view>
+
+     <view class="timepicker" style="display: flex;">
+          <image style="flex-grow: 2;max-width:100%;max-height: 56%; width: auto; margin-bottom: auto;margin-top: auto;" src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2RbeAbcQHAAAVtMNrEqw329.png" role="img" ></image>
+          <picker mode="multiSelector" style="flex-grow: 1;" value="{{dateTime1}}" bindchange="changeEndDateTime"
+               bindcolumnchange="changeEndDateTimeColumn1" range="{{dateTimeArray1}}">
+               <text class="picker" style="font-size: 0.4em;">{{task.deadLine}}</text>
+          </picker>
+     </view>
+
+
+</view>
+<!--<view class="bgTime" style="display: flex;">
+     <view class="endTime" >
+          <view class="item-title-time" style="text-align: center;">结束时间</view>
+     </view>
+
+     <view class="timepicker">
+          <picker mode="multiSelector" value="{{dateTime1}}" bindchange="changeEndDateTime"
+               bindcolumnchange="changeEndDateTimeColumn1" range="{{dateTimeArray1}}">
+               <text class="picker">{{task.deadLine}}</text>
+          </picker>
+     </view>
+</view>-->
+
+<view class="bgTime" style="display: flex;">
+
+     <view class="timepicker" style="display: flex;">
+          <image style="flex-grow: 2;max-width:20%;max-height: 46%; width: auto; margin-bottom: auto;margin-top: auto;" src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2Sg-AeaNmAAAlUP9EzfU781.png" role="img" ></image>
+          <view class='account-picker'>{{task.account}}</view>
+         
+     </view>
+
+     <view class="timepicker" style="display: flex;">
+          <image style="flex-grow: 2;max-width:20%;max-height: 49%; width: auto; margin-bottom: auto;margin-top: auto;" src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2SWCACa9XAAAVw9up0uQ629.png" role="img" ></image>
+          <picker bindchange="bindPickerChange" style="flex-grow: 1;" value="{{setIndex}}" range="{{activityArr}}" range-key="label">
+               <view class='account-picker' wx:if="{{task.alert}}">提前{{task.alert}}分钟</view>
+
+               <view class='account-picker' wx:if="{{!task.alert}}">点击进行设置</view>
+          </picker>
+     </view>
+     <!--<view class="startTime" >
+          <view class="item-title-time" style="text-align: center;">所属账户</view>
+     </view>
+
+     <view class='account-picker'>{{task.account}}</view>-->
+</view>
+<!--<view class="bgTime" style="display: flex;">
+
+    
+
+     <view class="startTime" >
+          <view class="item-title-time" style="text-align: center;">提醒时间</view>
+     </view>
+    
+
+</view>-->
+
+<view class="listItem-div"
+     style="margin-left: auto;margin-right: auto; width:50%;text-align:center;line-height:130rpx;"
+     bindtap="submitTask" wx:if="{{updatetask}}">确定</view>

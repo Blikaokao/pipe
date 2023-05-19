@@ -1,0 +1,43 @@
+.nav {
+    height: 80rpx;
+    line-height: 80rpx;
+    width: 25%;
+    text-align: center;
+  }
+  .nav_centent_arr {
+    height: 500rpx;
+  animation:mymove 3s;
+  }
+  @keyframes mymove
+  {
+  from {height:0px;}
+  to {height:500rpx;}
+  }
+  .nav_item {
+    border-bottom: 1px solid #999;
+  }
+  .content {
+    width: 100%;
+  }
+  .red {
+    display: inline-block;
+    color: #d0d0d0;
+    font-size: 28rpx;
+  }
+  .icon {
+    display: inline-block;
+    color: red;
+    transform: rotate(90deg);
+  }
+  .nav_centent {
+    margin: 30rpx 25rpx 20rpx 30rpx;
+    font-size: 32rpx;
+    border-bottom: 1px solid #f2f2f2;
+    padding-bottom: 30rpx;
+  }
+  .page_row {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+  }

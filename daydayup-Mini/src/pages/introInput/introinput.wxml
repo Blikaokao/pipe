@@ -1,0 +1,55 @@
+<!--pages/introInput/introinput.wxml-->
+<view style="width: 750rpx;height: {{windowHeight}}px;">
+    <view style="width: 750rpx;height: 100rpx;" animation="{{slide_up1}}"></view>
+
+    <view style="display: flex;width: 750rpx;height: {{photo_height}}rpx;margin-right: 20rpx;" 
+        animation="{{slide_up1}}">
+    </view>
+    <view style="display: flex;width: 750rpx;height: {{photo_height}}rpx;margin-right: 20rpx;" class="photoinput"
+        animation="{{slide_up1}}">
+        <view style="flex: 1; background-color: transparent;height: 300rpx;margin-top: 48rpx;text-align: center;">
+            <image src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2Rt2ABM45AABwIWUPapw605.jpg"
+                style="height: 205rpx;width: 217rpx;"></image>
+        </view>
+        <view style="flex: 2; background-color: transparent;height: {{photo_height}}rpx;">
+            <view style="text-align: center;height: 150rpx;line-height: 150rpx;font-size: larger;font-weight: bolder;">
+                图片输入</view>
+            <text space="ensp"> 自动提取、多任务一次性导入，释放双手</text>
+            <view bindtap="" style="text-align: right;color: #55559c;margin-right: 60rpx;"
+            bindtap="inputphoto">点击体验</view>
+        </view>
+    </view>
+    <view style="width: 750rpx;height: 50rpx;"  animation="{{slide_up1}}"></view>
+    <view style="display: flex;width: 750rpx;height: {{photo_height}}rpx;margin-right: 20rpx;" class="textinput"
+        animation="{{slide_up1}}">
+        <view style="flex: 1; background-color: transparent;height: 300rpx;margin-left: 24rpx;margin-top: 30rpx;">
+            <image src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2RvaAPhDCAAL8NAaZUP4995.png"
+                style="height: 257rpx;width: 300rpx;"></image>
+        </view>
+        <view style="flex: 2; background-color: transparent;height:  {{photo_height}}rpx;">
+            <view style="text-align: center;height: 150rpx;line-height: 150rpx;font-size: larger;font-weight: bolder;">
+                文本输入</view>
+            <text space="ensp"> 海量文本、精准提取、便捷智能</text>
+            <view bindtap="" style="text-align: right;color: #55559c;margin-right: 60rpx;"
+            bindtap="inputtext">点击体验</view>
+        </view>
+    </view>
+    <view style="width: 750rpx;height: 70rpx;"  animation="{{slide_up2}}"></view>
+    <view style="display: flex;width: 750rpx;height:  {{photo_height}}rpx;margin-right: 20rpx;" class="voiceinput"
+        animation="{{slide_up1}}">
+        <view style="flex: 1; background-color: transparent;height: 300rpx;text-align: center;margin-top: 38rpx;margin-left: 20rpx;">
+            <image src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2Rw2AdyvmAAA90R0jY38322.jpg"
+                style="height: 200rpx;width: 200rpx;"></image>
+        </view>
+        <view style="flex: 2; background-color: transparent;height: 300rpx;">
+            <view style="text-align: center;height: 150rpx;line-height: 150rpx;font-size: larger;font-weight: bolder;">
+                语音输入</view>
+            <text space="ensp"> 打字不便？语音输入、解放双手、快速便捷</text>
+            <view bindtap="inputvoice" style="text-align: right;color: blue;margin-right: 60rpx;color: #55559c;">点击体验</view>
+        </view>
+    </view>
+    <view space="ensp" style="margin-top: 50rpx; width: 750rpx;font-size: small;height: auto;text-align: center;color: gray;" 
+        animation="{{slide_up2}}">
+        联系我们 | 掌舵者团队 | 1071686408@qq.com
+    </view>
+</view>

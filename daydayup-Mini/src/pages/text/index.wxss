@@ -1,0 +1,297 @@
+
+.photo_area {
+    border-radius: 1px;
+    border-style: dotted;
+    border-color: gray;
+    margin-left: 50px;
+}
+.button_upload {
+   margin:21rpx auto 0 auto;
+   width: 80%;
+   border-radius: 10px;
+   background-color: blue;
+   color: white;
+
+}
+.btn-hover{
+  background-image: linear-gradient(rgba(205, 212, 228, 0.274), rgb(0, 128, 248));
+}
+/*button*/  
+.btn {  
+    width: 80%;  
+    padding: 20rpx 0;  
+    border-radius: 10rpx;  
+    text-align: center;  
+    margin: 40rpx 10%;  
+    background: #000;  
+    color: #fff;  
+  }  
+    
+  /*mask*/  
+  .drawer_screen {  
+    width: 100%;  
+    height: 100%;  
+    position: fixed;  
+    top: 0;  
+    left: 0;  
+    z-index: 1000;  
+    background: #000;  
+    opacity: 0.5;  
+    overflow: hidden;  
+  }  
+    
+  /*content*/  
+  .drawer_box {  
+    width: 650rpx;  
+    overflow: hidden;  
+    position: fixed;  
+    top: 50%;  
+    left: 0;  
+    z-index: 1001;  
+    background: #FAFAFA;  
+    margin: -150px 50rpx 0 50rpx;  
+    border-radius: 30px;  
+  }  
+  .title-style {
+    border-radius: 5px;
+  }
+  .drawer_title{  
+    padding:15px;  
+    font: 14px "microsoft yahei";  
+    text-align: center; 
+    
+    background-color: #0899f99e;
+  
+  }  
+  .drawer_title_1{
+    border-right: 2px solid rgb(35, 209, 240);
+    border-radius: 30px 0 0 30px;
+  }
+  
+  .drawer_title_2{
+    border-radius: 0 30px 30px 0;
+  }
+  
+  
+  .drawer_content {  
+   
+    overflow-y: scroll; /*超出父盒子高度可滚动*/ 
+      
+  }  
+    
+  .btn_ok{  
+    margin-top: 30rpx;
+    width: 80px;
+    padding: 10px;  
+    font: 14px "microsoft yahei";  
+    text-align: center;  
+    border-top: 1px solid #E8E8EA;  
+    color: #0899f99e;  
+    font-weight: bold;
+  }  
+    
+  .top{  
+      padding-top:8px;  
+  }  
+  .bottom {  
+      padding-bottom:8px;  
+  }  
+  .title {  
+      height: 30px;  
+      line-height: 30px;  
+      width: 140rpx;  
+      text-align: center;  
+      display: inline-block;  
+      font: 300 28rpx/30px "microsoft yahei";  
+  }  
+    
+  .input_base {  
+    /*border: 2rpx solid #ccc;  */
+    margin-right: 21rpx;  
+}
+  .input_h30{  
+      height: 30px;  
+      line-height: 30px;  
+      font-size: small;
+      text-align: center;
+  }  
+  .input_h60{  
+      height: 60px;  
+  }  
+  .input_view{  
+      font: 12px "microsoft yahei";  
+      background: #fff;  
+      color:#000;  
+      line-height: 30px;  
+  }  
+    
+  input {  
+      font: 12px "microsoft yahei";  
+      
+      color:#000 ;  
+  }  
+  radio{  
+      margin-right: 20px;  
+  }  
+  .grid { display: -webkit-box; display: box; padding-bottom:10rpx;}  
+  .col-0 {-webkit-box-flex:0;box-flex:0;}  
+  .col-1 {-webkit-box-flex:1;box-flex:1;}  
+  .fl { float: left;}  
+  .fr { float: right;}
+  
+  .placeholder {
+      color: rgba(188, 188, 189, 0.829);
+  }
+
+  .tasks_photo {
+      /*border-color: rgba(24, 116, 253, 0.781) white white white;
+      border-style: solid;*/
+     
+      /*box-shadow: 26px -9px 12px #808080ab;*/
+      width: 100%;
+      margin-left: auto;
+      margin-top: 30rpx;
+     
+      /*border-radius: 40px 40px 0 0;*/
+      background-color: white;
+  }
+
+
+
+.conts{
+    /*width: 750rpx;
+    height: auto;*/
+    /*border: 1rpx soldi red;
+    margin-top: 90rpx;*/
+    background: #fff;
+}
+.areas{
+    width: 93%;
+    height:280rpx;
+    font-size: 30rpx;
+    text-indent: 28rpx;
+    border: 1rpx solid gainsboro;
+    padding-top: 30rpx;
+    margin: 0 auto 0 auto;
+    overflow: hidden;
+    position: relative;
+}
+.currentWordNumber{
+    font-size: 28rpx;
+    color: gray;
+    position: absolute;
+    left: 593rpx;
+    top: -1rpx;
+}
+.hint{
+    font-size: 28rpx;
+    position: absolute;
+    top: 120rpx;
+    left: 30rpx;
+    color: #FF6600;
+}
+  
+/*.picker{
+  padding: 5rpx;
+}*/
+
+.nav_centent_arr {
+
+  top: 867rpx;
+  left: 133rpx;
+  position: fixed;
+  height: 500rpx;
+  z-index: 9999;
+  
+  animation:mymove 3s;
+}
+
+@keyframes mymove
+{
+from {height:0px;}
+to {height:500rpx;}
+}
+
+.nav_centent {
+ 
+  
+  
+  border: 2px solid #a1a1a100;
+  /* border-style: 1px solid white; */
+  border-radius: 5px;
+  text-align: center;
+  
+  line-height: 28px;
+  width: 336rpx;
+  height: 68rpx;
+  /* margin: 25rpx 25rpx 20rpx 30rpx; */
+  font-size: 32rpx;
+  /* border-bottom: 1px solid #00000047; */
+  /* padding-bottom: 30rpx; */
+  z-index: 9999;
+  background-color: white;
+  margin-top: -13rpx;
+
+}
+
+
+/* pages/index/index.wxss */
+scroll-view{
+  width: 100%;
+  height: 100%;
+  display: flex;
+}
+.menu{
+  margin-top: 60rpx;
+  display: flex;
+  font-size: 40rpx;
+  line-height: 70rpx;
+  flex-direction: row;
+  /*justify-content: space-around;*/
+  
+}
+.font-white{
+  border-radius: 31rpx 31rpx 0 0;
+ 
+  
+  background-image: linear-gradient(rgba(111, 198, 255, 0.94), white);
+  font-weight: bold;
+  border-style: solid;
+  border-color: white white white;
+  border-width: thin;
+  text-align: center;
+}
+.font-black{
+  color: gray;
+  border-style: solid;
+  border-color: white;
+  border-width: thin;
+  text-align: center;
+}
+.view1{
+  height: 100%;
+}
+
+.close-chose {
+  display: inline;
+  color: red;
+}
+.close{
+  display: inline;
+  color: gray;
+}
+.everycard {
+  margin-top: 60rpx;
+}
+.scroll {
+  width: 90%;
+  height: 80rpx;
+  line-height: 80rpx;
+  margin: 0 auto;
+  display: flex;
+  /* 超出部分隐藏 */
+  overflow: hidden;
+  /* 文本不换行 */
+  white-space: nowrap; 
+}
+

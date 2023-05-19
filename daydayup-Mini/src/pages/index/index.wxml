@@ -1,0 +1,53 @@
+<swiper bindtap="showComponent" indicator-dots="{{indicatorDots}}" autoplay="{{autoplay}}" interval="{{interval}}" duration="{{duration}}" circular="true">
+  <block wx:for="{{imgUrls}}">
+    <swiper-item>
+
+      <image src="{{item}}" class="slide-image" style="margin-top: 15px; " />
+
+    </swiper-item>
+
+  </block>
+</swiper>
+<view bindtap="showComponent" style="display: flex;margin: 15px 0 20px 0;">
+  <view class="introduce-title"></view>
+  <view class="introduce-intro">功能介绍</view>
+  <view class="introduce-triangle"></view>
+</view>
+<view bindtap="showComponent" style="display: flex;">
+  <view class="total-introduce" bindtap="introinput">
+    <image class="total-introduce-image"
+      src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2RiWAYDfcAFMrxuim8LM006.png">
+    </image>
+    <view class="total-introduce-text">多元输入</view>
+  </view>
+  <!--intromulti-->
+  <view class="total-introduce" bindtap="intromulti">
+    <image class="total-introduce-image"
+      src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2Rj2ASjsoAAJsvmqneK4443.png">
+    </image>
+    <view class="total-introduce-text">多设备融合</view>
+  </view>
+  <view class="total-introduce" bindtap="introdata">
+    <image class="total-introduce-image"
+      src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2Rk-AF2NgAAJ-aliRWUU477.png">
+
+    </image>
+    <view class="total-introduce-text" >数据分析</view>
+  </view>
+</view>
+
+<view bindtap="showComponent" style="display: flex;flex-wrap: wrap;">
+  <image class="introduce-show_content" bindtap="redirectToPhoto"
+    src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2RnCAeZ4GAABZcaYQ62M483.jpg"></image>
+  <image class="introduce-show_content" bindtap="redirectToVoice"
+    src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2RoqAMJRLAARTtgBt_TU278.jpg"></image>
+  <image class="introduce-show_content" bindtap="redirectToIndex"
+    src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2RqaAeHkcAAfggyyt368769.png"></image>
+  <image class="introduce-show_content" bindtap="redirectToIndex"
+    src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2RrmADrE4AAfFOY2jOtY469.jpg"></image>
+</view>
+
+
+
+<!--底部导航栏-->
+<tabbar id="tabbar" ></tabbar>

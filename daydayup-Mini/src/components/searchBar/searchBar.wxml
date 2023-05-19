@@ -1,0 +1,21 @@
+<view class="searchbar">
+  <view class="content">
+    <image src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2ROGAdBXzAAASYJ_rFOI584.png" class="search-icon"></image>
+    <input 
+      bindinput="handleInput"
+      bindconfirm="handleConfirm"
+      type="text"
+      value="{{inputValue}}" 
+      placeholder="{{placeholder}}" 
+      class="input"
+      confirm-type="search"
+    ></input>
+    <image
+     wx:if="{{inputValue}}" 
+     bindtap="handleDeleteClick"
+     src="http://8.130.89.28:8051/group1/M00/00/00/rBEACmQ2RRKAZqCHAAAazOc24k8883.png" 
+     class="delete-icon"
+    ></image>
+  </view>
+  <view wx:if="{{inputValue}}" bindtap="handleTextbtnClick" class="text-btn">取消</view>
+</view>

@@ -1,0 +1,3 @@
+<!--pages/wsTest/wsTest.wxml-->
+<view style="background-color: blue;width: 80%;height: 100rpx;" bindtap="wsTest">点击发送websocket消息</view>
+

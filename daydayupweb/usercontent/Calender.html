@@ -1,0 +1,1067 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>Calender</title>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+    <!-- Bootstrap core CSS -->
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <!-- Material Design Bootstrap -->
+    <link href="css/mdb.min.css" rel="stylesheet">
+    <!-- Your custom styles (optional) -->
+    <link href="css/style.min.css" rel="stylesheet">
+    <link href='fullcalendar/fullcalendar.css' rel='stylesheet' />
+    <link href='fullcalendar/fullcalendar.print.css' rel='stylesheet' media='print' />
+    <link rel="stylesheet" type="text/css" href="css/style_f.css">
+    <link rel="stylesheet" href="https://cdn.staticfile.org/font-awesome/4.7.0/css/font-awesome.css">
+
+
+    <script src='lib/jquery.min.js'></script>
+
+
+    <script type="text/javascript" src="js/modal.js"></script>
+
+
+    <script src='lib/jquery-ui.custom.min.js'></script>
+    <script src='fullcalendar/fullcalendar.min.js'></script>
+    <script>
+        var allTasks = [];
+
+        var date = new Date();
+        var d = date.getDate();
+        var m = date.getMonth();
+        var y = date.getFullYear();
+        // 请求出所有的日程放到相应的位置
+        var admin = JSON.parse(localStorage.getItem("adminUser"));
+
+        if (admin == null) {
+            location.replace("../userlogin/index3.html");
+            alert("请先登录！");
+        }
+
+        $.ajax({
+            traditional: true,
+            url: 'https://www.daydaypipe.top:8874/oneDayTask/getAllTasks/' + admin.userId,
+            type: 'POST',
+            async: false,
+            contentType: 'application/json;charset=utf-8',
+            dataType: 'json',
+            success: function (data) {
+                var tmp = data.data;
+                for (var i = 0; i < tmp.length; i++) {
+                    var event = {};
+                    var startStr = tmp[i].startDate;
+                    var deadStr = tmp[i].deadLine;
+
+                    //加个空判断
+                    if (startStr == "") {
+                        startStr = deadStr;
+                    } else if (deadStr == "") {
+                        deadStr = startStr;
+                    }
+                    var startTimeList = startStr.split(" ");
+                    var deadTimeList = deadStr.split(" ");
+                    console.log(startTimeList[0]);
+
+                    startStr = startTimeList[0].replace(/-/g, "/");
+                    deadStr = deadTimeList[0].replace(/-/g, "/");
+                    var startDate = new Date(startStr);
+                    var deadline = new Date(deadStr);
+                    console.log(startDate);
+                    console.log(deadline);
+
+                    //需要考虑正数负数
+                    //任务持续的天数
+
+                    var continuDays = parseInt((startDate.getTime() - deadline.getTime()) / (1000 * 3600 * 24)) + 1;
+                    //开始日期  和系统日期相差的天数
+                    var putLocation;
+                    if (parseInt((startDate.getTime() - date.getTime()) / (1000 * 3600 * 24)) < 0) {
+                        putLocation = parseInt((startDate.getTime() - date.getTime()) / (1000 * 3600 * 24));
+                    } else {
+                        if (startDate.getDate() == date.getDate() && startDate.getMonth() == date.getMonth()) {
+                            putLocation = startDate.getDate() - date.getDate();
+                        } else {
+                            putLocation = parseInt((startDate.getTime() - date.getTime()) / (1000 * 3600 * 24)) + 1;
+                        }
+                    }
+                    //结束日期的时间差
+                    var endLocaltion;
+                    if (parseInt((deadline.getTime() - date.getTime()) / (1000 * 3600 * 24)) < 0) {
+                        endLocaltion = parseInt((deadline.getTime() - date.getTime()) / (1000 * 3600 * 24));
+                    } else {
+                        if (deadline.getDate() == date.getDate() && deadline.getMonth() == date.getMonth()) {
+                            endLocaltion = deadline.getDate() - date.getDate();
+                        } else {
+                            endLocaltion = parseInt((deadline.getTime() - date.getTime()) / (1000 * 3600 * 24)) + 1;
+                        }
+                        //endLocaltion = parseInt((deadline.getTime() - date.getTime()) / (1000 * 3600 * 24)) + 1;
+                    }
+                    console.log("continueDays", continuDays, putLocation, endLocaltion, date);
+
+                    //开始时间
+                    var statimes = startTimeList[1].split(":");
+                    var beginHours = statimes[0];
+                    var beginMinutes = statimes[1];
+                    //结束时间
+                    var endtimes = deadTimeList[1].split(":");
+                    var endHours = endtimes[0];
+                    var endMinutes = endtimes[1];
+
+                    console.log(beginHours, beginMinutes, endHours, endMinutes);
+
+                    //封装对象
+                    event.title = tmp[i].taskName;
+                    event.start = new Date(y, m, d + putLocation, beginHours, beginMinutes);
+                    event.end = new Date(y, m, d + endLocaltion, endHours, endMinutes);
+
+                    //加入数组
+                    allTasks.push(event);
+
+                }
+                console.log(allTasks[0]);
+            },
+        })
+        $(document).ready(function () {
+
+            var event = {};
+            event.title = 'test';
+            event.start = new Date(y, m, 1);
+            console.log(allTasks);
+            $('#calendar').fullCalendar({
+
+                editable: true,
+                events: allTasks
+            });
+        });
+
+        function upload(event) {
+
+            const formData = new FormData();
+            //console.log("event.target.files[0]")
+            formData.append('img', event.target.files[0]);
+
+            var file = event.target.files[0];
+
+            if (!!file) {
+                var reader = new FileReader(); // 图片文件转换为base64
+                reader.readAsDataURL(file);//用文件加载器加载文件
+                reader.onload = function () { // 显示图片
+
+
+
+                    var imageObj = new Image();
+
+                    imageObj.src = this.result;
+
+
+
+                    imageObj.onload = function () {
+                        document.getElementById("uploadPhoto").src = imageObj.src;//file_img是图片展示载体
+
+                        var maxWidth = 200; // 图片最大宽度
+                        var maxHeight = 200;    // 图片最大高度
+
+                        var tmp = document.getElementById("uploadPhoto");
+
+                        tmp.width = maxWidth;
+                        tmp.height = maxHeight;
+
+
+
+                        var width;    // 图片实际宽度
+
+                        var height;  // 图片实际高度
+
+
+                        // 执行上传的方法，获取外网路径，上传进度等
+                        width = imageObj.width;
+                        height = imageObj.height;
+
+                        var ratiow = 1;
+                        var ratioh = 1;
+
+                        // 检查图片是否超宽
+                        if (width > maxWidth)
+                            ratiow = maxWidth / width;   // 计算缩放比例
+
+                        // 检查图片是否超高
+                        if (height > maxHeight)
+                            ratioh = maxHeight / height; // 计算缩放比例
+
+                        var ratio = ratioh < ratiow ? ratioh : ratiow;
+
+                        tmp.width = width * ratio;
+                        tmp.height = height * ratio;
+
+
+                    };
+
+                }
+            }
+
+            //console.log("formData",formData.img)
+            fetch('https://www.daydaypipe.top:8874/oneDayTask/byPhotoWeb', {
+                method: 'post',
+                body: formData,
+            }).then(response => response.json())
+                .then((data) => {
+
+                    var dateEventDtos = data.data;
+                    console.log(dateEventDtos);
+
+                    //先拼
+
+                    //这里parentElement = targetElement.parentNode
+                    var oldEle = document.getElementById("addTaskPhoto"); //现有的元素
+
+                    for (var i = 0; i < dateEventDtos.length; i++) {
+
+                        var number = i + 1;
+                        var newInput = document.createElement("input");
+                        newInput.id = "taskName" + number;
+                        newInput.name = "taskName";
+                        newInput.placeholder = "子任务"
+                        newInput.style.marginRight = "3px";
+                        oldEle.parentNode.insertBefore(newInput, oldEle);
+
+
+                        var newInput2 = document.createElement("input");
+                        newInput2.id = "startDatePhoto" + number;
+                        newInput2.name = "startDate";
+                        newInput2.type = "datetime-local";
+                        newInput2.placeholder = "开始时间"
+                        newInput2.style.marginRight = "3px";
+                        oldEle.parentNode.insertBefore(newInput2, oldEle);
+
+
+                        var newInput1 = document.createElement("input");
+
+                        newInput1.id = "deadLinePhoto" + number;
+                        newInput1.name = "deadLine";
+                        newInput1.type = "datetime-local";
+                        newInput1.placeholder = "结束时间"
+                        newInput1.style.marginRight = "3px";
+
+                        oldEle.parentNode.insertBefore(newInput1, oldEle);
+
+                        var newbutton = document.createElement("button");
+                        newbutton.id = "deletebutton" + number;
+                        newbutton.type = "button";
+                        newbutton.innerText = "删除";
+                        newbutton.onclick = function () {
+                            deleteInput(this.id);
+                        };
+                        newbutton.style = "outline: none;display: inline;height: 43px;width: 50px;background-color: red;color: white;"
+                        oldEle.parentNode.insertBefore(newbutton, oldEle);
+
+
+
+                    }
+
+                    //var deletebutton = document.getElementById("deletebutton2");
+                    //删除节点
+                    //oldEle.parentNode.removeChild(deletebutton);
+
+                    for (var i = 0; i < dateEventDtos.length; i++) {
+                        var num = i + 1;
+
+                        document.getElementById("taskName" + num).value = dateEventDtos[i].taskName;
+
+                        //格式化传过来的日期
+                        var startDate = dateEventDtos[i].startDate;
+                        var deadLine = dateEventDtos[i].deadLine;
+
+                        var tmp = startDate;
+                        tmp = tmp.replace(" ", "T");
+                        tmp = tmp.substring(0, tmp.length - 3);
+
+
+                        document.getElementById("startDatePhoto" + num).value = tmp;
+
+                        tmp = deadLine;
+                        tmp = tmp.replace(" ", "T");
+                        tmp = tmp.substring(0, tmp.length - 3);
+
+                        document.getElementById("deadLinePhoto" + num).value = tmp;
+
+                    }
+
+                });
+        }
+
+
+        function deleteInput(id) {
+            var oldEle = document.getElementById("addTaskPhoto"); //现有的元素
+
+            var number = id.substring(id.length - 1, id.length);
+
+
+            var newinput1 = document.getElementById("taskName" + number);
+            var newinput2 = document.getElementById("startDatePhoto" + number);
+            var newinput3 = document.getElementById("deadLinePhoto" + number);
+            var deletebutton = document.getElementById("deletebutton" + number);
+            //删除节点
+            oldEle.parentNode.removeChild(deletebutton);
+            oldEle.parentNode.removeChild(newinput1);
+            oldEle.parentNode.removeChild(newinput2);
+            oldEle.parentNode.removeChild(newinput3);
+
+        }
+
+        function deleteInputText(id) {
+            var oldEle = document.getElementById("addTaskText"); //现有的元素
+
+            var number = id.substring(id.length - 1, id.length);
+
+
+            var newinput1 = document.getElementById("taskName" + number);
+            var newinput2 = document.getElementById("startDatePhoto" + number);
+            var newinput3 = document.getElementById("deadLinePhoto" + number);
+            var deletebutton = document.getElementById("deletebutton" + number);
+            //删除节点
+            oldEle.parentNode.removeChild(deletebutton);
+            oldEle.parentNode.removeChild(newinput1);
+            oldEle.parentNode.removeChild(newinput2);
+            oldEle.parentNode.removeChild(newinput3);
+
+        }
+        
+    </script>
+    <style>
+        @media (min-width:1200px) {
+
+            .navbar,
+            .page-footer,
+            main {
+                padding-left: 120px
+            }
+        }
+
+        .list-group-item {
+            background-color: rgb(255, 255, 255, 0);
+            color: black;
+            font-weight: bolder;
+        }
+
+
+
+        .list-group-item.active {
+            background-color: rgba(18, 113, 238, 0.6);
+            border-color: rgba(18, 113, 238, 0.6);
+            color: aliceblue;
+            font-weight: bolder;
+        }
+
+        .map-container {
+            overflow: hidden;
+            padding-bottom: 56.25%;
+            position: relative;
+            height: 0;
+            background-color: rgba(255, 255, 255, 0.026);
+        }
+
+        .map-container iframe {
+            left: 0;
+            top: 0;
+            height: 100%;
+            width: 100%;
+            position: absolute;
+        }
+
+        #calendar {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 16px;
+            font-family: "Lucida Grande", Helvetica, Arial, Verdana, sans-serif;
+        }
+
+        #calendar {
+            width: 100%;
+            margin: 0 auto;
+            background-color: rgba(245, 245, 245, 0.8);
+        }
+
+        .inputmenu {
+            display: none;
+        }
+
+        .inputmenuli:hover ul {
+            display: block;
+        }
+
+        .inputmenu li {
+            float: none;
+            padding-top: 17px;
+            background-color: rgba(63, 67, 71, 0);
+            width: 130px;
+            font-weight: bolder;
+        }
+
+        .inputmenuli a {
+            text-decoration: none;
+            display: block;
+            text-align: center;
+            color: white;
+        }
+
+        ul li {
+            list-style-type: none;
+            float: left
+        }
+    </style>
+</head>
+
+<body style="
+background-image: url(images/astro_2.png);background-repeat: no-repeat; background-size: cover;">
+
+    <!--Main Navigation-->
+    <header>
+
+        <!-- Navbar -->
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light scrolling-navbar"
+            style="background-color: rgba(63, 67, 71,0.7);z-index: 2;height: 70px;">
+            <div class="container-fluid">
+
+                <!-- Links -->
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+                    <!-- Left -->
+                    <ul class="navbar-nav mr-auto" style="font-size: 19px;">
+                        <li class="nav-item ">
+                            <a class="nav-link waves-effect" href="../index.html"
+                                style="color: aliceblue;font-size: medium;">
+                                <i class="fa fa-home" aria-hidden="true"></i>&nbsp;&nbsp;Home
+                            </a>
+                        </li>
+
+                        <li class="nav-item ">
+                            <a href="dashboard.html" class="nav-link waves-effect"
+                                style="color: aliceblue;font-size: medium;">
+                                <i class="fas fa-bar-chart mr-3"></i>统计监测
+                            </a>
+                        </li>
+
+                        <!-- <li class="nav-item ">
+                            <a href="#" class="nav-link waves-effect" style="color: aliceblue;font-size: medium;">
+                                <i class="fas fa-calendar-o mr-3"></i>用户日程
+                            </a>
+                        </li>-->
+
+                        <li class="nav-item inputmenuli">
+                            <a class="nav-link waves-effect" href="#"
+                                style="color: aliceblue;font-size: medium;margin-bottom: 10px;">
+                                <i class="fas fa-user mr-3"></i>添加日程</a>
+
+                            <ul class="inputmenu" style="position: fixed;">
+                                <li
+                                    style="background-image: linear-gradient( rgba(97, 96, 102, 0.8), rgba(97, 96, 102, 0.6));">
+                                    <a class="" data-toggle="modal" href="#activation-modal"
+                                        style="color: aliceblue;font-size: medium; ">
+                                        <i class="fas fa-user mr-3"></i>手动添加</a>
+                                </li>
+                                <li
+                                    style="background-image: linear-gradient(rgba(97, 96, 102,  0.6), rgba(97, 96, 102, 0.4));">
+                                    <a class="" data-toggle="modal" href="#picture-modal"
+                                        style="color: aliceblue;font-size: medium;">
+                                        <i class="fas fa-user mr-3"></i>图片添加</a>
+                                </li>
+
+                                <li
+                                    style="background-image: linear-gradient( rgba(97, 96, 102, 0.4), rgba(97, 96, 102, 0.35));">
+                                    <a class="" data-toggle="modal" href="#text-modal"
+                                        style="color: aliceblue;font-size: medium;padding-bottom: 11px;">
+                                        <i class="fas fa-user mr-3"></i>文本添加</a>
+                                </li>
+                            </ul>
+
+                        </li>
+
+                        <li class="nav-item ">
+                            <a class="nav-link waves-effect" data-toggle="modal" href="#setpassword-modal"
+                                style="color: aliceblue;font-size: medium;">
+                                <i class="fas fa-user-plus mr-3"></i>添加用户信息</a>
+                        </li>
+
+                        <li class="nav-item ">
+                            <a class="nav-link waves-effect" data-toggle="modal" href="#forgetform"
+                                style="color: aliceblue;font-size: medium;">
+                                <i class="fa fa-id-card mr-3"></i>修改用户名</a>
+                        </li>
+                    </ul>
+
+                    <!-- Right -->
+                    <ul class="navbar-nav nav-flex-icons" style="font-size: 19px;">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link waves-effect" target="_blank" style="color: aliceblue;">
+                                <i class="fab fa-facebook-f"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link waves-effect" target="_blank" style="color: aliceblue;">
+                                <i class="fab fa-twitter"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="#" class="nav-link rounded waves-effect" target="_blank" style="color: aliceblue;">
+                                <i class="fab fa-github mr-2"></i>DDU GitHub
+                            </a>
+                        </li>
+
+
+                        <li class="nav-item">
+                            <a href="#" class="nav-link rounded waves-effect" target="_blank" style="color: aliceblue;"
+                                id="exit">
+                                <i class="fas fa-circle mr-3"></i>退出</a>
+                        </li>
+                    </ul>
+
+                </div>
+
+            </div>
+        </nav>
+        <!-- Navbar -->
+        <!------------------------图标------------------------------------------------------------------------------>
+        <!-- Sidebar -->
+
+        <!--图片输入-->
+        <div class="modal_1" id="picture-modal">
+            <a class="close" data-dismiss="modal">×</a>
+            <!--不要子任务了-->
+            <h1>选择图片</h1>
+
+            <input type="file" id="files" name="file" onchange="upload(event)"
+                style="margin-bottom: 15px;width: 175px;margin-right: 40px;">
+
+            <img src="" id="uploadPhoto" style="margin-bottom: 10px;">
+
+
+
+            <form class="signup-form clearfix" id="addTaskInfoPhoto">
+
+                <!--下拉框选择用户-->
+                <select name="allUsersPhoto" id="allUsersPhoto"
+                    style="display:block;width: 175px;height: 40px;border-color: rgb(226, 226, 216);margin-bottom: 15px;">
+                    <option value="choose">选择添加任务对象</option>
+                </select>
+
+
+
+                <!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+                <!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+
+                <button type="button" name="addTaskPhoto" class="button-blue reg" value="确认添加" data-action="regist"
+                    id="addTaskPhoto" style="outline: none;margin-left: 100px;">确认添加
+                    <div class="clearfix"></div>
+
+
+                    <!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+                    <!--!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!-->
+
+
+            </form>
+
+
+        </div>
+
+        <!--文本输入-->
+        <div class="modal_1" id="text-modal">
+            <a class="close" data-dismiss="modal">×</a>
+            <!--不要子任务了-->
+            <h1>输入文本</h1>
+            <form class="textInputfrom" id="textInputfrom">
+                <textarea style="display: block; margin-bottom: 15px;width: 510px;resize: none; height: 80px;" id="text"
+                    name="text" placeholder="将文本粘贴于此"></textarea>
+
+                <button type="button" name="transferToText" class="button-blue reg" value="确认添加" data-action="regist"
+                    id="transferToText" style="outline: none; margin-bottom: 15px;">确认添加</button>
+                <div class="clearfix"></div>
+            </form>
+
+            <form class="signup-form clearfix" id="addTaskInfoText">
+
+                <!--下拉框选择用户-->
+                <select name="allUsersText" id="allUsersText"
+                    style="width: 175px;height: 40px;border-color: rgb(226, 226, 216);margin-bottom: 15px;display: block;margin-left: 175px;">
+                    <option value="choose">选择添加任务对象</option>
+                </select>
+
+
+                <button type="button" name="addTaskText" class="button-blue reg" value="确认添加" data-action="regist"
+                    id="addTaskText" style="outline: none;margin-left: 100px;">确认添加</button>
+                <div class="clearfix"></div>
+            </form>
+
+        </div>
+
+        <div class="modal_1" id="activation-modal" style="width: 500px;">
+            <a class="close" data-dismiss="modal">×</a>
+            <!--不要子任务了-->
+            <h1>添加任务信息</h1>
+            <form class="signup-form clearfix" id="addTaskInfo">
+                <input name="taskName" value="" placeholder="任务名" id="taskName">
+                <!--下拉框选择用户-->
+                <select name="allUsersOri" id="allUsersOri"
+                    style="width: 180px;height: 40px;border-color: rgb(226, 226, 216);margin-bottom: 15px;">
+                    <option value="choose">选择添加任务对象</option>
+                </select>
+                <div>
+                    <input name="period" placeholder="间隔天数" id="period">
+                    <input name="detailName" placeholder="子任务" id="detailName">
+                </div>
+
+                <input name="startDate" type="datetime-local" placeholder="开始时间" style="margin-right:8px;">
+                <input name="deadLine" type="datetime-local" placeholder="结束时间" style="margin-right:8px;">
+                <button type="button"
+                    style="outline: none;display: inline;height: 43px;width: 50px;background-color: red;color: white;">删除
+
+
+
+                    <button type="button" name="addTask" class="button-blue reg" value="确认添加" data-action="regist"
+                        id="addTask" style="outline: none;margin-left: 30px;">确认添加
+                        <div class="clearfix"></div>
+            </form>
+        </div>
+
+        <!--需要对cookies中信息进行更新-->
+        <div class="modal_1" id="setpassword-modal" style="width: 400px;margin-left: -180px;">
+            <a class="close" data-dismiss="modal">×</a>
+            <h1>添加用户信息</h1>
+            <form class="signup-form clearfix" id="addUserInfo">
+                <input name="name" value="" placeholder="用户名" style="width: 300px;">
+                <button type="button" name="addUser" class="button-blue reg" value="添加"
+                    style="outline: none;width: 300px;" data-action="regist" id="addUser">添加
+                    <div class="clearfix"></div>
+            </form>
+        </div>
+
+        <div class="modal_1" id="forgetform" style="width: 400px;margin-left: -180px;">
+            <a class="close" data-dismiss="modal">×</a>
+            <h1>修改用户名称</h1>
+            <form class="forgot-form" id="UpdateInfo">
+                <!--下拉框选择用户-->
+                <select name="allChanges" id="allChanges"
+                    style="width: 300px;height: 40px;border-color: rgb(226, 226, 216);margin-bottom: 15px;">
+                    <option value="choose">选择更改的任务对象</option>
+                </select>
+                <input name="newName" value="" placeholder="新名称" style="width: 300px;">
+                <div class="clearfix"></div>
+                <button type="button" name="cName" class="forgot button-blue" style="outline: none;width: 300px;"
+                    value="更改" data-action="regist" id="cName">更改
+            </form>
+        </div>
+
+        <!-- Sidebar -->
+
+    </header>
+    <!--Main Navigation-->
+
+    <!--Main layout-->
+    <main class="pt-5 mx-lg-5">
+        <div class="container-fluid mt-5">
+            <!--中间内容部分-->
+            <!--Grid row-->
+            <div>
+
+                <!--Grid column-->
+                <div>
+                    <!--Calender-->
+                    <div id='calendar'></div>
+                    <!--/.Calender-->
+                </div>
+
+
+            </div>
+
+        </div>
+        <script type="text/javascript">
+
+
+            //拿到userId
+            var admin = JSON.parse(localStorage.getItem("adminUser"));
+            var dataObj = JSON.parse(localStorage.getItem("userList"));
+
+            function createForm() {
+                var e = document.createElement("input");
+                e.name = "detailName";
+                e.placeHolder = "子任务";
+                var board = document.getElementById("detailName");
+                board.appendChild(e);
+            }
+            $("#exit").click(function () {
+
+                localStorage.clear();
+                window.location.replace("../userlogin/index3.html");
+            });
+
+            $(document).ready(function () {
+
+                $("a.forgot").click(function () {
+                    $("#login-modal").modal("hide");
+                    $("#forgetform").modal({ show: !0 })
+                });
+                $("#forgetform").modal("hide");
+                $("#activation-modal").modal("hide");
+                $("#setpassword-modal").modal("hide");
+                $("#text-modal").modal("hide");
+
+
+
+                //拼接下来框内容 allUsersOri
+                var str = document.getElementsByName("allUsersPhoto").innerHTML;
+                for (var i = 0; i < dataObj.length; i++) {
+                    str += '<option value = "' + dataObj[i].userId + '">' + dataObj[i].names + '</option>'
+                }
+                $('#allUsersPhoto').html(str);
+                $('#allUsersOri').html(str);
+                $('#allUsersText').html(str);
+
+                //拼接下来框内容
+                var html = document.getElementById("allChanges").innerHTML;
+
+                for (var i = 0; i < dataObj.length; i++) {
+                    html += '<option value = "' + dataObj[i].userId + '">' + dataObj[i].names + '</option>'
+                }
+                $('#allChanges').html(html);
+
+            });
+            // $(function ())是文档document加载完自动调用的函数
+            $("#addTask").click(function () {
+                var formObject = {};
+                var formArray = $("#addTaskInfo").serializeArray();
+                var taskViews = [];
+
+                $.each(formArray, function (i, item) {
+
+                    //格式化时间
+                    if (item.name == "startDate") {
+                        var tmp = item.value.replace("/", /-/g);
+                        tmp = tmp.replace("T", " ");
+                        tmp = tmp + ":00";
+                        formObject[item.name] = tmp;
+                        console.log("startDate", tmp);
+                    } else if (item.name == "deadLine") {
+                        var tmp = item.value.replace("/", /-/g);
+                        tmp = tmp.replace("T", " ");
+                        tmp = tmp + ":00";
+                        formObject[item.name] = tmp;
+                        console.log("deadline", tmp);
+                    } else if (item.name == "detailName") {
+                        var arr = [];
+                        var detailTaskList = {};
+                        detailTaskList.taskDetailName = item.value;
+                        arr.push(detailTaskList);
+                        formObject["detailtaskList"] = arr;
+                        console.log("detailtaskList", arr);
+                    } else {
+                        formObject[item.name] = item.value;
+                    }
+                    if (i == 5)
+                        taskViews.push(formObject);
+
+                    console.log("taskViews", taskViews);
+                    console.log(item.name, item.value);
+                });
+                $.ajax({
+                    url: "https://www.daydaypipe.top:8874/oneDayTask/createTask/" + formObject.allUsersOri,
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(taskViews),
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        location.replace("Calender.html");
+                    }
+                });
+            });
+
+            ////图片
+            // $(function ())是文档document加载完自动调用的函数
+            $("#addTaskPhoto").click(function () {
+                var formArray = $("#addTaskInfoPhoto").serializeArray();
+                var formObject = {};
+                var taskViews = [];
+                var allUsersPhoto;
+                /////////////////////////////////////////////////////////////////////////////////////////////////
+
+                $.each(formArray, function (i, item) {
+
+
+
+
+                    console.log(i + "   I");
+
+                    //格式化时间
+                    if (item.name == "startDate") {
+                        var tmp = item.value.replace("/", /-/g);
+                        tmp = tmp.replace("T", " ");
+                        tmp = tmp + ":00";
+                        formObject[item.name] = tmp;
+                        console.log("startDate", tmp);
+                    } else if (item.name == "deadLine") {
+                        var tmp = item.value.replace("/", /-/g);
+                        tmp = tmp.replace("T", " ");
+                        tmp = tmp + ":00";
+                        formObject[item.name] = tmp;
+                        console.log("deadline", tmp);
+                    } else if (item.name == "allUsersPhoto") {
+                        allUsersPhoto = item.value;
+                    } else {
+                        formObject[item.name] = item.value;
+                        console.log(item.name, item.value);
+                    }
+                    if (i % 3 == 0 && i != 0) {
+                        taskViews.push(formObject);
+                        formObject = {};
+                        console.log("taskViews", taskViews[i / 3 - 1]);
+                    }
+                    console.log("formObject", formObject);
+                    console.log(taskViews);
+                });
+                $.ajax({
+                    url: "https://www.daydaypipe.top:8874/oneDayTask/createTask/" + allUsersPhoto,
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(taskViews),
+                    dataType: "json",
+                    success: function (data) {
+                        console.log("data", data);
+                        location.replace("Calender.html");
+                    }
+                });
+            });
+
+            ///文本
+            $("#transferToText").click(function () {
+                var formObject = {};
+                var formArray = $("#textInputfrom").serializeArray();
+
+                $.each(formArray, function (i, item) {
+
+                    formObject[item.name] = item.value;
+
+                });
+                $.ajax({
+                    url: "https://www.daydaypipe.top:8874/oneDayTask/byTextWeb",
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(formObject),
+                    dataType: "json",
+
+                    success: function (data) {
+
+                        var dateEventDtos = data.data;
+                        console.log("==========",dateEventDtos);
+                        //先拼
+
+                        //这里parentElement = targetElement.parentNode
+                        var oldEle = document.getElementById("addTaskText"); //现有的元素
+
+                        for (var i = 0; i < dateEventDtos.length; i++) {
+
+                            var number = i + 1;
+                            var newInput = document.createElement("input");
+                            newInput.id = "taskName" + number;
+                            newInput.name = "taskName";
+                            newInput.placeholder = "子任务"
+                            newInput.style.marginRight = "3px";
+                            oldEle.parentNode.insertBefore(newInput, oldEle);
+
+
+                            var newInput2 = document.createElement("input");
+                            newInput2.id = "startDatePhoto" + number;
+                            newInput2.name = "startDate";
+                            newInput2.type = "datetime-local";
+                            newInput2.placeholder = "开始时间"
+                            newInput2.style.marginRight = "3px";
+                            oldEle.parentNode.insertBefore(newInput2, oldEle);
+
+
+                            var newInput1 = document.createElement("input");
+
+                            newInput1.id = "deadLinePhoto" + number;
+                            newInput1.name = "deadLine";
+                            newInput1.type = "datetime-local";
+                            newInput1.placeholder = "结束时间"
+                            newInput1.style.marginRight = "3px";
+
+                            oldEle.parentNode.insertBefore(newInput1, oldEle);
+
+                            var newbutton = document.createElement("button");
+                            newbutton.id = "deletebutton" + number;
+                            newbutton.type = "button";
+                            newbutton.innerText = "删除";
+                            newbutton.onclick = function () {
+                                deleteInputText(this.id);
+                            };
+                            newbutton.style = "outline: none;display: inline;height: 43px;width: 50px;background-color: red;color: white;"
+                            oldEle.parentNode.insertBefore(newbutton, oldEle);
+
+
+
+                        }
+
+                        //var deletebutton = document.getElementById("deletebutton2");
+                        //删除节点
+                        //oldEle.parentNode.removeChild(deletebutton);
+
+                        for (var i = 0; i < dateEventDtos.length; i++) {
+                            var num = i + 1;
+
+                            document.getElementById("taskName" + num).value = dateEventDtos[i].taskName;
+
+                            //格式化传过来的日期
+                            var startDate = dateEventDtos[i].startDate;
+                            var deadLine = dateEventDtos[i].deadLine;
+
+                            var tmp = startDate;
+                            tmp = tmp.replace(" ", "T");
+                            tmp = tmp.substring(0, tmp.length - 3);
+
+
+                            document.getElementById("startDatePhoto" + num).value = tmp;
+
+                            tmp = deadLine;
+                            tmp = tmp.replace(" ", "T");
+                            tmp = tmp.substring(0, tmp.length - 3);
+
+                            document.getElementById("deadLinePhoto" + num).value = tmp;
+
+                        }
+                    }
+                });
+            });
+
+            $("#addTaskText").click(function () {
+                var formObject = {};
+                var formArray = $("#addTaskInfoText").serializeArray();
+                var taskViews = [];
+                var allUsersText;
+                $.each(formArray, function (i, item) {
+                    //格式化时间
+                    if (item.name == "startDate") {
+                        var tmp = item.value.replace("/", /-/g);
+                        tmp = tmp.replace("T", " ");
+                        tmp = tmp + ":00";
+                        formObject[item.name] = tmp;
+                        console.log("startDate", tmp);
+                    } else if (item.name == "deadLine") {
+                        var tmp = item.value.replace("/", /-/g);
+                        tmp = tmp.replace("T", " ");
+                        tmp = tmp + ":00";
+                        formObject[item.name] = tmp;
+                        console.log("deadline", tmp);
+                    } else if (item.name == "allUsersText") {
+                        allUsersText = item.value;
+                    } else {
+                        formObject[item.name] = item.value;
+                        console.log(item.name, item.value);
+                    }
+                    if (i % 3 == 0 && i != 0) {
+                        taskViews.push(formObject);
+                        formObject = {};
+                        console.log("taskViews", taskViews[i / 3 - 1]);
+                    }
+                    console.log(item.name, item.value);
+                });
+                $.ajax({
+                    url: "https://www.daydaypipe.top:8874/oneDayTask/createTask/" + allUsersText,
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(taskViews),
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        location.replace("Calender.html");
+
+                    }
+                });
+            });
+
+
+
+            $("#addUser").click(function () {
+                var formObject = {};
+                var formArray = $("#addUserInfo").serializeArray();
+
+                $.each(formArray, function (i, item) {
+                    formObject[item.name] = item.value;
+                    console.log(item.name, item.value);
+                });
+                $.ajax({
+                    url: "https://www.daydaypipe.top:8874/fUser/createChild/" + admin.userId + "/" + admin.phone + "/" + formObject.name,
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(formObject),
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        if (data.msg == "成功添加") {
+                            dataObj.push(data.data);
+                            console.log("allusers", dataObj);
+                            //alert(dataObj.names);
+                            //更新cookies中的数据
+                            localStorage.setItem("userList", JSON.stringify(dataObj));
+                            alert("添加成功!");
+                            location.replace("dashboard.html");
+                        } else {
+                            alert("用户名已存在!");
+                            //location.reload(true);
+                        }
+                    }
+                });
+            });
+            $("#cName").click(function () {
+                var formObject = {};
+                var relationDto = {};
+                var formArray = $("#UpdateInfo").serializeArray();
+
+                $.each(formArray, function (i, item) {
+                    formObject[item.name] = item.value;
+                    console.log(item.name, item.value);
+                });
+
+                for (var i = 0; i < dataObj.length; i++) {
+                    console.log("dataObj" + dataObj[i].names);
+                    if (dataObj[i].userId == formObject.allChanges) {
+                        relationDto = dataObj[i];
+                        relationDto.names = formObject.newName;
+                        console.log("relationDto" + relationDto);
+                    }
+                    console.log("dataObj" + dataObj[i].type);
+                }
+
+
+                $.ajax({
+                    url: "https://www.daydaypipe.top:8874/fUser/reset?" + formObject.allChanges,
+                    type: "POST",
+                    contentType: "application/json; charset=utf-8",
+                    data: JSON.stringify(relationDto),
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        for (var i = 0; i < dataObj.length; i++) {
+                            if (dataObj[i].userId == formObject.allChanges) {
+                                dataObj[i].names = formObject.newName;
+                                break;
+                            }
+                        }
+                        console.log("allusers", dataObj);
+                        //更新cookies中的数据
+                        localStorage.setItem("userList", JSON.stringify(dataObj));
+                        alert("更改成功!");
+                        location.replace("dashboard.html");
+                    }
+                });
+            });
+
+        </script>
+</body>
+
+</html>
